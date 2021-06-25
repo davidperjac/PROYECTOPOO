@@ -10,5 +10,8 @@ package ec.edu.espol.model;
  * @author davidperez
  */
 public class Usuario {
-    
+    private String correo;
+    private String clave;
+    private String nombres;
+    private String apellidos;
 }
