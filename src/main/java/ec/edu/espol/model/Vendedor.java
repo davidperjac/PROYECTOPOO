@@ -11,4 +11,7 @@ package ec.edu.espol.model;
  */
 public class Vendedor {
     
+    public void IngresarVehiculo() {
+        System.out.println("Se ingreso correctamente");
+    }
 }
