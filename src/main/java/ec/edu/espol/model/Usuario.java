@@ -14,4 +14,5 @@ public class Usuario {
     private String clave;
     private String nombres;
     private String apellidos;
+    private String organizacion;
 }
