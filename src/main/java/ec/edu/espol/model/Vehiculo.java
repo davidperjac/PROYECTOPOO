@@ -10,5 +10,10 @@ package ec.edu.espol.model;
  * @author davidperez
  */
 public class Vehiculo {
+
+  private String placa;
+  private String marca;
+  private String motor;
+  private String anio;
     
 }
