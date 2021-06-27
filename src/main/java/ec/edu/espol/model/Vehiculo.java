@@ -27,10 +27,56 @@ public class Vehiculo {
     private Vendedor vendedor; 
     private String vidrios;  
     private String transmision;
-    private String tracción; 
+    private String traccion; 
     private String tipo;
-    private String id_oferta;
+    
+    
+    // Constructor de Autos
  
-    public Vehiculo(Placa )
+    public Vehiculo(String placa, String marca, String motor, String anio, String modelo, double recorrido, String color, String combustible, double precio, String vidrios, String transmision){
+        this.placa = placa;
+        this.marca = marca;
+        this.motor = motor;
+        this.anio = anio;
+        this.modelo = modelo;
+        this.recorrido = recorrido;
+        this.color = color;
+        this.combustible = combustible;
+        this.precio = precio;
+        this.vidrios = vidrios;
+        this.transmision = transmision;
+    }
+    
+    // Constructor de Camionetas
+    
+    public Vehiculo(String placa, String marca, String motor, String anio, String modelo, double recorrido, String color, String combustible, double precio, String vidrios, String transmision, String traccion){
+        this.placa = placa;
+        this.marca = marca;
+        this.motor = motor;
+        this.anio = anio;
+        this.modelo = modelo;
+        this.recorrido = recorrido;
+        this.color = color;
+        this.combustible = combustible;
+        this.precio = precio;
+        this.vidrios = vidrios;
+        this.transmision = transmision;
+        this.traccion = traccion;
+    }
+    
+    // Constructor de motos
+    
+    public Vehiculo(String placa, String marca, String motor, String anio, String modelo, double recorrido, String color, String combustible, double precio){
+        this.placa = placa;
+        this.marca = marca;
+        this.motor = motor;
+        this.anio = anio;
+        this.modelo = modelo;
+        this.recorrido = recorrido;
+        this.color = color;
+        this.combustible = combustible;
+        this.precio = precio;
+    }
+    
     
 }
