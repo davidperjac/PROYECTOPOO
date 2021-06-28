@@ -6,6 +6,7 @@
 package ec.edu.espol.model;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
@@ -21,14 +22,14 @@ public class Vehiculo {
     private double recorrido;
     private String color; 
     private String combustible; 
-    private double precio; 
-    private ArrayList<Oferta> oferta;
-    private String correo_vendedor;
-    private Vendedor vendedor; 
+    private double precio;  
     private String vidrios;  
     private String transmision;
     private String traccion; 
     private String tipo;
+    private ArrayList<Oferta> oferta;
+    private String correo_vendedor;
+    private Vendedor vendedor;
     
     
     // Constructor de Autos
@@ -77,6 +78,35 @@ public class Vehiculo {
         this.combustible = combustible;
         this.precio = precio;
     }
+
+    public String getPlaca() {
+        return placa;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    @Override
+    public String toString() {
+        return "Vehiculo{" + "placa: " + placa + ", marca: " + marca + ", motor: " + motor + ", anio: " + anio + ", modelo: " + modelo + ", recorrido: " + recorrido + ", color: " + color + ", combustible: " + combustible + ", precio: " + precio + ", tipo: " + tipo + ", vendedor: " + vendedor + '}';
+    }
+    
+    @Override
+    public boolean equals(Object o){
+        if(o == null)
+            return false;
+        if(o == this)
+            return true;
+        if(o.getClass() != this.getClass())
+            return false;
+        
+        Vehiculo other = (Vehiculo)o;
+        
+        return Objects.equals(this.placa, other.placa);   
+    }
+    
+    
     
     
 }
