@@ -35,7 +35,9 @@ public class Vehiculo {
     
     // Constructor de Autos
  
-    public Vehiculo(String placa, String marca, String motor, String anio, String modelo, double recorrido, String color, String combustible, double precio, String vidrios, String transmision){
+    public Vehiculo(String correo_vendedor, Vendedor vendedor, String placa, String marca, String motor, String anio, String modelo, double recorrido, String color, String combustible, double precio, String vidrios, String transmision){
+        this.correo_vendedor = correo_vendedor;
+        this.vendedor = vendedor;
         this.placa = placa;
         this.marca = marca;
         this.motor = motor;
@@ -47,11 +49,14 @@ public class Vehiculo {
         this.precio = precio;
         this.vidrios = vidrios;
         this.transmision = transmision;
+        this.ofertas = new ArrayList<>();
     }
     
     // Constructor de Camionetas
     
-    public Vehiculo(String placa, String marca, String motor, String anio, String modelo, double recorrido, String color, String combustible, double precio, String vidrios, String transmision, String traccion){
+    public Vehiculo(String correo_vendedor, Vendedor vendedor, String placa, String marca, String motor, String anio, String modelo, double recorrido, String color, String combustible, double precio, String vidrios, String transmision, String traccion){
+        this.correo_vendedor = correo_vendedor;
+        this.vendedor = vendedor;
         this.placa = placa;
         this.marca = marca;
         this.motor = motor;
@@ -64,11 +69,14 @@ public class Vehiculo {
         this.vidrios = vidrios;
         this.transmision = transmision;
         this.traccion = traccion;
+        this.ofertas = new ArrayList<>();
     }
     
     // Constructor de motos
     
-    public Vehiculo(String placa, String marca, String motor, String anio, String modelo, double recorrido, String color, String combustible, double precio){
+    public Vehiculo(String correo_vendedor, Vendedor vendedor, String placa, String marca, String motor, String anio, String modelo, double recorrido, String color, String combustible, double precio){
+        this.correo_vendedor = correo_vendedor;
+        this.vendedor = vendedor;
         this.placa = placa;
         this.marca = marca;
         this.motor = motor;
@@ -78,6 +86,7 @@ public class Vehiculo {
         this.color = color;
         this.combustible = combustible;
         this.precio = precio;
+        this.ofertas = new ArrayList<>();
     }
 
     public String getPlaca() {
@@ -86,6 +95,10 @@ public class Vehiculo {
 
     public double getPrecio() {
         return precio;
+    }
+
+    public ArrayList<Oferta> getOfertas() {
+        return ofertas;
     }
     
     /* 
@@ -124,6 +137,10 @@ public class Vehiculo {
         }
         else
             System.out.println("No hay ofertas para este vehiculo");       
+    }
+    
+    public void removerOferta(int i){
+        this.ofertas.remove(i);
     }
 
     @Override
