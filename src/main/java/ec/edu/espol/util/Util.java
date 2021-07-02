@@ -125,5 +125,38 @@ public class Util {
         return id+1;
     }
     
+    public static String validarAtributos(Scanner sc){
+        System.out.println("Ingrese la placa del vehiculo");
+        String placa = Util.validarPlaca(sc.next().toUpperCase(), sc);          
+        System.out.println("Ingrese la marca del vehiculo");
+        String marca = sc.next();             
+        System.out.println("Ingrese el modelo del vehiculo");
+        String modelo = sc.next();                 
+        System.out.println("Ingrese el tipo de motor del vehiculo");
+        String motor = sc.next();       
+        System.out.println("Ingrese el año del vehiculo");
+        int anio = sc.nextInt();
+        double recorrido;
+        do{
+        System.out.println("Ingrese el recorrido que tiene el vehiculo");
+        recorrido = sc.nextInt();
+        }while (recorrido < 0);
+        System.out.println("Ingrese el color del vehiculo");
+        String color = sc.next();
+        String combustible;
+        do{
+        System.out.println("Ingrese el tipo de combustible del vehiculo (SUPER,EXTRA,ECOPAIS,DIESEL)");
+        combustible = sc.next().toUpperCase();        
+        }while( ( !combustible.equals("SUPER")  ) && ( !combustible.equals("EXTRA") ) && ( !combustible.equals("ECOPAIS")) && ( !combustible.equals("DIESEL")));
+        int precio;
+        do{
+        System.out.println("Ingrese el precio del vehiculo");
+        precio = sc.nextInt();      
+        }while (precio < 0 );
+        return placa + "," + marca + "," + motor + "," + anio + "," + modelo + "," + recorrido + "," + color + "," + combustible + "," + precio;
+    }
+    
 }
+
+
 
