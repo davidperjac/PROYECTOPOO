@@ -16,89 +16,78 @@ import java.util.Scanner;
  * @author davidperez
  */
 public class Oferta {
-    private String id;
-    private String id_Comprador;
-    private String id_Vehiculo;
-    private String correo_comprador;
+    private int id;
+    private int id_Comprador;
+    private int id_Vehiculo;
     private double precio_ofertado;
-    private String placa_vehiculo;
     private Vehiculo vehiculo;
     private Comprador comprador;
 
-    public Oferta(String id, String correo_comprador, double precio_ofertado, String placa_vehiculo, String id_Comprador, String id_vehiculo) {
+    public Oferta(int id, int id_Comprador, int id_Vehiculo, double precio_ofertado) {
         this.id = id;
         this.id_Comprador = id_Comprador;
         this.id_Vehiculo = id_Vehiculo;
-        this.correo_comprador = correo_comprador;
         this.precio_ofertado = precio_ofertado;
-        this.placa_vehiculo = placa_vehiculo;
-        this.vehiculo = vehiculo;
-        this.comprador = comprador;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public int getId_Comprador() {
+        return id_Comprador;
     }
 
-    public String getCorreo_comprador() {
-        return correo_comprador;
-    }
-
-    public void setCorreo_comprador(String correo_comprador) {
-        this.correo_comprador = correo_comprador;
+    public int getId_Vehiculo() {
+        return id_Vehiculo;
     }
 
     public double getPrecio_ofertado() {
         return precio_ofertado;
     }
 
-    public void setPrecio_ofertado(double precio_ofertado) {
-        this.precio_ofertado = precio_ofertado;
-    }
-
-    public String getPlaca_vehiculo() {
-        return placa_vehiculo;
-    }
-
-    public void setPlaca_vehiculo(String placa_vehiculo) {
-        this.placa_vehiculo = placa_vehiculo;
-    }
-
     public Vehiculo getVehiculo() {
         return vehiculo;
-    }
-
-    public void setVehiculo(Vehiculo vehiculo) {
-        this.vehiculo = vehiculo;
     }
 
     public Comprador getComprador() {
         return comprador;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setId_Comprador(int id_Comprador) {
+        this.id_Comprador = id_Comprador;
+    }
+
+    public void setId_Vehiculo(int id_Vehiculo) {
+        this.id_Vehiculo = id_Vehiculo;
+    }
+
+    public void setPrecio_ofertado(double precio_ofertado) {
+        this.precio_ofertado = precio_ofertado;
+    }
+
+    public void setVehiculo(Vehiculo vehiculo) {
+        this.vehiculo = vehiculo;
+    }
+
     public void setComprador(Comprador comprador) {
         this.comprador = comprador;
     }
-    
-    
-    
-    
+
     @Override
-    public String toString(){
-        return "Correo: " + this.correo_comprador + "\nPrecio Ofertado: " + this.precio_ofertado; 
+    public String toString() {
+        return "Oferta{" + "id=" + id + ", id_Comprador=" + id_Comprador + ", id_Vehiculo=" + id_Vehiculo + ", precio_ofertado=" + precio_ofertado + ", vehiculo=" + vehiculo + ", comprador=" + comprador + '}';
     }
-    
-    //extras
     
     public  void saveFileOfertas() {
         
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File("Ofertas.txt")),true) ) {
             
-            pw.println (this.id+"|"+this.id_Comprador+"|"+this.id_Vehiculo+"|"+this.correo_comprador+"|"+this.precio_ofertado+"|"+this.placa_vehiculo);
+            pw.println (this.id+"|"+this.id_Comprador+"|"+this.id_Vehiculo+"|"+this.precio_ofertado);
 
             
         }catch (Exception e){
@@ -106,21 +95,20 @@ public class Oferta {
         }
     }
     
-    public static ArrayList<Oferta> readFileOferta (String nomfile) {
-        ArrayList<Oferta> vehiculos = new ArrayList<Oferta>();
+    public static ArrayList<Oferta> readFile(String nomfile) {
+        ArrayList<Oferta> ofertas = new ArrayList<Oferta>();
         
         try (Scanner sc = new Scanner(new File(nomfile))) {
-            
+            while(sc.hasNextLine()){
             String linea = sc.nextLine();
             String [] tokens = linea.split("\\|");
-            
-            
-            
-            
+            Oferta o = new Oferta(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), Double.parseDouble(tokens[3]));
+            ofertas.add(o);
+            }  
         }catch(Exception e) {
             System.out.println(e.getMessage());
         }
-        
+        return ofertas;
     }
     
     public static void link() {
