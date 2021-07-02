@@ -111,7 +111,14 @@ public class Oferta {
         return ofertas;
     }
     
-    public static void link() {
-        
+    public static void link(ArrayList<Comprador> compradores, ArrayList<Vehiculo> vehiculos, ArrayList<Oferta> ofertas) {
+        for(Oferta o : ofertas){
+            Comprador c = Comprador.searchByID(compradores, o.getId_Comprador());
+            Vehiculo v = Vehiculo.searchByID(vehiculos, o.getId_Vehiculo());
+            c.getOfertas().add(o);
+            v.getOfertas().add(o);
+            o.setComprador(c);
+            o.setVehiculo(v);
+        }
     }
 }

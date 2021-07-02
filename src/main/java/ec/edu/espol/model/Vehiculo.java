@@ -36,8 +36,6 @@ public class Vehiculo {
     private int id_registro;
     private RegistroIngresoVehiculos registro;
     private ArrayList<Oferta> ofertas;
-
-    
     
     // Constructor de Autos
  
@@ -277,21 +275,8 @@ public class Vehiculo {
     public void removerOferta(int i){
         this.ofertas.remove(i);
     }
-    
-    public static void nextVehiculo(Scanner sc,String nomfile) {
-          
-        System.out.println("Ingrese el tipo de vehiculo : carro, moto o camioneta");
-        String tipo = sc.next().toUpperCase();
-        while (  (!tipo.equals("CARRO")) && (!tipo.equals("MOTO") ) && (!tipo.equals("CAMIONETA")) ) {
-            System.out.println("ERROR! Ingrese un tipo correcto");
-            tipo = sc.next();
-        }    
-        
-    }
-    
-    //extras 
 
-    public void saveFileVehiculos(String nomfile) {
+    public void saveFile(String nomfile) {
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File("Vehiculos.txt"),true)) ) {
             String linea = this.id + "|" + this.tipo + "|" + this.id_registro + "|" + this.getPlaca()+"|"+this.getMarca()+"|"+this.getMotor()+"|"+this.getAnio()+ "|" +this.getModelo()+ "|"+this.getRecorrido()+"|"+this.getColor()+"|"+this.getCombustible()+"|"+this.getPrecio();
             if(this.getTipo().equals("CARRO")) {
@@ -325,6 +310,7 @@ public class Vehiculo {
     /*
     agregarVehiculos(arreglo de strings con atributos de vehiculos, lista de vehiculos)
     Filtra por tipo de Vehiculo, crea una intancia de Vehiculo y lo añade a una lista de Vehiculos
+    Es usada en la funcion readFileVehiculo
     */
     public static void agregarVehiculos(String[] tokens, ArrayList<Vehiculo> vehiculos){
         if(tokens[1].equals("CARRO")){
@@ -341,151 +327,68 @@ public class Vehiculo {
         }
     }
     
-    
-    public static void validarVehiculo(String tipo){
-        //Atributos   
-        //placa        
-        System.out.println("Ingrese la placa del vehiculo");
-        String placa = Util.validarPlaca(sc.next().toUpperCase(), sc);   
-        //marca       
-        System.out.println("Ingrese la marca del vehiculo");
-        String marca = sc.next();
-        //modelo             
-        System.out.println("Ingrese el modelo del vehiculo");
-        String modelo = sc.next();       
-        //motor           
-        System.out.println("Ingrese el tipo de motor del vehiculo");
-        String motor = sc.next();       
-        //año   
-        System.out.println("Ingrese el año del vehiculo");
-        int anio = sc.nextInt();  
-        //recorrido 
-        System.out.println("Ingrese el recorrido que tiene el vehiculo");
-        int recorrido = sc.nextInt();
-        while (recorrido < 0) {
-            System.out.println("ERROR! recorrido invalido");
-            System.out.println("Ingrese el recorrido que tiene el vehiculo");
-            recorrido = sc.nextInt();
+    public static void nextVehiculo(Scanner sc, String nomfile, String tipo) {
+        if(tipo.equals("CARRO")){
+            String[] atributos = validarCarro(sc).split(",");
+            int id = Util.nextID(nomfile);
+            Vehiculo vehiculo = new Vehiculo(id, tipo, 2, atributos[0], atributos[1], atributos[2], Integer.parseInt(atributos[3]), atributos[4], Double.parseDouble(atributos[5]), atributos[6], atributos[7], Double.parseDouble(atributos[8]), atributos[9], atributos[10]);
+            vehiculo.saveFile(nomfile);  
         }
-        System.out.println("Ingrese el color del vehiculo");
-        String color = sc.next();
+        else if(tipo.equals("CAMIONETA")){
+            String[] atributos = validarCarro(sc).split(",");
+            int id = Util.nextID(nomfile);
+            Vehiculo vehiculo = new Vehiculo(id, tipo, 2, atributos[0], atributos[1], atributos[2], Integer.parseInt(atributos[3]), atributos[4], Double.parseDouble(atributos[5]), atributos[6], atributos[7], Double.parseDouble(atributos[8]), atributos[9], atributos[10], atributos[11]);
+            vehiculo.saveFile(nomfile);  
+        }
+        else if(tipo.equals("MOTOS")){
+            String[] atributos = validarCarro(sc).split(",");
+            int id = Util.nextID(nomfile);
+            Vehiculo vehiculo = new Vehiculo(id, tipo, 2, atributos[0], atributos[1], atributos[2], Integer.parseInt(atributos[3]), atributos[4], Double.parseDouble(atributos[5]), atributos[6], atributos[7], Double.parseDouble(atributos[8]));
+            vehiculo.saveFile(nomfile);  
+        }  
+    }
+    
+    public static String validarCarro(Scanner sc){      
+        String atributos = Util.validarAtributos(sc);             
+        System.out.println("Ingrese el tipo de vidrio del vehiculo");
+        String vidrios = sc.next().toUpperCase();    
+        System.out.println("Ingrese la transmision del vehiculo");
+        String transmision = sc.next().toUpperCase();     
+        return atributos + "," + vidrios + "," + transmision;
+    }
 
-        System.out.println("Ingrese el tipo de combustible del vehiculo (SUPER,EXTRA,ECOPAIS,DIESEL)");
-        String combustible = sc.next().toUpperCase();        
-        while ( ( !combustible.equals("SUPER")  ) && ( !combustible.equals("EXTRA") ) && ( !combustible.equals("ECOPAIS")) && ( !combustible.equals("DIESEL"))  ) {
-            System.out.println("ERROR! combustible invalido");
-            System.out.println("Ingrese el tipo de combustible del vehiculo (SUPER,EXTRA,ECOPAIS,DIESEL)");
-            combustible = sc.next().toUpperCase();
-        }        
-     
-        System.out.println("Ingrese el precio del vehiculo");
-        int precio = sc.nextInt();      
-        while (precio < 0 ) {
-            System.out.println("ERROR! precio invalido, Ingrese el precio del vehiculo: ");
-            precio = sc.nextInt();
-        }              
-             
-        //validaciones del tipo     
-        if (!tipo.equals("MOTO")) {
-            System.out.println("Ingrese el tipo de vidrio del vehiculo");
-            String vidrios = sc.next().toUpperCase();    
-            System.out.println("Ingrese la transmision del vehiculo");
-            String transmision = sc.next().toUpperCase();     
-            while ( !(transmision.equals("MANUAL")) && ( !transmision.equals("AUTOMATICO")) ) {
-                System.out.println("ERROR! transmision erronea");
-                System.out.println("Ingrese la transmision del vehiculo");
-                transmision = sc.next().toUpperCase();
-            }
-            if (tipo.equals("CARRO")) {
-                int id = Util.nextID(nomfile);
-                Vehiculo vehiculo = new Vehiculo(id,correoVendedor, placa, marca, motor, anio, modelo, recorrido,color,combustible, precio, vidrios, transmision,tipo);
-                vehiculo.saveFileVehiculos(nomfile);     
-            }else if (tipo.equals("CAMIONETA")) {
-                System.out.println("Ingrese el tipo de traccion del vehiculo");
-                String traccion = sc.next();                
-                int id = Util.nextID(nomfile);
-                Vehiculo vehiculo = new Vehiculo(id,correoVendedor, placa, marca, motor, anio, modelo, recorrido,color,combustible, precio, vidrios, transmision,traccion,tipo);
-                vehiculo.saveFileVehiculos(nomfile);
-            }
-        }
-        else if (tipo.equals("MOTO")) {
-            int id = Util.nextID(nomfile); 
-            Vehiculo vehiculo = new Vehiculo(id,correoVendedor, placa, marca, motor, anio, modelo, recorrido,color,combustible, precio,tipo);
-            vehiculo.saveFileVehiculos(nomfile);
-        }
+    public static String validarCamioneta(Scanner sc){
+        String atributos = Util.validarAtributos(sc);
+        System.out.println("Ingrese el tipo de vidrio del vehiculo");
+        String vidrios = sc.next().toUpperCase();    
+        System.out.println("Ingrese la transmision del vehiculo");
+        String transmision = sc.next();
+        System.out.println("Ingrese el tipo de traccion del vehiculo");
+        String traccion = sc.next();
+        return atributos + "," + vidrios + "," + transmision + "," + traccion;
     }
-   
-    public static void nextMoto(){
+    
+    // Busca un Vehiculo por id
+    public static Vehiculo searchByID(ArrayList<Vehiculo> vehiculos, int id){
         
+        for(Vehiculo v : vehiculos){
+            if(v.id == id)
+                return v;
+        }
+        return null;
     }
     
-    public static String validarAtributos(Scanner sc){
-        System.out.println("Ingrese la placa del vehiculo");
-        String placa = Util.validarPlaca(sc.next().toUpperCase(), sc);          
-        System.out.println("Ingrese la marca del vehiculo");
-        String marca = sc.next();             
-        System.out.println("Ingrese el modelo del vehiculo");
-        String modelo = sc.next();                 
-        System.out.println("Ingrese el tipo de motor del vehiculo");
-        String motor = sc.next();       
-        System.out.println("Ingrese el año del vehiculo");
-        int anio = sc.nextInt();
-        double recorrido;
-        do{
-        System.out.println("Ingrese el recorrido que tiene el vehiculo");
-        recorrido = sc.nextInt();
-        }while (recorrido < 0);
-        System.out.println("Ingrese el color del vehiculo");
-        String color = sc.next();
-        String combustible;
-        do{
-        System.out.println("Ingrese el tipo de combustible del vehiculo (SUPER,EXTRA,ECOPAIS,DIESEL)");
-        combustible = sc.next().toUpperCase();        
-        }while( ( !combustible.equals("SUPER")  ) && ( !combustible.equals("EXTRA") ) && ( !combustible.equals("ECOPAIS")) && ( !combustible.equals("DIESEL")));
-        int precio;
-        do{
-        System.out.println("Ingrese el precio del vehiculo");
-        precio = sc.nextInt();      
-        }while (precio < 0 );
-        return placa + "," + marca + "," + motor + "," + anio + "," + modelo + "," + recorrido + "," + color + "," + combustible + "," + precio;
-    }
-    
-    public static Vehiculo nextCarro(Scanner sc, String nomFile, String tipo, int id_registro){
-        System.out.println("Ingrese la placa del vehiculo");
-        String placa = Util.validarPlaca(sc.next().toUpperCase(), sc);          
-        System.out.println("Ingrese la marca del vehiculo");
-        String marca = sc.next();             
-        System.out.println("Ingrese el modelo del vehiculo");
-        String modelo = sc.next();                 
-        System.out.println("Ingrese el tipo de motor del vehiculo");
-        String motor = sc.next();       
-        System.out.println("Ingrese el año del vehiculo");
-        int anio = sc.nextInt();
-        double recorrido;
-        do{
-        System.out.println("Ingrese el recorrido que tiene el vehiculo");
-        recorrido = sc.nextInt();
-        }while (recorrido < 0);
-        System.out.println("Ingrese el color del vehiculo");
-        String color = sc.next();
-        String combustible;
-        do{
-        System.out.println("Ingrese el tipo de combustible del vehiculo (SUPER,EXTRA,ECOPAIS,DIESEL)");
-        combustible = sc.next().toUpperCase();        
-        }while( ( !combustible.equals("SUPER")  ) && ( !combustible.equals("EXTRA") ) && ( !combustible.equals("ECOPAIS")) && ( !combustible.equals("DIESEL")));
-        int precio;
-        do{
-        System.out.println("Ingrese el precio del vehiculo");
-        precio = sc.nextInt();      
-        }while (precio < 0 );
-        int id = Util.nextID(nomFile);
-        Vehiculo vehiculo = new Vehiculo(id, tipo, id_registro, placa, marca, motor, anio, modelo, recorrido, color, combustible, precio, vidrios, transmision);
-        return vehiculo;
-    }
-    
-    public static void nextCamioneta(){
+    // Busca un Vehiculo por placa
+    public static Vehiculo searchByPlaca(ArrayList<Vehiculo> vehiculos, String placa){
         
+        for(Vehiculo v : vehiculos){
+            if(v.placa.equals(placa))
+                return v;
+        }
+        return null;
     }
+    
+    
     @Override
     public String toString() {
         return "Vehiculo { id:"+ this.id + "placa: " + placa + ", marca: " + marca + ", motor: " + motor + ", anio: " + anio + ", modelo: " + modelo + ", recorrido: " + recorrido + ", color: " + color + ", combustible: " + combustible + ", precio: " + precio + ", tipo: " + tipo + "}";
