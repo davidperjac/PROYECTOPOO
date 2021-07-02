@@ -5,12 +5,19 @@
  */
 package ec.edu.espol.model;
 
+import ec.edu.espol.util.GFG;
+import static ec.edu.espol.util.GFG.getSHA;
+import static ec.edu.espol.util.GFG.toHexString;
 import ec.edu.espol.util.Util;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 /**
  *
@@ -25,7 +32,7 @@ public class Usuario {
     protected String organizacion;
     
     
-    public Usuario(String id, String correo, String clave, String nombres, String apellidos, String organizacion){
+    public Usuario(int id, String correo, String clave, String nombres, String apellidos, String organizacion){
         this.id = id;
         this.correo = correo;
         this.clave = clave;
@@ -82,12 +89,30 @@ public class Usuario {
         this.organizacion = organizacion;
     }
     
+    @Override
+    public boolean equals(Object o){
+        if (o == null)
+            return false;
+        if (o == this)
+            return true;
+        if (this.getClass() != o.getClass())
+            return false;
+        Usuario other = (Usuario) o;
+        return (this.id == other.id);
+    }
+    
+    @Override
+    public String toString(){
+        String s = "USUARIO\nNombres: " +this.nombres + "\nApellidos: " + this.apellidos+ "\nCorreo Electrónico: " + this.correo + "\nOrganización " + this.organizacion+ "\nID de usuario: " + this.id+ "";
+        return s;
+    }
+    
     // crea lista de correos
     public static ArrayList<String> recuperarCorreos(String nomfile){
         ArrayList<String> correos = new ArrayList<>();
         try (Scanner sc = new Scanner(new File(nomfile))){
             while(sc.hasNextLine()){
-                // linea = correo|...
+                // linea = id|correo|...
                 String linea = sc.nextLine();
                 String[] tokens = linea.split("\\|");
                 String correo = tokens[1];
@@ -101,62 +126,86 @@ public class Usuario {
     }
     
     //valida que el correo sea unico
-    public static boolean validarCorreo(String correo,String nomfile){
+    public static boolean correoExistente(String correo,String nomfile){
         ArrayList<String> correos = recuperarCorreos(nomfile);
         return correos.contains(correo);
     }
     
-    public static Usuario nextUsuario(Scanner sc, String nomfile){
+    public static void nextUsuario(Scanner sc, String nomfile) throws NoSuchAlgorithmException{
         sc.useDelimiter("\n");
         System.out.println("REGISTRAR UN NUEVO USUARIO");
         System.out.println( "Introduzca su correo electrónico: " );
         String correo = sc.next();
-        while(validarCorreo(correo, nomfile)){
+        while(!validarCorreo(correo)){
+            System.out.println("Por favor ingrese un correo válido.");
+            correo = sc.next();
+        }
+        while(correoExistente(correo, nomfile)){
             System.out.println("El correo que ingresó ya posee una cuenta, por favor ingrese otro correo si desea continuar.");
             correo = sc.next();
         }
         System.out.println( "Introduzca una clave: " );
         String clave = sc.next();
+        String hashclave;
+        hashclave = GFG.toHexString(GFG.getSHA(clave));
         System.out.println( "Introduzca sus nombres: " );
         String nombres = sc.next();
         System.out.println( "Introduzca sus apellidos: " );
         String apellidos = sc.next();
         System.out.println( "Introduzca su organizacion: " );
         String organizacion = sc.next();
-        Usuario u = new Usuario(correo, clave, nombres, apellidos, organizacion);
-        return u;
+        int id = Util.nextID(nomfile);
+        Usuario u = new Usuario(id, correo, hashclave, nombres, apellidos, organizacion);
+        u.saveFile(nomfile);
     }
     
     //comportamientos extras
     
-    public static ArrayList<Usuario> readFileUsuarios (String nomfile) {
-        ArrayList<Usuario> vehiculos = new ArrayList<Usuario>();
-        
+    public static ArrayList<Usuario> recuperarUsuarios (String nomfile){
+        ArrayList<Usuario> usuarios = new ArrayList<>();
         try (Scanner sc = new Scanner(new File(nomfile))) {
-            
-            String linea = sc.nextLine();
-            String [] tokens = linea.split("\\|");
-            
-            
-            
-            
-        }catch(Exception e) {
+             while(sc.hasNextLine()){
+                // linea = id|correo|clave|nombres|apellidos|organizacion
+                String linea = sc.nextLine();
+                String[] tokens = linea.split("\\|");
+                Usuario u = new Usuario(Integer.parseInt(tokens[0]), tokens[1], tokens [2], tokens[3], tokens[4], tokens[5]);
+                usuarios.add(u);
+            }
+        }catch(Exception e){
             System.out.println(e.getMessage());
         }
-        
+        return usuarios;
     }
     
-    public void saveFileUsuarios() {
-                
-        try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File("Usuarios.txt")),true) ) {
+    public void saveFile(String nomfile){
+        try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File(nomfile),true))) {
+            pw.println (this.id+"|"+this.correo+"|"+this.clave+"|"+this.nombres+"|"+this.apellidos+"|"+this.organizacion);
             
-            pw.println (this.nombres+"|"+this.apellidos+"|"+this.organizacion+"|"+this.correo+"|"+this.clave);
-
-            
-        }catch (Exception e){
+        }
+        catch (Exception e){
             System.out.println(e.getMessage());
         }
         
     }   
     
+    public static boolean validarUsuario(Scanner sc, String nomfile) throws NoSuchAlgorithmException{
+        System.out.println( "Introduzca su correo electrónico: " );
+        String correo = sc.next();
+        System.out.println( "Introduzca su clave: " );
+        String clave = sc.next();
+        String hashclave = GFG.toHexString(GFG.getSHA(clave));
+        ArrayList<Usuario> usuarios = Usuario.recuperarUsuarios(nomfile);
+        for (Usuario u : usuarios){
+            if (u.getCorreo().equals(correo) && u.getClave().equals(hashclave))
+                return true;
+        }
+        return false;
+    }
+    
+    public static boolean validarCorreo(String correo){
+        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(correo);
+        return matcher.matches();
+    }
 }
