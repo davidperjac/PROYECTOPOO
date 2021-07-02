@@ -8,6 +8,7 @@ package ec.edu.espol.model;
 import java.util.ArrayList;
 import java.util.Scanner;
 import ec.edu.espol.model.Vehiculo;
+import ec.edu.espol.model.Util;
 
 /**
  *
@@ -16,13 +17,31 @@ import ec.edu.espol.model.Vehiculo;
 public class Vendedor extends Usuario{
     
     private ArrayList<Vehiculo> vehiculos;    
+
+    //Constructor
     
-    Scanner sc = new Scanner(System.in);
+    public Vendedor (ArrayList<Vehiculo> vehiculos) {
+        super();
+        this.vehiculos = vehiculos;
+    }
     
-    public String ingresarVehiculo(Vehiculo v, Scanner sc) {
+    //Getters y setters
+
+    public ArrayList<Vehiculo> getVehiculos() {
+        return vehiculos;
+    }
+
+    public void setVehiculos(ArrayList<Vehiculo> vehiculos) {
+        this.vehiculos = vehiculos;
+    }
+    
+    //metodos
+    
+    
+    public String ingresarVehiculo(Vehiculo v, Scanner sc, ArrayList<ArrayList<Vehiculo>> lvv) {
         
-        sc.useDelimiter("\n");
-        this.validarUsuario();
+        
+        super.validarUsuario();
         
         //tipo
         
@@ -39,30 +58,7 @@ public class Vendedor extends Usuario{
         //placa
         
         System.out.println("Ingrese la placa del vehiculo");
-        String placa = sc.next();
-        
-        for (Vehiculo vehiculo : vehiculos) {
-            while (vehiculo.getPlaca() == placa ) { 
-                System.out.println("ERORR! , Este vehiculo ya se encuentra en el sistema");
-                System.out.println("Ingrese la placa del vehiculo");
-                placa = sc.next();
-            }
-        }
-        
-        while ( (placa.length() != 8 && placa.length() != 7)      ) {
-        System.out.println("ERROR! Ingrese una placa valida");
-        placa = sc.next();
-        
-            for (Vehiculo vehiculo : vehiculos) {
-                while (vehiculo.getPlaca() == placa ) { 
-                    System.out.println("ERORR! , Este vehiculo ya se encuentra en el sistema");
-                    System.out.println("Ingrese la placa del vehiculo");
-                    placa = sc.next();
-                }
-            }
-
-        }
-        
+        Util.validarPlaca(sc.next().toUpperCase(), sc);
         
         //marca
         
@@ -131,9 +127,9 @@ public class Vendedor extends Usuario{
         
         //validaciones del tipo
         
-        if (tipo != "moto") {
+        if (tipo != "MOTO") {
             System.out.println("Ingrese el tipo de vidrio del vehiculo");
-            String vidrios = sc.next();
+            String vidrios = sc.next().toUpperCase();
             
             System.out.println("Ingrese la transmision del vehiculo");
             String transmision = sc.next().toUpperCase();
@@ -144,39 +140,56 @@ public class Vendedor extends Usuario{
                 transmision = sc.next().toUpperCase();
 
             }
-        }
+            if (tipo == "CARRO") {
+                
+                Vehiculo vehiculo = new Vehiculo();
 
-        else if (tipo == "camioneta") {
-            System.out.println("Ingrese el tipo de traccion del vehiculo");
-            String traccion = sc.next();        
+                vehiculos.add(vehiculo); 
+
+                Util.saveFileVehiculos(lvv, this.getCorreo() );
+                
+            }else if (tipo == "CAMIONETA") {
+                System.out.println("Ingrese el tipo de traccion del vehiculo");
+                String traccion = sc.next();   
+
+                Vehiculo vehiculo = new Vehiculo();
+
+                vehiculos.add(vehiculo); 
+
+                Util.saveFileVehiculos(lvv.add(vehiculos), "Vehiculos.txt" );
+            }
         }
         
-        Vehiculo vehiculo = new Vehiculo();
-        
-        vehiculos.add(vehiculo); 
+        else if (tipo == "MOTO"){
+            Vehiculo vehiculo = new Vehiculo();
+
+            vehiculos.add(vehiculo); 
+
+            Util.saveFileVehiculos(lvv.add(vehiculos), "Vehiculos.txt" );
+
+        }
+            
+
+       
         
         return "Se ha ingresado su vehiculo al sistema correctamente! ";
     }
     
-    public void revisarOfertas(String placa) {
-        
-    }
+
     
-    public String aceptarOferta (int oferta) {
+    public String aceptarOferta (Scanner sc) {
         sc.useDelimiter("\n");
-        this.validarUsuario();
+        super.validarUsuario();
         
         System.out.println("Ingrese la placa del vehiculo");
-        String placa = sc.next();
+        Util.validarPlaca(sc.next().toUpperCase(), sc);
         
         ArrayList ofertas = new ArrayList<Oferta>();
         Vehiculo carroEscogido = new Vehiculo();
         
+        //vehiculos no , debe ser archivo
         for (Vehiculo vehiculo : vehiculos) {
-            if (vehiculo.getPlaca() == placa ) {
-               ofertas = vehiculo.getOfertas();
-               carroEscogido = vehiculo;
-            }
+            
         }
         
         System.out.println(carroEscogido.getNombre()+"Precio:"+carroEscogido.getPrecio());
@@ -200,7 +213,7 @@ public class Vendedor extends Usuario{
                                 System.out.println("1.- Siguiente Oferta");
                                 System.out.println("2.- Aceptar Oferta");
                                 seleccion = sc.nextInt();
-                        }
+                            }
 
                         
                         if (seleccion == 1) {
@@ -209,9 +222,14 @@ public class Vendedor extends Usuario{
                             numeroOferta++;
                             
                         }else if (seleccion == 2) {
-                            //eliminacion de oferta en sistema
-                            
+                            //eliminacion de oferta en sistema y en la lista
+                            vehiculos.remove(ofertas.get(i).getVehiculo());
+                            Util.saveFileVehiculos(lvv.add(vehiculos), "Vehiculos.txt" );
+
+
                             //enviar correo al usuario
+                            
+                            
                             
                             //salir del menu
                             aceptar = true;
@@ -242,8 +260,12 @@ public class Vendedor extends Usuario{
                             
                     
                         }else if (seleccion == 3) {
-                            //eliminacion de oferta en sistema
-                            
+                            //eliminacion de oferta en sistema y en la lista
+                            vehiculos.remove(ofertas.get(i).getVehiculo());
+                            Util.saveFileVehiculos(lvv.add(vehiculos), "Vehiculos.txt" );
+
+
+
                             //enviar correo al usuario
                             
                             //salir del menu
@@ -259,6 +281,6 @@ public class Vendedor extends Usuario{
 
 
         
-        return null;   
+        return "Se ha aceptado la oferta exitosamente !";   
     }
 }
