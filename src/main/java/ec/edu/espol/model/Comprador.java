@@ -5,10 +5,18 @@
  */
 package ec.edu.espol.model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author davidperez
  */
-public class Comprador {
+public class Comprador extends Usuario{
+    private ArrayList<Oferta> ofertas;
+    
+    public Comprador(String correo, String clave, String nombres, String apellidos, String organizacion){
+        super(correo, clave, nombres, apellidos, organizacion);
+    }
+    
     
 }
