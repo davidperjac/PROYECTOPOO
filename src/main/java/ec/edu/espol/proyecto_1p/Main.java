@@ -23,17 +23,7 @@ public class Main {
     
     sc.useDelimiter("\n");
         
-    Vendedor v = new Vendedor("davidperjac@hotmail.com","123","David","Perez","ESPOL");    
-    
-    String mensaje = v.ingresarVehiculo(sc);
-    
-    System.out.println(v.getVehiculos().get(0));
-    
-    Vendedor h = new Vendedor("dfgdfgf","123","David","Perez","ESPOL");    
-    
-    String mensaje2 = h.ingresarVehiculo(sc);
-    
-    System.out.println(h.getVehiculos().get(0));    
+
         
         
     }

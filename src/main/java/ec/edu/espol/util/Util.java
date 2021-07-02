@@ -19,6 +19,8 @@ import java.util.Scanner;
  */
 public class Util {
     
+    private Util(){}
+    
     public static boolean isNumeric(String str) { 
         try {  
           Double.parseDouble(str);  
@@ -98,51 +100,30 @@ public class Util {
         }        
     }
     
-    //agregar y sobreescribir
-    public static void saveFileVehiculos(ArrayList<Vehiculo> vehiculos) {
-        
-        try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File("Vehiculos.txt"),true)) ) {
-            
+    
+                                  
+    
 
-            for (Vehiculo v : vehiculos) {
-                if (v.getTipo().equals("CARRO")) {
-                    pw.println( v.getPlaca()+"|"+v.getMarca()+"|"+v.getModelo()+"|"+v.getMotor()+"|"+v.getAnio()+"|"+v.getRecorrido()+"|"+v.getColor()+"|"+v.getCombustible()+"|"+v.getVidrios()+"|"+v.getTransmision()+"|"+v.getPrecio() );                                        
-                }else if (v.getTipo().equals("MOTO")) {
-                    pw.println( v.getPlaca()+"|"+v.getMarca()+"|"+v.getModelo()+"|"+v.getMotor()+"|"+v.getAnio()+"|"+v.getRecorrido()+"|"+v.getColor()+"|"+v.getCombustible()+"|"+v.getPrecio() );                                        
-                }else if (v.getTipo().equals("CAMIONETA")){
-                    pw.println( v.getPlaca()+"|"+v.getMarca()+"|"+v.getModelo()+"|"+v.getMotor()+"|"+v.getAnio()+"|"+v.getRecorrido()+"|"+v.getColor()+"|"+v.getCombustible()+"|"+v.getVidrios()+"|"+v.getTransmision()+"|"+v.getTraccion()+"|"+v.getPrecio() );                                        
-                }
+    //extras
+
+    
+    
+    public static int nextID(String nomfile) {
+        int id = 0;
+        try (Scanner sc = new Scanner (new File(nomfile))) {
+            
+            while (sc.hasNextLine()) {
+                String linea = sc.nextLine();
+                String [] tokens = linea.split ("\\|");
+                id = Integer.parseInt(tokens[0]);
             }
             
-
             
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+        }catch(Exception e) {
+            
         }
-        
-    }                                   
-    
-    //agregar 
-    public static void saveFileUsuarios(Usuario u, String nomfile) {
-                
-        try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File(nomfile)),true) ) {
-            
-            pw.println(u.getNombres()+"|"+u.getApellidos()+"|"+u.getOrganizacion()+"|"+u.getCorreo()+"|"+u.getClave());
-
-            
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-        
-    }      
-    
-    
-    //agregar y sobreescribir
-    public static void saveFileOfertas() {
-        
+        return id+1;
     }
-    
-    //contraseña
     
 }
 

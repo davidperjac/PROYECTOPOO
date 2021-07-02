@@ -5,20 +5,30 @@
  */
 package ec.edu.espol.model;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 /**
  *
  * @author davidperez
  */
 public class Oferta {
     private String id;
+    private String id_Comprador;
+    private String id_Vehiculo;
     private String correo_comprador;
     private double precio_ofertado;
     private String placa_vehiculo;
     private Vehiculo vehiculo;
     private Comprador comprador;
 
-    public Oferta(String id, String correo_comprador, double precio_ofertado, String placa_vehiculo, Vehiculo vehiculo, Comprador comprador) {
+    public Oferta(String id, String correo_comprador, double precio_ofertado, String placa_vehiculo, String id_Comprador, String id_vehiculo) {
         this.id = id;
+        this.id_Comprador = id_Comprador;
+        this.id_Vehiculo = id_Vehiculo;
         this.correo_comprador = correo_comprador;
         this.precio_ofertado = precio_ofertado;
         this.placa_vehiculo = placa_vehiculo;
@@ -80,5 +90,40 @@ public class Oferta {
     @Override
     public String toString(){
         return "Correo: " + this.correo_comprador + "\nPrecio Ofertado: " + this.precio_ofertado; 
+    }
+    
+    //extras
+    
+    public  void saveFileOfertas() {
+        
+        try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File("Ofertas.txt")),true) ) {
+            
+            pw.println (this.id+"|"+this.id_Comprador+"|"+this.id_Vehiculo+"|"+this.correo_comprador+"|"+this.precio_ofertado+"|"+this.placa_vehiculo);
+
+            
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public static ArrayList<Oferta> readFileOferta (String nomfile) {
+        ArrayList<Oferta> vehiculos = new ArrayList<Oferta>();
+        
+        try (Scanner sc = new Scanner(new File(nomfile))) {
+            
+            String linea = sc.nextLine();
+            String [] tokens = linea.split("\\|");
+            
+            
+            
+            
+        }catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+        
+    }
+    
+    public static void link() {
+        
     }
 }

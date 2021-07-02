@@ -7,6 +7,8 @@ package ec.edu.espol.model;
 
 import ec.edu.espol.util.Util;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -23,12 +25,21 @@ public class Usuario {
     protected String organizacion;
     
     
-    public Usuario(String correo, String clave, String nombres, String apellidos, String organizacion){
+    public Usuario(String id, String correo, String clave, String nombres, String apellidos, String organizacion){
+        this.id = id;
         this.correo = correo;
         this.clave = clave;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.organizacion = organizacion;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getCorreo() {
@@ -95,7 +106,7 @@ public class Usuario {
         return correos.contains(correo);
     }
     
-    public static Usuario leerUsuario(Scanner sc, String nomfile){
+    public static Usuario nextUsuario(Scanner sc, String nomfile){
         sc.useDelimiter("\n");
         System.out.println("REGISTRAR UN NUEVO USUARIO");
         System.out.println( "Introduzca su correo electrónico: " );
@@ -116,5 +127,36 @@ public class Usuario {
         return u;
     }
     
+    //comportamientos extras
+    
+    public static ArrayList<Usuario> readFileUsuarios (String nomfile) {
+        ArrayList<Usuario> vehiculos = new ArrayList<Usuario>();
+        
+        try (Scanner sc = new Scanner(new File(nomfile))) {
+            
+            String linea = sc.nextLine();
+            String [] tokens = linea.split("\\|");
+            
+            
+            
+            
+        }catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+        
+    }
+    
+    public void saveFileUsuarios() {
+                
+        try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File("Usuarios.txt")),true) ) {
+            
+            pw.println (this.nombres+"|"+this.apellidos+"|"+this.organizacion+"|"+this.correo+"|"+this.clave);
+
+            
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        
+    }   
     
 }

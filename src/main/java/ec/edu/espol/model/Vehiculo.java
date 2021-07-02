@@ -6,16 +6,20 @@
 package ec.edu.espol.model;
 
 import ec.edu.espol.util.Util;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
 /**
  *
- * @author davidperez
+ * @author davidperezPOOpo
  */
 public class Vehiculo {
 
+    private int id;
     private String placa;
     private String marca;
     private String motor;
@@ -36,7 +40,8 @@ public class Vehiculo {
     
     // Constructor de Autos
  
-    public Vehiculo(String correo_vendedor, String placa, String marca, String motor, int anio, String modelo, double recorrido, String color, String combustible, double precio, String vidrios, String transmision, String tipo){
+    public Vehiculo(int id,String correo_vendedor, String placa, String marca, String motor, int anio, String modelo, double recorrido, String color, String combustible, double precio, String vidrios, String transmision, String tipo){
+        this.id = id;
         this.correo_vendedor = correo_vendedor;
         this.vendedor = vendedor;
         this.placa = placa;
@@ -56,7 +61,8 @@ public class Vehiculo {
     
     // Constructor de Camionetas
     
-    public Vehiculo(String correo_vendedor, String placa, String marca, String motor, int anio, String modelo, double recorrido, String color, String combustible, double precio, String vidrios, String transmision, String traccion, String tipo){
+    public Vehiculo(int id,String correo_vendedor, String placa, String marca, String motor, int anio, String modelo, double recorrido, String color, String combustible, double precio, String vidrios, String transmision, String traccion, String tipo){
+        this.id = id;
         this.correo_vendedor = correo_vendedor;
         this.vendedor = vendedor;
         this.placa = placa;
@@ -77,7 +83,8 @@ public class Vehiculo {
     
     // Constructor de motos
     
-    public Vehiculo(String correo_vendedor, String placa, String marca, String motor, int anio, String modelo, double recorrido, String color, String combustible, double precio,String tipo){
+    public Vehiculo(int id,String correo_vendedor, String placa, String marca, String motor, int anio, String modelo, double recorrido, String color, String combustible, double precio,String tipo){
+        this.id = id;
         this.correo_vendedor = correo_vendedor;
         this.vendedor = vendedor;
         this.placa = placa;
@@ -95,6 +102,14 @@ public class Vehiculo {
 
     //getters y setters
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getPlaca() {
         return placa;
     }
@@ -267,145 +282,141 @@ public class Vehiculo {
         this.ofertas.remove(i);
     }
     
-    public String ingresarVehiculo(Scanner sc) {
+    public Vehiculo nextVehiculo(Scanner sc,String nomfile) {
         super.validarCorreo();
         
-        //tipo
-        
+        //tipo  
         System.out.println("Ingrese el tipo de vehiculo (carro,moto o camioneta)");
         String tipo = sc.next().toUpperCase();
         while (  (!tipo.equals("CARRO")) && (!tipo.equals("MOTO") ) && (!tipo.equals("CAMIONETA")) ) {
             System.out.println("ERROR! Ingrese un tipo correcto");
             tipo = sc.next();
-        }
-        
-        
-        //Atributos
-        
-        //placa
-        
+        }    
+        //Atributos   
+        //placa        
         System.out.println("Ingrese la placa del vehiculo");
-        String placa = sc.next();   //Util.validarPlaca(sc.next().toUpperCase(), sc);
-        
-        //marca
-        
+        String placa = Util.validarPlaca(sc.next().toUpperCase(), sc);   
+        //marca       
         System.out.println("Ingrese la marca del vehiculo");
         String marca = sc.next();
-        
-
-        //modelo
-                
+        //modelo             
         System.out.println("Ingrese el modelo del vehiculo");
-        String modelo = sc.next();
-        
-        //motor
-                
+        String modelo = sc.next();       
+        //motor           
         System.out.println("Ingrese el tipo de motor del vehiculo");
-        String motor = sc.next();
-                
-        //año
-        
+        String motor = sc.next();       
+        //año   
         System.out.println("Ingrese el año del vehiculo");
-        int anio = sc.nextInt();
-             
+        int anio = sc.nextInt();  
         while (anio < 1856) {
             System.out.println("ERROR! año invalido");
             System.out.println("Ingrese el año del vehiculo");
             anio = sc.nextInt();
         }
-        
         //recorrido 
-        
         System.out.println("Ingrese el recorrido que tiene el vehiculo");
         int recorrido = sc.nextInt();
-        
         while (recorrido < 0) {
             System.out.println("ERROR! recorrido invalido");
             System.out.println("Ingrese el recorrido que tiene el vehiculo");
             recorrido = sc.nextInt();
         }
-        
         //color
-        
         System.out.println("Ingrese el color del vehiculo");
         String color = sc.next();
-        
         //Combustible
-        
         System.out.println("Ingrese el tipo de combustible del vehiculo (SUPER,EXTRA,ECOPAIS,DIESEL)");
-        String combustible = sc.next().toUpperCase();
-              
+        String combustible = sc.next().toUpperCase();        
         while ( ( !combustible.equals("SUPER")  ) && ( !combustible.equals("EXTRA") ) && ( !combustible.equals("ECOPAIS")) && ( !combustible.equals("DIESEL"))  ) {
             System.out.println("ERROR! combustible invalido");
             System.out.println("Ingrese el tipo de combustible del vehiculo (SUPER,EXTRA,ECOPAIS,DIESEL)");
             combustible = sc.next().toUpperCase();
-        }
-        
-        //precio
-        
+        }        
+        //precio       
         System.out.println("Ingrese el precio del vehiculo");
-        int precio = sc.nextInt();
-        
+        int precio = sc.nextInt();      
         while (precio < 0 ) {
             System.out.println("ERROR! precio invalido");
             System.out.println("Ingrese el precio del vehiculo");
             precio = sc.nextInt();
-        }
-        
-        //idVendedor 
-        
-        String idVendedor = this.correo;
-        
-        //validaciones del tipo
-        
+        }       
+        //idVendedor       
+        String correoVendedor = this.correo_vendedor;      
+        //validaciones del tipo     
         if (!tipo.equals("MOTO")) {
             System.out.println("Ingrese el tipo de vidrio del vehiculo");
-            String vidrios = sc.next().toUpperCase();
-            
+            String vidrios = sc.next().toUpperCase();    
             System.out.println("Ingrese la transmision del vehiculo");
-            String transmision = sc.next().toUpperCase();
-            
+            String transmision = sc.next().toUpperCase();     
             while ( !(transmision.equals("MANUAL")) && ( !transmision.equals("AUTOMATICO")) ) {
                 System.out.println("ERROR! transmision erronea");
                 System.out.println("Ingrese la transmision del vehiculo");
                 transmision = sc.next().toUpperCase();
-
             }
             if (tipo.equals("CARRO")) {
-                
-                Vehiculo vehiculo = new Vehiculo(idVendedor, placa, marca, motor, anio, modelo, recorrido,color,combustible, precio, vidrios, transmision,tipo);
-
-                vehiculos.add(vehiculo); 
-
-                Util.saveFileVehiculos(vehiculos);
-                
+                int id = Util.nextID(nomfile);
+                Vehiculo vehiculo = new Vehiculo(id,correoVendedor, placa, marca, motor, anio, modelo, recorrido,color,combustible, precio, vidrios, transmision,tipo);
+                vehiculo.saveFileVehiculos(nomfile);
+                return vehiculo;       
             }else if (tipo.equals("CAMIONETA")) {
                 System.out.println("Ingrese el tipo de traccion del vehiculo");
-                String traccion = sc.next();   
-
-                Vehiculo vehiculo = new Vehiculo(idVendedor, placa, marca, motor, anio, modelo, recorrido,color,combustible, precio, vidrios, transmision,traccion,tipo);
-
-                vehiculos.add(vehiculo); 
-
-                Util.saveFileVehiculos(vehiculos);
+                String traccion = sc.next();                
+                int id = Util.nextID(nomfile);
+                Vehiculo vehiculo = new Vehiculo(id,correoVendedor, placa, marca, motor, anio, modelo, recorrido,color,combustible, precio, vidrios, transmision,traccion,tipo);
+                vehiculo.saveFileVehiculos(nomfile);
+                return vehiculo;
             }
         }
-        
         else if (tipo.equals("MOTO")) {
-            Vehiculo vehiculo = new Vehiculo(idVendedor, placa, marca, motor, anio, modelo, recorrido,color,combustible, precio,tipo);
-
-            vehiculos.add(vehiculo); 
-
-            Util.saveFileVehiculos(vehiculos);
-
+            int id = Util.nextID(nomfile); 
+            Vehiculo vehiculo = new Vehiculo(id,correoVendedor, placa, marca, motor, anio, modelo, recorrido,color,combustible, precio,tipo);
+            vehiculo.saveFileVehiculos(nomfile);
+            return vehiculo;
         }
-
-        return "Se ha ingresado su vehiculo al sistema correctamente! ";
     }
+    
+    //extras 
 
+    public void saveFileVehiculos(String nomfile) {
+        
+        try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File("Vehiculos.txt"),true)) ) {
+            
+            String sb = new StringBuilder(this.getPlaca()+"|"+this.getMarca()+"|"+this.getModelo()+"|"+this.getMotor()+"|"+this.getAnio()+"|"+this.getRecorrido()+"|"+this.getColor()+"|"+this.getCombustible()+"|"+this.getPrecio()).toString();
+            
+            if (this.getTipo().equals("CARRO")) {
+                pw.println( sb+"|"+this.getVidrios()+"|"+this.getTransmision() );                                        
+            }else if (this.getTipo().equals("MOTO")) {
+                pw.println( sb );                                        
+            }else if (this.getTipo().equals("CAMIONETA")){
+                pw.println( sb+"|"+this.getVidrios()+"|"+this.getTransmision()+"|"+this.getTraccion() );                                        
+            } 
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        
+    } 
+    
+    public static ArrayList<Vehiculo> readFileVehiculo (String nomfile) {
+        ArrayList<Vehiculo> vehiculos = new ArrayList<Vehiculo>();
+        
+        try (Scanner sc = new Scanner(new File(nomfile))) {
+            
+            String linea = sc.nextLine();
+            String [] tokens = linea.split("\\|");
+            Vehiculo v = new Vehiculo()
+            
+            
+            
+        }catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+        
+    }
+    
+    
     @Override
     public String toString() {
-        return "Vehiculo{" + "placa: " + placa + ", marca: " + marca + ", motor: " + motor + ", anio: " + anio + ", modelo: " + modelo + ", recorrido: " + recorrido + ", color: " + color + ", combustible: " + combustible + ", precio: " + precio + ", tipo: " + tipo + "}";
+        return "Vehiculo { id:"+ this.id + "placa: " + placa + ", marca: " + marca + ", motor: " + motor + ", anio: " + anio + ", modelo: " + modelo + ", recorrido: " + recorrido + ", color: " + color + ", combustible: " + combustible + ", precio: " + precio + ", tipo: " + tipo + "}";
     }
     
     @Override
@@ -419,7 +430,7 @@ public class Vehiculo {
         
         Vehiculo other = (Vehiculo)o;
         
-        return Objects.equals(this.placa, other.placa);   
+        return Objects.equals(this.id, other.id);   
     }
         
 }
