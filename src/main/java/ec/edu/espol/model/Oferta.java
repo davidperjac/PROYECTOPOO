@@ -25,6 +25,56 @@ public class Oferta {
         this.vehiculo = vehiculo;
         this.comprador = comprador;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getCorreo_comprador() {
+        return correo_comprador;
+    }
+
+    public void setCorreo_comprador(String correo_comprador) {
+        this.correo_comprador = correo_comprador;
+    }
+
+    public double getPrecio_ofertado() {
+        return precio_ofertado;
+    }
+
+    public void setPrecio_ofertado(double precio_ofertado) {
+        this.precio_ofertado = precio_ofertado;
+    }
+
+    public String getPlaca_vehiculo() {
+        return placa_vehiculo;
+    }
+
+    public void setPlaca_vehiculo(String placa_vehiculo) {
+        this.placa_vehiculo = placa_vehiculo;
+    }
+
+    public Vehiculo getVehiculo() {
+        return vehiculo;
+    }
+
+    public void setVehiculo(Vehiculo vehiculo) {
+        this.vehiculo = vehiculo;
+    }
+
+    public Comprador getComprador() {
+        return comprador;
+    }
+
+    public void setComprador(Comprador comprador) {
+        this.comprador = comprador;
+    }
+    
+    
     
     
     @Override

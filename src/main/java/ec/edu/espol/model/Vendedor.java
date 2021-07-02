@@ -8,7 +8,7 @@ package ec.edu.espol.model;
 import java.util.ArrayList;
 import java.util.Scanner;
 import ec.edu.espol.model.Vehiculo;
-import ec.edu.espol.model.Util;
+import ec.edu.espol.util.Util;
 
 /**
  *
@@ -20,9 +20,9 @@ public class Vendedor extends Usuario{
 
     //Constructor
     
-    public Vendedor (ArrayList<Vehiculo> vehiculos) {
-        super();
-        this.vehiculos = vehiculos;
+    public Vendedor ( String correo, String clave, String nombres, String apellidos, String organizacion) {
+        super(correo,clave,nombres,apellidos,organizacion);
+        this.vehiculos = new ArrayList<Vehiculo>();
     }
     
     //Getters y setters
@@ -38,16 +38,14 @@ public class Vendedor extends Usuario{
     //metodos
     
     
-    public String ingresarVehiculo(Vehiculo v, Scanner sc, ArrayList<ArrayList<Vehiculo>> lvv) {
-        
-        
-        super.validarUsuario();
+    public String ingresarVehiculo(Scanner sc) {
+        //super.validarCorreo();
         
         //tipo
         
         System.out.println("Ingrese el tipo de vehiculo (carro,moto o camioneta)");
         String tipo = sc.next().toUpperCase();
-        while (  (tipo != "CARRO") && (tipo != "MOTO") && (tipo != "CAMIONETA") ) {
+        while (  (!tipo.equals("CARRO")) && (!tipo.equals("MOTO") ) && (!tipo.equals("CAMIONETA")) ) {
             System.out.println("ERROR! Ingrese un tipo correcto");
             tipo = sc.next();
         }
@@ -58,7 +56,7 @@ public class Vendedor extends Usuario{
         //placa
         
         System.out.println("Ingrese la placa del vehiculo");
-        Util.validarPlaca(sc.next().toUpperCase(), sc);
+        String placa = sc.next();   //Util.validarPlaca(sc.next().toUpperCase(), sc);
         
         //marca
         
@@ -108,7 +106,7 @@ public class Vendedor extends Usuario{
         System.out.println("Ingrese el tipo de combustible del vehiculo (SUPER,EXTRA,ECOPAIS,DIESEL)");
         String combustible = sc.next().toUpperCase();
               
-        while ( (combustible != "SUPER"  ) && ( combustible != "EXTRA" ) && ( combustible != "ECOPAIS") && ( combustible != "DIESEL")  ) {
+        while ( ( !combustible.equals("SUPER")  ) && ( !combustible.equals("EXTRA") ) && ( !combustible.equals("ECOPAIS")) && ( !combustible.equals("DIESEL"))  ) {
             System.out.println("ERROR! combustible invalido");
             System.out.println("Ingrese el tipo de combustible del vehiculo (SUPER,EXTRA,ECOPAIS,DIESEL)");
             combustible = sc.next().toUpperCase();
@@ -125,58 +123,59 @@ public class Vendedor extends Usuario{
             precio = sc.nextInt();
         }
         
+        //idVendedor 
+        
+        String idVendedor = this.correo;
+        
         //validaciones del tipo
         
-        if (tipo != "MOTO") {
+        if (!tipo.equals("MOTO")) {
             System.out.println("Ingrese el tipo de vidrio del vehiculo");
             String vidrios = sc.next().toUpperCase();
             
             System.out.println("Ingrese la transmision del vehiculo");
             String transmision = sc.next().toUpperCase();
             
-            while ( (transmision != "MANUAL") && (transmision != "AUTOMATICO") ) {
+            while ( !(transmision.equals("MANUAL")) && ( !transmision.equals("AUTOMATICO")) ) {
                 System.out.println("ERROR! transmision erronea");
                 System.out.println("Ingrese la transmision del vehiculo");
                 transmision = sc.next().toUpperCase();
 
             }
-            if (tipo == "CARRO") {
+            if (tipo.equals("CARRO")) {
                 
-                Vehiculo vehiculo = new Vehiculo();
+                Vehiculo vehiculo = new Vehiculo(idVendedor, placa, marca, motor, anio, modelo, recorrido,color,combustible, precio, vidrios, transmision,tipo);
 
                 vehiculos.add(vehiculo); 
 
-                Util.saveFileVehiculos(lvv, this.getCorreo() );
+                Util.saveFileVehiculos(vehiculos);
                 
-            }else if (tipo == "CAMIONETA") {
+            }else if (tipo.equals("CAMIONETA")) {
                 System.out.println("Ingrese el tipo de traccion del vehiculo");
                 String traccion = sc.next();   
 
-                Vehiculo vehiculo = new Vehiculo();
+                Vehiculo vehiculo = new Vehiculo(idVendedor, placa, marca, motor, anio, modelo, recorrido,color,combustible, precio, vidrios, transmision,traccion,tipo);
 
                 vehiculos.add(vehiculo); 
 
-                Util.saveFileVehiculos(lvv.add(vehiculos), "Vehiculos.txt" );
+                Util.saveFileVehiculos(vehiculos);
             }
         }
         
-        else if (tipo == "MOTO"){
-            Vehiculo vehiculo = new Vehiculo();
+        else if (tipo.equals("MOTO")) {
+            Vehiculo vehiculo = new Vehiculo(idVendedor, placa, marca, motor, anio, modelo, recorrido,color,combustible, precio,tipo);
 
             vehiculos.add(vehiculo); 
 
-            Util.saveFileVehiculos(lvv.add(vehiculos), "Vehiculos.txt" );
+            Util.saveFileVehiculos(vehiculos);
 
         }
-            
 
-       
-        
         return "Se ha ingresado su vehiculo al sistema correctamente! ";
     }
     
 
-    
+    /*
     public String aceptarOferta (Scanner sc) {
         sc.useDelimiter("\n");
         super.validarUsuario();
@@ -198,15 +197,12 @@ public class Vendedor extends Usuario{
         boolean aceptar = false ; 
         while (aceptar == false) {
             int numeroOferta = 1 ; 
-            for (int i = 0 ; i < ofertas.size(); i++ ) {
-                
-                boolean opcion = false;
-                
+            for (int i = 0 ; i < ofertas.size(); i++ ) {             
+                boolean opcion = false;      
                 while (opcion == false ) {
                     System.out.println("Oferta "+numeroOferta);
                     System.out.println("Correo: "+ ofertas.get(i).getComprador().getCorreo());
-                    System.out.println("Precio Ofertado: "+ofertas.get(i).getprecioOfertado());
-                    
+                    System.out.println("Precio Ofertado: "+ofertas.get(i).getprecioOfertado());  
                     if (i == 0) {
                         int seleccion = 0 ;
                             while ( (seleccion != 1) && (seleccion != 2) ) {
@@ -214,73 +210,46 @@ public class Vendedor extends Usuario{
                                 System.out.println("2.- Aceptar Oferta");
                                 seleccion = sc.nextInt();
                             }
-
-                        
-                        if (seleccion == 1) {
-                            
+                        if (seleccion == 1) {   
                             opcion = true ;
                             numeroOferta++;
-                            
                         }else if (seleccion == 2) {
                             //eliminacion de oferta en sistema y en la lista
                             vehiculos.remove(ofertas.get(i).getVehiculo());
-                            Util.saveFileVehiculos(lvv.add(vehiculos), "Vehiculos.txt" );
-
-
+                            Util.saveFileVehiculos("Vehiculos.txt" );
                             //enviar correo al usuario
-                            
-                            
-                            
                             //salir del menu
                             aceptar = true;
                         }
-
-                        
-                        
-                    }else if (i > 0 ) {
-                        
+                    }else if (i > 0 ) {   
                         int seleccion = 0 ;
                         while ( (seleccion != 1) && (seleccion != 2) && (seleccion != 3) ) {
                             System.out.println("1.- Siguiente Oferta");
                             System.out.println("2.- Anterior Oferta");
                             System.out.println("3.- Aceptar Oferta");
                             seleccion = sc.nextInt();
-                        }
-                        
-                        if (seleccion == 1) {
-                            
+                        }  
+                        if (seleccion == 1) {        
                             opcion = true ;
-                            numeroOferta++;
-                            
+                            numeroOferta++;        
                         }else if (seleccion == 2) {
-                            
                             i -= 2;
                             opcion = true; 
                             numeroOferta--;
-                            
-                    
                         }else if (seleccion == 3) {
                             //eliminacion de oferta en sistema y en la lista
                             vehiculos.remove(ofertas.get(i).getVehiculo());
-                            Util.saveFileVehiculos(lvv.add(vehiculos), "Vehiculos.txt" );
-
-
-
-                            //enviar correo al usuario
-                            
+                            Util.saveFileVehiculos("Vehiculos.txt" );
+                            //enviar correo al usuario             
                             //salir del menu
                             aceptar = true;
                         }
-
-                        
-                        
                     }
                 }
             }
         }
 
-
-        
         return "Se ha aceptado la oferta exitosamente !";   
     }
+    */
 }

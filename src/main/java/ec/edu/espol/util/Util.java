@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ec.edu.espol.model;
+package ec.edu.espol.util;
+import ec.edu.espol.model.Usuario;
+import ec.edu.espol.model.Vehiculo;
 import ec.edu.espol.model.Vendedor;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -97,23 +99,21 @@ public class Util {
     }
     
     //agregar y sobreescribir
-    public static void saveFileVehiculos(String nomfile) {
+    public static void saveFileVehiculos(ArrayList<Vehiculo> vehiculos) {
         
-        ArrayList<ArrayList<Vehiculo>> listaDeListasVehiculos = new ArrayList<ArrayList<Vehiculo>>();
-        
-        try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File(nomfile))) ) {
+        try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File("Vehiculos.txt"),true)) ) {
             
-            for (ArrayList<Vehiculo> vehiculos : listaDeListasVehiculos  ) {
-                for (Vehiculo v : vehiculos) {
-                    if (v.getTipo() == "CARRO") {
-                        pw.println( v.getPlaca()+"|"+v.getMarca()+"|"+v.getModelo()+"|"+v.getMotor()+"|"+v.getAnio()+"|"+v.getRecorrido()+"|"+v.getColor()+"|"+v.getCombustible()+"|"+v.getVidrios()+"|"+v.getTransmision()+"|"+v.getPrecio() );                                        
-                    }else if (v.getTipo() == "MOTO") {
-                        pw.println( v.getPlaca()+"|"+v.getMarca()+"|"+v.getModelo()+"|"+v.getMotor()+"|"+v.getAnio()+"|"+v.getRecorrido()+"|"+v.getColor()+"|"+v.getCombustible()+"|"+v.getPrecio() );                                        
-                    }else if (v.getTipo() == "CAMIONETA"){
-                        pw.println( v.getPlaca()+"|"+v.getMarca()+"|"+v.getModelo()+"|"+v.getMotor()+"|"+v.getAnio()+"|"+v.getRecorrido()+"|"+v.getColor()+"|"+v.getCombustible()+"|"+v.getVidrios()+"|"+v.getTransmision()+"|"+v.getTraccion()+"|"+v.getPrecio() );                                        
-                    }
+
+            for (Vehiculo v : vehiculos) {
+                if (v.getTipo().equals("CARRO")) {
+                    pw.println( v.getPlaca()+"|"+v.getMarca()+"|"+v.getModelo()+"|"+v.getMotor()+"|"+v.getAnio()+"|"+v.getRecorrido()+"|"+v.getColor()+"|"+v.getCombustible()+"|"+v.getVidrios()+"|"+v.getTransmision()+"|"+v.getPrecio() );                                        
+                }else if (v.getTipo().equals("MOTO")) {
+                    pw.println( v.getPlaca()+"|"+v.getMarca()+"|"+v.getModelo()+"|"+v.getMotor()+"|"+v.getAnio()+"|"+v.getRecorrido()+"|"+v.getColor()+"|"+v.getCombustible()+"|"+v.getPrecio() );                                        
+                }else if (v.getTipo().equals("CAMIONETA")){
+                    pw.println( v.getPlaca()+"|"+v.getMarca()+"|"+v.getModelo()+"|"+v.getMotor()+"|"+v.getAnio()+"|"+v.getRecorrido()+"|"+v.getColor()+"|"+v.getCombustible()+"|"+v.getVidrios()+"|"+v.getTransmision()+"|"+v.getTraccion()+"|"+v.getPrecio() );                                        
                 }
             }
+            
 
             
         }catch (Exception e){
