@@ -156,6 +156,14 @@ public class Util {
         return placa + "," + marca + "," + motor + "," + anio + "," + modelo + "," + recorrido + "," + color + "," + combustible + "," + precio;
     }
     
+    public static int menuVendedor(Scanner sc){
+        int opcion;
+        do{
+        System.out.println("1. Ingresar nuevo vendedor\n2. Registrar un vehiculo\n3. Aceptar Ofertas\n4. Regresar");
+        opcion = sc.nextInt();
+        } while(opcion != 1 && opcion != 2 && opcion != 3 && opcion != 4);
+    }
+    
 }
 
 
