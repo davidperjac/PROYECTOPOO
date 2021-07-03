@@ -20,7 +20,7 @@ public class Vendedor extends Usuario{
 
     //Constructor
     
-    public Vendedor ( String id,String correo, String clave, String nombres, String apellidos, String organizacion) {
+    public Vendedor ( int id,String correo, String clave, String nombres, String apellidos, String organizacion) {
         super(id,correo,clave,nombres,apellidos,organizacion);
         this.vehiculos = new ArrayList<Vehiculo>();
     }
@@ -38,31 +38,42 @@ public class Vendedor extends Usuario{
     //metodos
     
     
-    public String ingresarVehiculo(Scanner sc, Vehiculo v) {
+    public void ingresarVehiculo(Scanner sc,String nomfile) {
         
-        this.vehiculos.add(v);
-
-        return "Su vehiculo se ha ingresado al sistema exitosamente";
+        System.out.println("Ingrese el tipo de Vehiculo");
+        String tipo = sc.next().toUpperCase();
+        
+        while ( (!tipo.equals("MOTO")  )&&((!tipo.equals("CARRO"))&&((!tipo.equals("CAMIONETA"))  ))) {
+            System.out.println("ERROR! Ingrese un tipo valido");
+            tipo = sc.next().toUpperCase();   
+        }
+        
+        Vehiculo.nextVehiculo(sc, nomfile, tipo);
+        
+        System.out.println("Su vehiculo se ha ingresado al sistema exitosamente");
         
     }
     
 
-    /*
+    
     public String aceptarOferta (Scanner sc) {
-        sc.useDelimiter("\n");
-        super.validarUsuario();
         
         System.out.println("Ingrese la placa del vehiculo");
-        Util.validarPlaca(sc.next().toUpperCase(), sc);
+        String placa = Util.recuperarPlaca(sc.next(), sc);
         
-        //busca en base de datos 
-        for (Vehiculo vehiculo : vehiculos) {
-            
+        //busca en base de datos //funcion
+        for (Vehiculo v : vehiculos) {
+            if (v.getPlaca() == placa) {
+                //funcion fernando
+                v.verOfertas(sc);
+                //borrar en base de datos
+            }
         }
         
         System.out.println(carroEscogido.getNombre()+"Precio:"+carroEscogido.getPrecio());
         System.out.println("Se han realizado "+ofertas.size()+" ofertas");
         
+        /*
         boolean aceptar = false ; 
         while (aceptar == false) {
             int numeroOferta = 1 ; 
@@ -117,8 +128,9 @@ public class Vendedor extends Usuario{
                 }
             }
         }
+        */
 
         return "Se ha aceptado la oferta exitosamente !";   
     }
-    */
+    
 }

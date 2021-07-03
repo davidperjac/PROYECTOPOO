@@ -263,8 +263,8 @@ public class Vehiculo {
                         i -= 1;
                 }
                 else if(opcion == 3)
-                    // this.vendedor.aceptarOferta(i);
-                    // this.ofertas.remove(i);
+                    this.vendedor.aceptarOferta(i);
+                    this.ofertas.remove(i);
                     opcion = 4;
             }
         }
@@ -362,9 +362,9 @@ public class Vehiculo {
         System.out.println("Ingrese el tipo de vidrio del vehiculo");
         String vidrios = sc.next().toUpperCase();    
         System.out.println("Ingrese la transmision del vehiculo");
-        String transmision = sc.next();
+        String transmision = sc.next().toUpperCase();
         System.out.println("Ingrese el tipo de traccion del vehiculo");
-        String traccion = sc.next();
+        String traccion = sc.next().toUpperCase();
         return atributos + "," + vidrios + "," + transmision + "," + traccion;
     }
     
@@ -386,6 +386,12 @@ public class Vehiculo {
                 return v;
         }
         return null;
+    }
+    
+    //borrar vehiculo
+    
+    public static void borrarVehiculo(int id) {
+        
     }
     
     

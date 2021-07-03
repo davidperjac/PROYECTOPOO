@@ -159,6 +159,17 @@ public class Usuario {
         u.saveFile(nomfile);
     }
     
+    
+    public static Usuario recuperarUsuario(String correo, String nomfile){
+        ArrayList<Usuario> usuarios = Usuario.recuperarUsuarios(nomfile);
+        for (Usuario u: usuarios){
+            if (correo.equals(u.getCorreo()))
+                return u;
+        }
+        return null;
+    }
+    
+    
     //comportamientos extras
     
     public static ArrayList<Usuario> recuperarUsuarios (String nomfile){
@@ -188,11 +199,7 @@ public class Usuario {
         
     }   
     
-    public static boolean validarUsuario(Scanner sc, String nomfile) throws NoSuchAlgorithmException{
-        System.out.println( "Introduzca su correo electrónico: " );
-        String correo = sc.next();
-        System.out.println( "Introduzca su clave: " );
-        String clave = sc.next();
+    public static boolean validarUsuario(String correo, String clave,String nomfile) throws NoSuchAlgorithmException{
         String hashclave = GFG.toHexString(GFG.getSHA(clave));
         ArrayList<Usuario> usuarios = Usuario.recuperarUsuarios(nomfile);
         for (Usuario u : usuarios){
