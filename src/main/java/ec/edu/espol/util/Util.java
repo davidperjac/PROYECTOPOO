@@ -10,8 +10,11 @@ import ec.edu.espol.model.Vendedor;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -29,6 +32,28 @@ public class Util {
           return false;  
         }  
     }
+    //345-3445
+    public static String recuperarPlaca(String placa,Scanner sc) {
+ 
+        while (!Util.validarPlaca(placa)) {
+            System.out.println("ERROR! Ingrese una placa valida");
+            placa = sc.next();
+        }
+        
+        return placa;
+        
+    }
+    
+    public static boolean validarPlaca(String placa){
+        String regex = "^[A-Z][A-Z][A-Z]-[0-9]{3,4}";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(placa);
+        return matcher.matches();
+    }
+    
+    
+    /*
+    
     
     public static String validarPlaca (String placa, Scanner sc) {
         
@@ -99,12 +124,30 @@ public class Util {
             }
         }        
     }
+    */
     
+    
+ 
     
                                   
     
 
     //extras
+    
+    public static Vendedor inicioSesionV(Scanner sc) throws NoSuchAlgorithmException{
+        String correo;
+        String clave;
+
+        do{
+            System.out.println( "Introduzca su correo electrónico: " );
+            correo = sc.next();
+            System.out.println( "Introduzca su clave: " );
+            clave = sc.next();
+        }while(!Usuario.validarUsuario(correo,clave,"vendedores.txt"));
+        Vendedor vend = (Vendedor)Usuario.recuperarUsuario(correo, "vendedores.txt");
+        vend.ingresarVehiculo(sc, "vehiculos.txt");
+        return vend;
+    }
 
     
     
@@ -127,7 +170,7 @@ public class Util {
     
     public static String validarAtributos(Scanner sc){
         System.out.println("Ingrese la placa del vehiculo");
-        String placa = Util.validarPlaca(sc.next().toUpperCase(), sc);          
+        String placa = Util.recuperarPlaca(sc.next(), sc);          
         System.out.println("Ingrese la marca del vehiculo");
         String marca = sc.next();             
         System.out.println("Ingrese el modelo del vehiculo");
@@ -162,6 +205,7 @@ public class Util {
         System.out.println("1. Ingresar nuevo vendedor\n2. Registrar un vehiculo\n3. Aceptar Ofertas\n4. Regresar");
         opcion = sc.nextInt();
         } while(opcion != 1 && opcion != 2 && opcion != 3 && opcion != 4);
+        return opcion;
     }
     
 }
