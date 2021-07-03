@@ -33,16 +33,16 @@ public class Vehiculo {
     private String vidrios;  
     private String transmision;
     private String traccion; 
-    private int id_registro;
-    private RegistroIngresoVehiculos registro;
+    private int id_vendedor;
+    private Vendedor vendedor;
     private ArrayList<Oferta> ofertas;
     
     // Constructor de Autos
  
-    public Vehiculo(int id, String tipo, int id_registro, String placa, String marca, String motor, int anio, String modelo, double recorrido, String color, String combustible, double precio, String vidrios, String transmision){
+    public Vehiculo(int id, String tipo, int id_vendedor, String placa, String marca, String motor, int anio, String modelo, double recorrido, String color, String combustible, double precio, String vidrios, String transmision){
         this.id = id;
         this.tipo = tipo;
-        this.id_registro = id_registro;
+        this.id_vendedor = id_vendedor;
         this.placa = placa;
         this.marca = marca;
         this.motor = motor;
@@ -59,10 +59,10 @@ public class Vehiculo {
     
     // Constructor de Camionetas
     
-    public Vehiculo(int id, String tipo, int id_registro, String placa, String marca, String motor, int anio, String modelo, double recorrido, String color, String combustible, double precio, String vidrios, String transmision, String traccion){
+    public Vehiculo(int id, String tipo, int id_vendedor, String placa, String marca, String motor, int anio, String modelo, double recorrido, String color, String combustible, double precio, String vidrios, String transmision, String traccion){
         this.id = id;
         this.tipo = tipo;
-        this.id_registro = id_registro;
+        this.id_vendedor = id_vendedor;
         this.placa = placa;
         this.marca = marca;
         this.motor = motor;
@@ -80,10 +80,10 @@ public class Vehiculo {
     
     // Constructor de motos
     
-    public Vehiculo(int id, String tipo, int id_registro, String placa, String marca, String motor, int anio, String modelo, double recorrido, String color, String combustible, double precio){
+    public Vehiculo(int id, String tipo, int id_vendedor, String placa, String marca, String motor, int anio, String modelo, double recorrido, String color, String combustible, double precio){
         this.id = id;
         this.tipo = tipo;
-        this.id_registro = id_registro;
+        this.id_vendedor = id_vendedor;
         this.placa = placa;
         this.marca = marca;
         this.motor = motor;
@@ -218,20 +218,20 @@ public class Vehiculo {
         this.ofertas = ofertas;
     }
 
-    public int getId_registro() {
-        return id_registro;
+    public int getId_vendedor() {
+        return id_vendedor;
     }
 
-    public void setId_registro(int id_registro) {
-        this.id_registro = id_registro;
+    public void setId_vendedor(int id_vendedor) {
+        this.id_vendedor = id_vendedor;
     }
 
-    public RegistroIngresoVehiculos getRegistro() {
-        return registro;
+    public Vendedor getVendedor() {
+        return vendedor;
     }
 
-    public void setRegistro(RegistroIngresoVehiculos registro) {
-        this.registro = registro;
+    public void setVendedor(Vendedor vendedor) {
+        this.vendedor = vendedor;
     }
     
     /* 
@@ -278,7 +278,7 @@ public class Vehiculo {
 
     public void saveFile(String nomfile) {
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File("Vehiculos.txt"),true)) ) {
-            String linea = this.id + "|" + this.tipo + "|" + this.id_registro + "|" + this.getPlaca()+"|"+this.getMarca()+"|"+this.getMotor()+"|"+this.getAnio()+ "|" +this.getModelo()+ "|"+this.getRecorrido()+"|"+this.getColor()+"|"+this.getCombustible()+"|"+this.getPrecio();
+            String linea = this.id + "|" + this.tipo + "|" + this.id_vendedor + "|" + this.getPlaca()+"|"+this.getMarca()+"|"+this.getMotor()+"|"+this.getAnio()+ "|" +this.getModelo()+ "|"+this.getRecorrido()+"|"+this.getColor()+"|"+this.getCombustible()+"|"+this.getPrecio();
             if(this.getTipo().equals("CARRO")) {
                 pw.println( linea +"|"+this.getVidrios()+"|"+this.getTransmision() );                                        
             }else if (this.getTipo().equals("MOTO")) {
@@ -292,7 +292,7 @@ public class Vehiculo {
         
     } 
     
-    public static ArrayList<Vehiculo> readFileVehiculo (String nomfile) {
+    public static ArrayList<Vehiculo> readFile(String nomfile) {
         ArrayList<Vehiculo> vehiculos = new ArrayList<Vehiculo>();
         try (Scanner sc = new Scanner(new File(nomfile))) {
             while(sc.hasNextLine()){
@@ -340,7 +340,7 @@ public class Vehiculo {
             Vehiculo vehiculo = new Vehiculo(id, tipo, 2, atributos[0], atributos[1], atributos[2], Integer.parseInt(atributos[3]), atributos[4], Double.parseDouble(atributos[5]), atributos[6], atributos[7], Double.parseDouble(atributos[8]), atributos[9], atributos[10], atributos[11]);
             vehiculo.saveFile(nomfile);  
         }
-        else if(tipo.equals("MOTOS")){
+        else if(tipo.equals("MOTO")){
             String[] atributos = validarCarro(sc).split(",");
             int id = Util.nextID(nomfile);
             Vehiculo vehiculo = new Vehiculo(id, tipo, 2, atributos[0], atributos[1], atributos[2], Integer.parseInt(atributos[3]), atributos[4], Double.parseDouble(atributos[5]), atributos[6], atributos[7], Double.parseDouble(atributos[8]));
@@ -412,6 +412,17 @@ public class Vehiculo {
         Vehiculo other = (Vehiculo)o;
         
         return Objects.equals(this.id, other.id);   
+    }
+    
+    public static ArrayList<Vehiculo> linkVehiculo(String nomFile, int id_vendedor){
+        ArrayList<Vehiculo> vehiculos = readFile(nomFile);
+        ArrayList<Vehiculo> vehiculos2 = new ArrayList<>();
+        for(Vehiculo v : vehiculos){
+            if(v.getId_vendedor() == id_vendedor){
+                vehiculos2.add(v);
+            }
+        }
+        return vehiculos2;
     }
         
 }

@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package ec.edu.espol.util;
+import ec.edu.espol.model.Comprador;
+import ec.edu.espol.model.Oferta;
 import ec.edu.espol.model.Usuario;
 import ec.edu.espol.model.Vehiculo;
 import ec.edu.espol.model.Vendedor;
@@ -38,6 +40,16 @@ public class Util {
         while (!Util.validarPlaca(placa)) {
             System.out.println("ERROR! Ingrese una placa valida");
             placa = sc.next();
+        }
+        boolean puerta = false;
+        while(!puerta){
+            if(!Util.validarPlaca(placa)){
+                System.out.println("ERROR! Ingrese una placa valida");
+                placa = sc.next();
+            }
+            else{
+                Vehiculo.readFile()
+            }
         }
         
         return placa;
@@ -144,9 +156,8 @@ public class Util {
             System.out.println( "Introduzca su clave: " );
             clave = sc.next();
         }while(!Usuario.validarUsuario(correo,clave,"vendedores.txt"));
-        Vendedor vend = (Vendedor)Usuario.recuperarUsuario(correo, "vendedores.txt");
-        vend.ingresarVehiculo(sc, "vehiculos.txt");
-        return vend;
+        Vendedor u = new Vendedor(Usuario.recuperarUsuario(correo, "vendedores.txt"));
+        return u;
     }
 
     
@@ -206,6 +217,29 @@ public class Util {
         opcion = sc.nextInt();
         } while(opcion != 1 && opcion != 2 && opcion != 3 && opcion != 4);
         return opcion;
+    }
+    
+    public static int menuComprador(Scanner sc){
+        int opcion;
+        do{
+        System.out.println("1. Registrar nuevo comprador\n2. Ofertar por un vehiculo\n3. Regresar");
+        opcion = sc.nextInt();
+        } while(opcion != 1 && opcion != 2 && opcion != 3);
+        return opcion;
+    }
+     
+        public static Comprador inicioSesionC(Scanner sc) throws NoSuchAlgorithmException{
+        String correo;
+        String clave;
+
+        do{
+            System.out.println( "Introduzca su correo electrónico: " );
+            correo = sc.next();
+            System.out.println( "Introduzca su clave: " );
+            clave = sc.next();
+        }while(!Usuario.validarUsuario(correo,clave,"compradores.txt"));
+        Comprador comp = (Comprador)Usuario.recuperarUsuario(correo, "comprador.txt");
+        return comp;
     }
     
 }

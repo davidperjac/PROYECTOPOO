@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package ec.edu.espol.proyecto_1p;
+import ec.edu.espol.model.Comprador;
 import ec.edu.espol.model.Usuario;
 import ec.edu.espol.model.Vendedor;
 import ec.edu.espol.util.Util;
@@ -51,7 +52,7 @@ public class Main {
                 }else if(opcionVend == 3) {
                     
                     Vendedor u = Util.inicioSesionV(sc);
-                    //aceptaroferta
+                    u.aceptarOferta(sc);
                     
                 }else if(opcionVend == 4){
                     salida2 = true;
@@ -59,6 +60,17 @@ public class Main {
             }
         
         }else if(opPrincipal == 2) {
+            boolean salida3 = false;
+            while(!salida3){
+                int opComp = Util.menuVendedor(sc);
+                if(opComp == 1){
+                    Usuario.nextUsuario(sc, "compradores.txt");
+                } else if(opComp == 2){
+                    Comprador c = Util.inicioSesionC(sc);
+                    c.ofertarVehiculo()
+                } else if(opComp == 3)
+                    salida3 = true;
+            }
         
             
         }else if(opPrincipal ==3) {

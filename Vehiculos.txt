@@ -1,2 +1,2 @@
-sdfsd|fsdf|sdfd|dfdsf|34543|456456.0|dfgdfg|SUPER|435345.0
-hola|sdfsdf|dfgdfg|fghfgh|56456|76576.0|gfhfgh|SUPER|565.0
+1|MOTO|2|GPI-3344|Toyota|8v|0|Fortuner|2000.0|azul|SUPER|38000.0
+2|MOTO|2|GPI-3344|gg|oo|2019|gg|200000.0|azul|SUPER|909099.0

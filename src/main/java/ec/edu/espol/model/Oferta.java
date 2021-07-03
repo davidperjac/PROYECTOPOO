@@ -131,4 +131,9 @@ public class Oferta {
             o.setVehiculo(v);
         }
     }
+    
+    
+    public static void borrarOferta(){
+        
+    }
 }
