@@ -22,12 +22,14 @@ public class Oferta {
     private double precio_ofertado;
     private Vehiculo vehiculo;
     private Comprador comprador;
+    private String correo_comprador;
 
-    public Oferta(int id, int id_Comprador, int id_Vehiculo, double precio_ofertado) {
+    public Oferta(int id, int id_Comprador, int id_Vehiculo, double precio_ofertado, String correo_comprador) {
         this.id = id;
         this.id_Comprador = id_Comprador;
         this.id_Vehiculo = id_Vehiculo;
         this.precio_ofertado = precio_ofertado;
+        this.correo_comprador = correo_comprador;
     }
 
     public int getId() {
@@ -54,6 +56,10 @@ public class Oferta {
         return comprador;
     }
 
+    public String getCorreo_comprador() {
+        return correo_comprador;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -78,16 +84,20 @@ public class Oferta {
         this.comprador = comprador;
     }
 
+    public void setCorreo_comprador(String correo_comprador) {
+        this.correo_comprador = correo_comprador;
+    }
+
     @Override
     public String toString() {
-        return "Oferta{" + "id=" + id + ", id_Comprador=" + id_Comprador + ", id_Vehiculo=" + id_Vehiculo + ", precio_ofertado=" + precio_ofertado + ", vehiculo=" + vehiculo + ", comprador=" + comprador + '}';
+        return "Oferta{" + "id=" + id + ", id_Comprador=" + id_Comprador + ", id_Vehiculo=" + id_Vehiculo + ", precio_ofertado=" + precio_ofertado + ", vehiculo=" + vehiculo + ", comprador=" + comprador + ", correo_comprador" + correo_comprador + '}';
     }
     
     public  void saveFileOfertas() {
         
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File("Ofertas.txt")),true) ) {
             
-            pw.println (this.id+"|"+this.id_Comprador+"|"+this.id_Vehiculo+"|"+this.precio_ofertado);
+            pw.println (this.id+"|"+this.id_Comprador+"|"+this.id_Vehiculo+"|"+this.precio_ofertado + "|" + this.correo_comprador);
 
             
         }catch (Exception e){
@@ -102,7 +112,7 @@ public class Oferta {
             while(sc.hasNextLine()){
             String linea = sc.nextLine();
             String [] tokens = linea.split("\\|");
-            Oferta o = new Oferta(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), Double.parseDouble(tokens[3]));
+            Oferta o = new Oferta(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), Double.parseDouble(tokens[3]), tokens[4]);
             ofertas.add(o);
             }  
         }catch(Exception e) {

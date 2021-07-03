@@ -263,8 +263,8 @@ public class Vehiculo {
                         i -= 1;
                 }
                 else if(opcion == 3)
-                    //this.vendedor.aceptarOferta(i);
-                    this.ofertas.remove(i);
+                    // this.vendedor.aceptarOferta(i);
+                    // this.ofertas.remove(i);
                     opcion = 4;
             }
         }
