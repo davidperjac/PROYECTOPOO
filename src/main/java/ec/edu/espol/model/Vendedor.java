@@ -25,6 +25,11 @@ public class Vendedor extends Usuario{
         this.vehiculos = new ArrayList<Vehiculo>();
     }
     
+    public Vendedor(Usuario u){
+        super(u.getId(), u.getCorreo(), u.getClave(), u.getNombres(),u.getApellidos(),u.getOrganizacion());
+        this.vehiculos = new ArrayList<Vehiculo>();   
+    }
+    
     //Getters y setters
 
     public ArrayList<Vehiculo> getVehiculos() {
@@ -61,12 +66,13 @@ public class Vendedor extends Usuario{
         System.out.println("Ingrese la placa del vehiculo");
         String placa = Util.recuperarPlaca(sc.next(), sc);
         
-        //busca en base de datos //funcion
-        for (Vehiculo v : vehiculos) {
-            if (v.getPlaca() == placa) {
+        this.vehiculos = Vehiculo.linkVehiculo("vehiculos.txt", this.id);
+        for (Vehiculo v : this.vehiculos) {
+            if (v.getPlaca().equals(placa)) {
                 //funcion fernando
                 v.verOfertas(sc);
                 //borrar en base de datos
+                // mandar email
             }
         }
         
