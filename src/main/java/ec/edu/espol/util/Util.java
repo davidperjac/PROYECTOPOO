@@ -48,7 +48,7 @@ public class Util {
                 placa = sc.next();
             }
             else{
-                Vehiculo.readFile()
+                // Vehiculo.readFile()
             }
         }
         
@@ -137,30 +137,8 @@ public class Util {
         }        
     }
     */
-    
-    
- 
-    
-                                  
-    
 
     //extras
-    
-    public static Vendedor inicioSesionV(Scanner sc) throws NoSuchAlgorithmException{
-        String correo;
-        String clave;
-
-        do{
-            System.out.println( "Introduzca su correo electrónico: " );
-            correo = sc.next();
-            System.out.println( "Introduzca su clave: " );
-            clave = sc.next();
-        }while(!Usuario.validarUsuario(correo,clave,"vendedores.txt"));
-        Vendedor u = new Vendedor(Usuario.recuperarUsuario(correo, "vendedores.txt"));
-        return u;
-    }
-
-    
     
     public static int nextID(String nomfile) {
         int id = 0;
@@ -210,6 +188,7 @@ public class Util {
         return placa + "," + marca + "," + motor + "," + anio + "," + modelo + "," + recorrido + "," + color + "," + combustible + "," + precio;
     }
     
+    // Editar
     public static int menuVendedor(Scanner sc){
         int opcion;
         do{
@@ -219,6 +198,7 @@ public class Util {
         return opcion;
     }
     
+    // Editar
     public static int menuComprador(Scanner sc){
         int opcion;
         do{
@@ -228,7 +208,7 @@ public class Util {
         return opcion;
     }
      
-        public static Comprador inicioSesionC(Scanner sc) throws NoSuchAlgorithmException{
+    public static Comprador inicioSesionC(Scanner sc) throws NoSuchAlgorithmException{
         String correo;
         String clave;
 
@@ -240,6 +220,47 @@ public class Util {
         }while(!Usuario.validarUsuario(correo,clave,"compradores.txt"));
         Comprador comp = (Comprador)Usuario.recuperarUsuario(correo, "comprador.txt");
         return comp;
+    }
+    
+    public static Vendedor inicioSesionV(Scanner sc) throws NoSuchAlgorithmException{
+        String correo;
+        String clave;
+
+        do{
+            System.out.println( "Introduzca su correo electrónico: " );
+            correo = sc.next();
+            System.out.println( "Introduzca su clave: " );
+            clave = sc.next();
+        }while(!Usuario.validarUsuario(correo,clave,"vendedores.txt"));
+        Vendedor u = new Vendedor(Usuario.recuperarUsuario(correo, "vendedores.txt"));
+        return u;
+    }
+    
+    public static void removerLinea(String nomFile, int id, int num){
+        File oldFile = new File(nomFile);
+        File newFile = new File("temp.txt");
+        try{
+            PrintWriter pw = new PrintWriter(new FileOutputStream("temp.txt"), true);
+            Scanner sc = new Scanner(nomFile); 
+            while(sc.hasNextLine()){
+                String line = sc.nextLine();
+                String[] tokens = line.split("\\|");
+                if(Integer.parseInt(tokens[num]) != id){
+                    pw.println(String.join("|", tokens));
+                }
+            }
+            oldFile.delete();
+            File dump = new File(nomFile);
+            newFile.renameTo(dump);
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public static void actualizar(ArrayList<Vendedor> vendedores, ArrayList<Comprador> compradores, ArrayList<Oferta> ofertas, ArrayList<Vehiculo> vehiculos ){
+        Oferta.link(compradores, vehiculos, ofertas);
+        Vehiculo.link(vehiculos, vendedores);
     }
     
 }

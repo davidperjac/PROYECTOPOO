@@ -22,15 +22,13 @@ public class Vendedor extends Usuario{
     
     public Vendedor ( int id,String correo, String clave, String nombres, String apellidos, String organizacion) {
         super(id,correo,clave,nombres,apellidos,organizacion);
-        this.vehiculos = new ArrayList<Vehiculo>();
+        this.vehiculos = new ArrayList<>();
     }
     
     public Vendedor(Usuario u){
         super(u.getId(), u.getCorreo(), u.getClave(), u.getNombres(),u.getApellidos(),u.getOrganizacion());
-        this.vehiculos = new ArrayList<Vehiculo>();   
+        this.vehiculos = new ArrayList<>();   
     }
-    
-    //Getters y setters
 
     public ArrayList<Vehiculo> getVehiculos() {
         return vehiculos;
@@ -39,10 +37,7 @@ public class Vendedor extends Usuario{
     public void setVehiculos(ArrayList<Vehiculo> vehiculos) {
         this.vehiculos = vehiculos;
     }
-    
-    //metodos
-    
-    
+
     public void ingresarVehiculo(Scanner sc,String nomfile) {
         
         System.out.println("Ingrese el tipo de Vehiculo");
@@ -53,15 +48,15 @@ public class Vendedor extends Usuario{
             tipo = sc.next().toUpperCase();   
         }
         
-        Vehiculo.nextVehiculo(sc, nomfile, tipo);
+        Vehiculo.nextVehiculo(sc, nomfile, tipo, this.id);
         
         System.out.println("Su vehiculo se ha ingresado al sistema exitosamente");
         
     }
     
 
-    
-    public String aceptarOferta (Scanner sc) {
+    // Main fernando : recibe una lista de vehiculos del main y compara la placa de esa lista
+    public void verOfertas (Scanner sc) {
         
         System.out.println("Ingrese la placa del vehiculo");
         String placa = Util.recuperarPlaca(sc.next(), sc);
@@ -69,17 +64,19 @@ public class Vendedor extends Usuario{
         this.vehiculos = Vehiculo.linkVehiculo("vehiculos.txt", this.id);
         for (Vehiculo v : this.vehiculos) {
             if (v.getPlaca().equals(placa)) {
-                //funcion fernando
-                v.verOfertas(sc);
-                //borrar en base de datos
-                // mandar email
+                if(v.verOfertas(sc)){
+                    //borrar en base de datos
+                    v.borrarVehiculo();
+                    // funcion de mandar email
+                }
             }
         }
         
+        /*
         System.out.println(carroEscogido.getNombre()+"Precio:"+carroEscogido.getPrecio());
         System.out.println("Se han realizado "+ofertas.size()+" ofertas");
         
-        /*
+        
         boolean aceptar = false ; 
         while (aceptar == false) {
             int numeroOferta = 1 ; 
@@ -134,9 +131,16 @@ public class Vendedor extends Usuario{
                 }
             }
         }
-        */
-
-        return "Se ha aceptado la oferta exitosamente !";   
+        */   
+    }
+    
+    public static Vendedor searchByID(ArrayList<Vendedor> vendedores, int id){
+        for(Vendedor v : vendedores){
+            if(v.getId() == id){
+                return v;
+            }
+        }
+        return null;
     }
     
 }

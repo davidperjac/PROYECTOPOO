@@ -87,11 +87,6 @@ public class Oferta {
     public void setCorreo_comprador(String correo_comprador) {
         this.correo_comprador = correo_comprador;
     }
-
-    @Override
-    public String toString() {
-        return "Oferta{" + "id=" + id + ", id_Comprador=" + id_Comprador + ", id_Vehiculo=" + id_Vehiculo + ", precio_ofertado=" + precio_ofertado + ", vehiculo=" + vehiculo + ", comprador=" + comprador + ", correo_comprador" + correo_comprador + '}';
-    }
     
     public  void saveFileOfertas() {
         
@@ -132,8 +127,9 @@ public class Oferta {
         }
     }
     
-    
-    public static void borrarOferta(){
-        
+    @Override
+    public String toString() {
+        return "Oferta{" + "id=" + id + ", id_Comprador=" + id_Comprador + ", id_Vehiculo=" + id_Vehiculo + ", precio_ofertado=" + precio_ofertado + ", vehiculo=" + vehiculo + ", comprador=" + comprador + ", correo_comprador" + correo_comprador + '}';
     }
+    
 }
