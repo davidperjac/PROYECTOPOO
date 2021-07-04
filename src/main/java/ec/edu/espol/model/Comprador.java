@@ -18,6 +18,23 @@ public class Comprador extends Usuario{
         super(id,correo, clave, nombres, apellidos, organizacion);
         this.ofertas = new ArrayList<>();
     }
+
+    public ArrayList<Oferta> getOfertas() {
+        return ofertas;
+    }
+
+    public void setOfertas(ArrayList<Oferta> ofertas) {
+        this.ofertas = ofertas;
+    }
+    
+    public static Comprador searchByID(ArrayList<Comprador> compradores, int id){
+        for(Comprador c : compradores){
+            if(c.getId() == id){
+                return c;
+            }
+        }
+        return null;
+    }
     
     
 }

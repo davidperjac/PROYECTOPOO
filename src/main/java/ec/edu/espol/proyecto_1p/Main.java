@@ -52,7 +52,7 @@ public class Main {
                 }else if(opcionVend == 3) {
                     
                     Vendedor u = Util.inicioSesionV(sc);
-                    u.aceptarOferta(sc);
+                    u.verOfertas(sc);
                     
                 }else if(opcionVend == 4){
                     salida2 = true;
@@ -67,7 +67,7 @@ public class Main {
                     Usuario.nextUsuario(sc, "compradores.txt");
                 } else if(opComp == 2){
                     Comprador c = Util.inicioSesionC(sc);
-                    c.ofertarVehiculo()
+                    // c.ofertarVehiculo()
                 } else if(opComp == 3)
                     salida3 = true;
             }

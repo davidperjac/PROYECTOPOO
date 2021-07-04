@@ -241,13 +241,13 @@ public class Vehiculo {
     Puede salir 
     */
     
-    public void verOfertas(Scanner sc){
+    public boolean verOfertas(Scanner sc){
         if(!this.ofertas.isEmpty()){
             System.out.println("Se han realizado: " + this.ofertas.size());
             int i = 0;
             int opcion = 0;
             while(opcion != 4){
-                System.out.println("Oferta " + (i+1) + "\n" + ofertas.get(i));
+                System.out.println("Oferta " + (i+1) + "\n" + this.ofertas.get(i));
                 System.out.println("1 : siguiente oferta\n2: anterior oferta\n3 : aceptar oferta\n4 : salir");
                 opcion = sc.nextInt();
                 if(opcion == 1){
@@ -262,14 +262,16 @@ public class Vehiculo {
                     else
                         i -= 1;
                 }
-                else if(opcion == 3)
-                    this.vendedor.aceptarOferta(i);
-                    this.ofertas.remove(i);
-                    opcion = 4;
+                else if(opcion == 3){
+                    Util.removerLinea("ofertas.txt", this.ofertas.get(i).getId_Vehiculo(), 2);
+                    return true;
+                }
             }
         }
-        else
-            System.out.println("No hay ofertas para este vehiculo");       
+        else{
+            System.out.println("No hay ofertas para este vehiculo");
+        }
+        return false;
     }
     
     public void removerOferta(int i){
@@ -327,23 +329,23 @@ public class Vehiculo {
         }
     }
     
-    public static void nextVehiculo(Scanner sc, String nomfile, String tipo) {
+    public static void nextVehiculo(Scanner sc, String nomfile, String tipo, int id_vendedor) {
         if(tipo.equals("CARRO")){
             String[] atributos = validarCarro(sc).split(",");
             int id = Util.nextID(nomfile);
-            Vehiculo vehiculo = new Vehiculo(id, tipo, 2, atributos[0], atributos[1], atributos[2], Integer.parseInt(atributos[3]), atributos[4], Double.parseDouble(atributos[5]), atributos[6], atributos[7], Double.parseDouble(atributos[8]), atributos[9], atributos[10]);
+            Vehiculo vehiculo = new Vehiculo(id, tipo, id_vendedor, atributos[0], atributos[1], atributos[2], Integer.parseInt(atributos[3]), atributos[4], Double.parseDouble(atributos[5]), atributos[6], atributos[7], Double.parseDouble(atributos[8]), atributos[9], atributos[10]);
             vehiculo.saveFile(nomfile);  
         }
         else if(tipo.equals("CAMIONETA")){
             String[] atributos = validarCarro(sc).split(",");
             int id = Util.nextID(nomfile);
-            Vehiculo vehiculo = new Vehiculo(id, tipo, 2, atributos[0], atributos[1], atributos[2], Integer.parseInt(atributos[3]), atributos[4], Double.parseDouble(atributos[5]), atributos[6], atributos[7], Double.parseDouble(atributos[8]), atributos[9], atributos[10], atributos[11]);
+            Vehiculo vehiculo = new Vehiculo(id, tipo, id_vendedor, atributos[0], atributos[1], atributos[2], Integer.parseInt(atributos[3]), atributos[4], Double.parseDouble(atributos[5]), atributos[6], atributos[7], Double.parseDouble(atributos[8]), atributos[9], atributos[10], atributos[11]);
             vehiculo.saveFile(nomfile);  
         }
         else if(tipo.equals("MOTO")){
             String[] atributos = validarCarro(sc).split(",");
             int id = Util.nextID(nomfile);
-            Vehiculo vehiculo = new Vehiculo(id, tipo, 2, atributos[0], atributos[1], atributos[2], Integer.parseInt(atributos[3]), atributos[4], Double.parseDouble(atributos[5]), atributos[6], atributos[7], Double.parseDouble(atributos[8]));
+            Vehiculo vehiculo = new Vehiculo(id, tipo, id_vendedor, atributos[0], atributos[1], atributos[2], Integer.parseInt(atributos[3]), atributos[4], Double.parseDouble(atributos[5]), atributos[6], atributos[7], Double.parseDouble(atributos[8]));
             vehiculo.saveFile(nomfile);  
         }  
     }
@@ -387,13 +389,31 @@ public class Vehiculo {
         }
         return null;
     }
-    
-    //borrar vehiculo
-    
-    public static void borrarVehiculo(int id) {
-        
+
+    // Borra el vehiculo de la base de datos
+    public void borrarVehiculo(){
+        Util.removerLinea("vehiculos.txt", this.id,0);
     }
     
+    public static ArrayList<Vehiculo> linkVehiculo(String nomFile, int id_vendedor){
+        ArrayList<Vehiculo> vehiculos = readFile(nomFile);
+        ArrayList<Vehiculo> vehiculos2 = new ArrayList<>();
+        for(Vehiculo v : vehiculos){
+            if(v.getId_vendedor() == id_vendedor){
+                vehiculos2.add(v);
+            }
+        }
+        return vehiculos2;
+    }
+    
+    public static void link(ArrayList<Vehiculo> vehiculos, ArrayList<Vendedor> vendedores){
+        for(Vehiculo v : vehiculos){
+            Vendedor vend = Vendedor.searchByID(vendedores, v.getId_vendedor());
+            v.setVendedor(vend);
+            vend.getVehiculos().add(v);
+            
+        }
+    }
     
     @Override
     public String toString() {
@@ -412,17 +432,6 @@ public class Vehiculo {
         Vehiculo other = (Vehiculo)o;
         
         return Objects.equals(this.id, other.id);   
-    }
-    
-    public static ArrayList<Vehiculo> linkVehiculo(String nomFile, int id_vendedor){
-        ArrayList<Vehiculo> vehiculos = readFile(nomFile);
-        ArrayList<Vehiculo> vehiculos2 = new ArrayList<>();
-        for(Vehiculo v : vehiculos){
-            if(v.getId_vendedor() == id_vendedor){
-                vehiculos2.add(v);
-            }
-        }
-        return vehiculos2;
     }
         
 }
