@@ -88,9 +88,9 @@ public class Oferta {
         this.correo_comprador = correo_comprador;
     }
     
-    public  void saveFileOfertas() {
+    public void saveFile(String nomfile) {
         
-        try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File("Ofertas.txt")),true) ) {
+        try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File(nomfile)),true) ) {
             
             pw.println (this.id+"|"+this.id_Comprador+"|"+this.id_Vehiculo+"|"+this.precio_ofertado + "|" + this.correo_comprador);
 
@@ -131,5 +131,4 @@ public class Oferta {
     public String toString() {
         return "Oferta{" + "id=" + id + ", id_Comprador=" + id_Comprador + ", id_Vehiculo=" + id_Vehiculo + ", precio_ofertado=" + precio_ofertado + ", vehiculo=" + vehiculo + ", comprador=" + comprador + ", correo_comprador" + correo_comprador + '}';
     }
-    
 }

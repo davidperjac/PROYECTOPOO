@@ -5,6 +5,7 @@
  */
 package ec.edu.espol.model;
 
+import ec.edu.espol.util.Util;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
@@ -43,7 +44,7 @@ public class Comprador extends Usuario{
         return null;
     }
     
-    public static ArrayList<Vehiculo> datosBusquedaVehiculo(Scanner sc, ArrayList<Vehiculo> vehiculos){
+    public static ArrayList<Vehiculo> busquedaVehiculo(Scanner sc, ArrayList<Vehiculo> vehiculos){
         String tipo;
         double rmin, rmax, pmin, pmax;
         int amin, amax;
@@ -159,6 +160,72 @@ public class Comprador extends Usuario{
         return filtroVehiculos;
     }
     
+    public static Vehiculo elegirVehiculo(Scanner sc, ArrayList<Vehiculo> vehiculos){
+        if(!vehiculos.isEmpty()){
+            System.out.println("Se han encontrado " + vehiculos.size()+ " vehículos que cumplen con estos parámetros.");
+            int i = 0;
+            int opcion = 0;
+            while(opcion !=4){
+                System.out.println("Vehículo " + (i+1) + "\n" + vehiculos.get(i));
+                do{
+                    System.out.println("1. Siguiente vehículo");
+                    System.out.println("2. Vehículo anterior");
+                    System.out.println("3. Poner una oferta");
+                    System.out.println("4. Cancelar");
+                    opcion = sc.nextInt();
+                }
+                while(opcion != 1 && opcion != 2 && opcion !=3 && opcion != 4);
+                if(opcion == 1){
+                    if(i == (vehiculos.size() - 1))
+                        i = 0;
+                    else
+                        i += 1;       
+                }
+                else if(opcion == 2){
+                    if(i == 0)
+                        i = vehiculos.size() - 1;
+                    else
+                        i -= 1;
+                }
+                else if(opcion == 3){
+                    return vehiculos.get(i);
+                }
+            }
+        }
+        else
+            System.out.println("No hay vehículos dentro de estos parámetros.");
+        return null;
+    }
     
+    public boolean ponerOferta(Vehiculo v, String nomfile, Scanner sc){
+        sc.useDelimiter("\n");
+        System.out.println("NUEVA OFERTA");
+        System.out.println("---------------------------------");
+        System.out.println("Vehículo a ofertar:\n"+ v);
+        System.out.println("---------------------------------");
+        System.out.println("Ingrese su oferta: ");
+        Double oferta = sc.nextDouble();
+        while(oferta<=0){
+            System.out.println("Ingrese una oferta válida.");
+            oferta = sc.nextDouble();
+        }
+        System.out.println("---------------------------------");
+        int opcion;
+        do{
+            System.out.println("Confirmar una oferta de $" + oferta);
+            System.out.println("1. Confirmar");
+            System.out.println("2. Cancelar");
+            opcion = sc.nextInt();
+        }
+        while(opcion != 1 && opcion != 2);
+        if (opcion ==1){
+            int id_o = Util.nextID(nomfile);
+            Oferta o = new Oferta(id_o, this.id, v.getId(), oferta, this.correo);
+            o.saveFile(nomfile);
+            System.out.println("La oferta ha sido puesta exitosamente");
+            return true;
+        }
+        return false;
+    }
     
 }
