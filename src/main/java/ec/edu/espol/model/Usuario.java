@@ -6,8 +6,6 @@
 package ec.edu.espol.model;
 
 import ec.edu.espol.util.GFG;
-import static ec.edu.espol.util.GFG.getSHA;
-import static ec.edu.espol.util.GFG.toHexString;
 import ec.edu.espol.util.Util;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -136,13 +134,18 @@ public class Usuario {
         System.out.println("REGISTRAR UN NUEVO USUARIO");
         System.out.println( "Introduzca su correo electrónico: " );
         String correo = sc.next();
-        while(!validarCorreo(correo)){
-            System.out.println("Por favor ingrese un correo válido.");
-            correo = sc.next();
-        }
-        while(correoExistente(correo, nomfile)){
-            System.out.println("El correo que ingresó ya posee una cuenta, por favor ingrese otro correo si desea continuar.");
-            correo = sc.next();
+        boolean puerta = true;
+        while (puerta){
+            if (!validarCorreo(correo)){
+                System.out.println("Por favor ingrese un correo válido.");
+                correo = sc.next();
+            }
+            else if (correoExistente(correo, nomfile)){
+                System.out.println("El correo que ingresó ya posee una cuenta, por favor ingrese otro correo si desea continuar.");
+                correo = sc.next();
+            }
+            else
+                puerta = false;
         }
         System.out.println( "Introduzca una clave: " );
         String clave = sc.next();

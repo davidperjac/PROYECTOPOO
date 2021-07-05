@@ -433,5 +433,40 @@ public class Vehiculo {
         
         return Objects.equals(this.id, other.id);   
     }
-        
+    
+    public static ArrayList<Vehiculo> searchByTipo(String tipo, ArrayList<Vehiculo> vehiculos){
+        ArrayList<Vehiculo> byTipo = new ArrayList<>();
+        for(Vehiculo v : vehiculos){
+            if(tipo.equals(v.getTipo()))
+                byTipo.add(v);
+        }
+        return byTipo;
+    }
+    
+    public static ArrayList<Vehiculo> searchByRecorrido(double rmin, double rmax, ArrayList<Vehiculo> vehiculos){
+        ArrayList<Vehiculo> byRecorrido = new ArrayList<>();
+        for(Vehiculo v : vehiculos){
+            if(v.recorrido >= rmin && v.recorrido <= rmax)
+                byRecorrido.add(v);
+        }
+        return byRecorrido;
+    }
+    
+    public static ArrayList<Vehiculo> searchByPrecio(double pmin, double pmax, ArrayList<Vehiculo> vehiculos){
+        ArrayList<Vehiculo> byPrecio = new ArrayList<>();
+        for(Vehiculo v : vehiculos){
+            if(v.precio >= pmin && v.precio <= pmax)
+                byPrecio.add(v);
+        }
+        return byPrecio;
+    }
+    
+    public static ArrayList<Vehiculo> searchByAnio(int amin, int amax, ArrayList<Vehiculo> vehiculos){
+        ArrayList<Vehiculo> byAnio = new ArrayList<>();
+        for(Vehiculo v : vehiculos){
+            if(v.anio >= amin && v.anio <= amax)
+                byAnio.add(v);
+        }
+        return byAnio;
+    }
 }
