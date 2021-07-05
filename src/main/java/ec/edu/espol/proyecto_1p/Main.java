@@ -46,13 +46,15 @@ public class Main {
                     Usuario.nextUsuario(sc, "vendedores.txt");
                 }else if(opcionVend == 2) {
  
-                    Vendedor u = Util.inicioSesionV(sc);
-                    u.ingresarVehiculo(sc, "vehiculos.txt");
+                    Vendedor v = Util.inicioSesionV(sc);
+                    v.ingresarVehiculo(sc, "vehiculos.txt");
                     
                 }else if(opcionVend == 3) {
                     
-                    Vendedor u = Util.inicioSesionV(sc);
-                    u.verOfertas(sc);
+                    Vendedor v = Util.inicioSesionV(sc);
+                    v.verOfertas(sc);
+                    //mandar correo
+                    //v.enviarCorreo(destinatario, v.getCorreo(), v.getClave());
                     
                 }else if(opcionVend == 4){
                     salida2 = true;

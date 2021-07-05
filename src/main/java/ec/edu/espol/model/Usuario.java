@@ -29,6 +29,7 @@ public class Usuario {
     protected String apellidos;
     protected String organizacion;
     
+    //constructor
     
     public Usuario(int id, String correo, String clave, String nombres, String apellidos, String organizacion){
         this.id = id;
@@ -38,6 +39,8 @@ public class Usuario {
         this.apellidos = apellidos;
         this.organizacion = organizacion;
     }
+    
+    //getters y setters
 
     public int getId() {
         return id;
@@ -87,25 +90,9 @@ public class Usuario {
         this.organizacion = organizacion;
     }
     
-    @Override
-    public boolean equals(Object o){
-        if (o == null)
-            return false;
-        if (o == this)
-            return true;
-        if (this.getClass() != o.getClass())
-            return false;
-        Usuario other = (Usuario) o;
-        return (this.id == other.id);
-    }
     
-    @Override
-    public String toString(){
-        String s = "USUARIO\nNombres: " +this.nombres + "\nApellidos: " + this.apellidos+ "\nCorreo Electrónico: " + this.correo + "\nOrganización " + this.organizacion+ "\nID de usuario: " + this.id+ "";
-        return s;
-    }
+    // funciones recuperadoras
     
-    // crea lista de correos
     public static ArrayList<String> recuperarCorreos(String nomfile){
         ArrayList<String> correos = new ArrayList<>();
         try (Scanner sc = new Scanner(new File(nomfile))){
@@ -123,11 +110,33 @@ public class Usuario {
         return correos;
     }
     
-    //valida que el correo sea unico
-    public static boolean correoExistente(String correo,String nomfile){
-        ArrayList<String> correos = recuperarCorreos(nomfile);
-        return correos.contains(correo);
+    public static Usuario recuperarUsuario(String correo, String nomfile){
+        ArrayList<Usuario> usuarios = Usuario.recuperarUsuarios(nomfile);
+        for (Usuario u: usuarios){
+            if (correo.equals(u.getCorreo()))
+                return u;
+        }
+        return null;
     }
+    
+    public static ArrayList<Usuario> recuperarUsuarios (String nomfile){
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        try (Scanner sc = new Scanner(new File(nomfile))) {
+             while(sc.hasNextLine()){
+                // linea = id|correo|clave|nombres|apellidos|organizacion
+                String linea = sc.nextLine();
+                String[] tokens = linea.split("\\|");
+                Usuario u = new Usuario(Integer.parseInt(tokens[0]), tokens[1], tokens [2], tokens[3], tokens[4], tokens[5]);
+                usuarios.add(u);
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return usuarios;
+    }
+    
+    //comportamientos problema
+
     
     public static void nextUsuario(Scanner sc, String nomfile) throws NoSuchAlgorithmException{
         sc.useDelimiter("\n");
@@ -163,33 +172,7 @@ public class Usuario {
     }
     
     
-    public static Usuario recuperarUsuario(String correo, String nomfile){
-        ArrayList<Usuario> usuarios = Usuario.recuperarUsuarios(nomfile);
-        for (Usuario u: usuarios){
-            if (correo.equals(u.getCorreo()))
-                return u;
-        }
-        return null;
-    }
-    
-    
-    //comportamientos extras
-    
-    public static ArrayList<Usuario> recuperarUsuarios (String nomfile){
-        ArrayList<Usuario> usuarios = new ArrayList<>();
-        try (Scanner sc = new Scanner(new File(nomfile))) {
-             while(sc.hasNextLine()){
-                // linea = id|correo|clave|nombres|apellidos|organizacion
-                String linea = sc.nextLine();
-                String[] tokens = linea.split("\\|");
-                Usuario u = new Usuario(Integer.parseInt(tokens[0]), tokens[1], tokens [2], tokens[3], tokens[4], tokens[5]);
-                usuarios.add(u);
-            }
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-        return usuarios;
-    }
+    //funcion de file
     
     public void saveFile(String nomfile){
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File(nomfile),true))) {
@@ -201,6 +184,8 @@ public class Usuario {
         }
         
     }   
+    
+    //funciones de validacion
     
     public static boolean validarUsuario(String correo, String clave,String nomfile) throws NoSuchAlgorithmException{
         String hashclave = GFG.toHexString(GFG.getSHA(clave));
@@ -217,5 +202,30 @@ public class Usuario {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(correo);
         return matcher.matches();
+    }
+    
+    //valida que el correo sea unico
+    public static boolean correoExistente(String correo,String nomfile){
+        ArrayList<String> correos = recuperarCorreos(nomfile);
+        return correos.contains(correo);
+    }
+    
+    //sobreescrituras
+    @Override
+    public boolean equals(Object o){
+        if (o == null)
+            return false;
+        if (o == this)
+            return true;
+        if (this.getClass() != o.getClass())
+            return false;
+        Usuario other = (Usuario) o;
+        return (this.id == other.id);
+    }
+    
+    @Override
+    public String toString(){
+        String s = "USUARIO\nNombres: " +this.nombres + "\nApellidos: " + this.apellidos+ "\nCorreo Electrónico: " + this.correo + "\nOrganización " + this.organizacion+ "\nID de usuario: " + this.id+ "";
+        return s;
     }
 }

@@ -23,6 +23,8 @@ public class Oferta {
     private Vehiculo vehiculo;
     private Comprador comprador;
     private String correo_comprador;
+    
+    //constructor
 
     public Oferta(int id, int id_Comprador, int id_Vehiculo, double precio_ofertado, String correo_comprador) {
         this.id = id;
@@ -31,6 +33,8 @@ public class Oferta {
         this.precio_ofertado = precio_ofertado;
         this.correo_comprador = correo_comprador;
     }
+    
+    //getters y setters
 
     public int getId() {
         return id;
@@ -88,6 +92,8 @@ public class Oferta {
         this.correo_comprador = correo_comprador;
     }
     
+    //funciones de file
+    
     public void saveFile(String nomfile) {
         
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File(nomfile)),true) ) {
@@ -116,6 +122,8 @@ public class Oferta {
         return ofertas;
     }
     
+    //funciones de link
+    
     public static void link(ArrayList<Comprador> compradores, ArrayList<Vehiculo> vehiculos, ArrayList<Oferta> ofertas) {
         for(Oferta o : ofertas){
             Comprador c = Comprador.searchByID(compradores, o.getId_Comprador());
@@ -126,6 +134,8 @@ public class Oferta {
             o.setVehiculo(v);
         }
     }
+    
+    //sobreescrituras
     
     @Override
     public String toString() {

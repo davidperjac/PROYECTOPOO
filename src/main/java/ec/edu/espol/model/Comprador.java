@@ -17,6 +17,8 @@ import java.util.Scanner;
 public class Comprador extends Usuario{
     private ArrayList<Oferta> ofertas;
     
+    //constructores
+    
     public Comprador(int id,String correo, String clave, String nombres, String apellidos, String organizacion){
         super(id,correo, clave, nombres, apellidos, organizacion);
         this.ofertas = new ArrayList<>();
@@ -26,6 +28,8 @@ public class Comprador extends Usuario{
         super(u.getId(), u.getCorreo(), u.getClave(), u.getNombres(),u.getApellidos(),u.getOrganizacion());
         this.ofertas = new ArrayList<>();   
     }
+    
+    //getters y setters
 
     public ArrayList<Oferta> getOfertas() {
         return ofertas;
@@ -35,14 +39,8 @@ public class Comprador extends Usuario{
         this.ofertas = ofertas;
     }
     
-    public static Comprador searchByID(ArrayList<Comprador> compradores, int id){
-        for(Comprador c : compradores){
-            if(c.getId() == id){
-                return c;
-            }
-        }
-        return null;
-    }
+    //comportamientos
+    
     
     public static ArrayList<Vehiculo> busquedaVehiculo(Scanner sc, ArrayList<Vehiculo> vehiculos){
         String tipo;
@@ -226,6 +224,17 @@ public class Comprador extends Usuario{
             return true;
         }
         return false;
+    }
+    
+    //extras
+    
+    public static Comprador searchByID(ArrayList<Comprador> compradores, int id){
+        for(Comprador c : compradores){
+            if(c.getId() == id){
+                return c;
+            }
+        }
+        return null;
     }
     
 }
