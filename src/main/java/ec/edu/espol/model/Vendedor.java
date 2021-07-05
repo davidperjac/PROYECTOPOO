@@ -74,13 +74,13 @@ public class Vendedor extends Usuario{
         this.vehiculos = Vehiculo.linkVehiculo("vehiculos.txt", this.id);
         for (Vehiculo v : this.vehiculos) {
             if (v.getPlaca().equals(placa)) {
-                if(v.menuOfertas(sc)){
+                Oferta o = v.menuOfertas(sc);
+                if(o != null){
                     //borrar en base de datos
                     v.borrarVehiculo();
                     //carroEscogido = v;
-                    // funcion de mandar email
-                    //Vendedor.enviarCorreo(v.getOfertas().get().getCorreo_comprador(), this.correo, this.clave);
-                    
+                    // funcion de mandar email y necesito el correo del comprador.
+                    Vendedor.enviarCorreo(o.getCorreo_comprador());
                 }
             }
         }
@@ -151,7 +151,7 @@ public class Vendedor extends Usuario{
     
     //extras 
     
-    public static void enviarCorreo(String destinatario, String remitente ,String clave ) {
+    public static void enviarCorreo(String destinatario) {
 
         Properties props = new Properties();
         
@@ -160,8 +160,8 @@ public class Vendedor extends Usuario{
         props.put("mail.smtp.starttls.enable", "true"); //Para conectar de manera segura al servidor SMTP
         props.put("mail.smtp.auth", "true");    //Usar autenticación mediante usuario y clave
         
-        props.put("mail.smtp.user", remitente);
-        props.put("mail.smtp.clave", clave);    //La clave de la cuenta
+        props.put("mail.smtp.user", "SISTEMA_SDF@gmail.com");
+        props.put("mail.smtp.clave", "ProyectoPOO");    //La clave de la cuenta
 
 
         Session session = Session.getDefaultInstance(props);
@@ -172,7 +172,7 @@ public class Vendedor extends Usuario{
             message.setSubject("Oferta aceptada");
             message.setText("Un gusto #nombrecomprador te saluda #nombrevendedor. He aceptado tu oferta de #dinero por el vehiculo #modelo con la placa #placa");
             Transport transport = session.getTransport("smtp");
-            transport.connect("smtp.gmail.com", remitente, clave);
+            transport.connect("smtp.gmail.com", "SISTEMA_SDF@gmail.com", "ProyectoPOO");
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
         }
