@@ -245,13 +245,14 @@ public class Vehiculo {
     
     //funciones de oferta
     
-    public boolean menuOfertas(Scanner sc){
+    public Oferta menuOfertas(Scanner sc){
         System.out.println(this.modelo+ " Precio: "+this.precio);
         if(!this.ofertas.isEmpty()){
             System.out.println("Se han realizado: " + this.ofertas.size());
             int i = 0;
-            int opcion = 0;
-            while(opcion != 4){
+            int opcion;
+            boolean salida = false;
+            while(!salida){
 
                 if (i==0) {
                     System.out.println("Oferta " + (i+1) + "\n" + this.ofertas.get(i));
@@ -266,10 +267,10 @@ public class Vehiculo {
                     }   
                     else if(opcion == 2){
                         Util.removerLinea("ofertas.txt", this.ofertas.get(i).getId_Vehiculo(), 2);
-                        opcion = 4;
-                        return true;
+                        salida = true;
+                        return this.ofertas.get(i);
                     }else if (opcion ==3){
-                        opcion = 4;
+                        salida = true;
                     }
                     
                 }else if (i > 0){
@@ -291,18 +292,16 @@ public class Vehiculo {
                     }
                     else if(opcion == 3){
                         Util.removerLinea("ofertas.txt", this.ofertas.get(i).getId_Vehiculo(), 2);
-                        opcion = 4;
-                        return true;
-                    }else if (opcion ==4) {
-                        return true;
+                        salida = true;
+                        return this.ofertas.get(i);
+                    }else if (opcion == 4) {
+                        salida = true;
                     }
                 }
             }
         }
-        else{
-            System.out.println("No hay ofertas para este vehiculo");
-        }
-        return false;
+        System.out.println("No hay ofertas para este vehiculo");
+        return null;
     }
     
     public void removerOferta(int i){
