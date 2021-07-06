@@ -6,9 +6,11 @@
 package ec.edu.espol.proyecto_1p;
 import ec.edu.espol.model.Comprador;
 import ec.edu.espol.model.Usuario;
+import ec.edu.espol.model.Vehiculo;
 import ec.edu.espol.model.Vendedor;
 import ec.edu.espol.util.Util;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -29,7 +31,11 @@ public class Main {
     System.out.println("Bienvenido al programa de venta de vehiculos /PEREZ/DECASTRO/BUCHELI");
     System.out.println("-----------------------------------------");
     boolean salida = false;
+    
     while (!salida) {
+        
+        
+        
         System.out.println("Menu de Opciones");
         System.out.println("1.-Vendedor");
         System.out.println("2.-Comprador");
@@ -54,7 +60,6 @@ public class Main {
                     Vendedor v = Util.inicioSesionV(sc);
                     v.verOfertas(sc);
                     //mandar correo
-                    //v.enviarCorreo(destinatario, v.getCorreo(), v.getClave());
                     
                 }else if(opcionVend == 4){
                     salida2 = true;
@@ -64,12 +69,14 @@ public class Main {
         }else if(opPrincipal == 2) {
             boolean salida3 = false;
             while(!salida3){
-                int opComp = Util.menuVendedor(sc);
+                int opComp = Util.menuComprador(sc);
                 if(opComp == 1){
                     Usuario.nextUsuario(sc, "compradores.txt");
                 } else if(opComp == 2){
                     Comprador c = Util.inicioSesionC(sc);
-                    // c.ofertarVehiculo()
+                    ArrayList<Vehiculo> listaFiltrada = Comprador.busquedaVehiculo(sc, Vehiculo.readFile("vehiculos.txt"));
+                    Vehiculo vehiculoEscogido = Comprador.elegirVehiculo(sc, listaFiltrada);
+                    c.ponerOferta(vehiculoEscogido,"ofertas.txt", sc);
                 } else if(opComp == 3)
                     salida3 = true;
             }

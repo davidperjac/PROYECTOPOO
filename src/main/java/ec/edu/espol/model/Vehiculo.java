@@ -308,8 +308,6 @@ public class Vehiculo {
         this.ofertas.remove(i);
     }
 
-
-    
     /*
     agregarVehiculos(arreglo de strings con atributos de vehiculos, lista de vehiculos)
     Filtra por tipo de Vehiculo, crea una intancia de Vehiculo y lo añade a una lista de Vehiculos
@@ -378,7 +376,7 @@ public class Vehiculo {
     //funciones de file
     
     public void saveFile(String nomfile) {
-        try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File("Vehiculos.txt"),true)) ) {
+        try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File(nomfile),true)) ) {
             String linea = this.id + "|" + this.tipo + "|" + this.id_vendedor + "|" + this.getPlaca()+"|"+this.getMarca()+"|"+this.getMotor()+"|"+this.getAnio()+ "|" +this.getModelo()+ "|"+this.getRecorrido()+"|"+this.getColor()+"|"+this.getCombustible()+"|"+this.getPrecio();
             if(this.getTipo().equals("CARRO")) {
                 pw.println( linea +"|"+this.getVidrios()+"|"+this.getTransmision() );                                        
@@ -403,7 +401,6 @@ public class Vehiculo {
             }   
         }
         catch(Exception e) {
-            System.out.println(e.getMessage());
         }
         return vehiculos;
     }
@@ -433,6 +430,18 @@ public class Vehiculo {
             v.setVendedor(vend);
             vend.getVehiculos().add(v);
             
+        }
+    }
+    
+    public static void linkOfertas(ArrayList<Vehiculo> vehiculos) {
+        ArrayList<Oferta> ofertas = Oferta.readFile("ofertas.txt");
+        for (Vehiculo v : vehiculos){
+            for (Oferta o : ofertas) {
+                if (v.id == o.getId_Vehiculo() ) {
+                    v.getOfertas().add(o);
+                }
+            }
+
         }
     }
     

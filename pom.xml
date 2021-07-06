@@ -27,7 +27,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>Main</mainClass>
+                            <mainClass>ec.edu.espol.proyecto_1p.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

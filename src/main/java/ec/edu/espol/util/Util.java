@@ -47,9 +47,13 @@ public class Util {
                 System.out.println("ERROR! Ingrese una placa valida");
                 placa = sc.next();
             }
-            else{
-                // Vehiculo.readFile()
+            else if (Vehiculo.searchByPlaca(Vehiculo.readFile("vehiculos.txt"), placa) != null ){
+                System.out.println("Este vehiculo ya esta registrado en el sistema! Por favor ingrese de nuevo");
+                placa = sc.next();
+            }else {
+                puerta = true;
             }
+            
         }
         
         return placa;
@@ -146,7 +150,7 @@ public class Util {
             System.out.println( "Introduzca su clave: " );
             clave = sc.next();
         }while(!Usuario.validarUsuario(correo,clave,"compradores.txt"));
-        Comprador comp = (Comprador)Usuario.recuperarUsuario(correo, "comprador.txt");
+        Comprador comp = new Comprador(Usuario.recuperarUsuario(correo, "compradores.txt"));
         return comp;
     }
     

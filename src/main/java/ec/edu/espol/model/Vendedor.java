@@ -67,11 +67,16 @@ public class Vendedor extends Usuario{
     public void verOfertas (Scanner sc) {
         
         System.out.println("Ingrese la placa del vehiculo");
-        String placa = Util.recuperarPlaca(sc.next(), sc);
+        String placa = sc.next();
+        
+        while (!Util.validarPlaca(placa)) {
+            System.out.println("ERROR! Placa incorrecta, ingrese una placa valida");
+            placa = sc.next();
+        }
         
         //Vehiculo carroEscogido = null;
-
         this.vehiculos = Vehiculo.linkVehiculo("vehiculos.txt", this.id);
+        Vehiculo.linkOfertas(vehiculos);
         for (Vehiculo v : this.vehiculos) {
             if (v.getPlaca().equals(placa)) {
                 Oferta o = v.menuOfertas(sc);
@@ -160,7 +165,7 @@ public class Vendedor extends Usuario{
         props.put("mail.smtp.starttls.enable", "true"); //Para conectar de manera segura al servidor SMTP
         props.put("mail.smtp.auth", "true");    //Usar autenticación mediante usuario y clave
         
-        props.put("mail.smtp.user", "SISTEMA_SDF@gmail.com");
+        props.put("mail.smtp.user", "sistema.sdf.poo@gmail.com");
         props.put("mail.smtp.clave", "ProyectoPOO");    //La clave de la cuenta
 
 
@@ -170,9 +175,9 @@ public class Vendedor extends Usuario{
         try {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));   //Se podrían añadir varios de la misma manera
             message.setSubject("Oferta aceptada");
-            message.setText("Un gusto #nombrecomprador te saluda #nombrevendedor. He aceptado tu oferta de #dinero por el vehiculo #modelo con la placa #placa");
+            message.setText("Un gusto #nombrecomprador . Se ha aceptado su oferta de #dinero por el vehiculo #modelo con la placa #placa");
             Transport transport = session.getTransport("smtp");
-            transport.connect("smtp.gmail.com", "SISTEMA_SDF@gmail.com", "ProyectoPOO");
+            transport.connect("smtp.gmail.com", "sistema.sdf.poo@gmail.com", "ProyectoPOO");
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
         }
