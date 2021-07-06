@@ -172,8 +172,8 @@ public class Util {
         File oldFile = new File(nomFile);
         File newFile = new File("temp.txt");
         try{
-            PrintWriter pw = new PrintWriter(new FileOutputStream("temp.txt"), true);
-            Scanner sc = new Scanner(nomFile); 
+            PrintWriter pw = new PrintWriter(new FileOutputStream(newFile), true);
+            Scanner sc = new Scanner(oldFile); 
             while(sc.hasNextLine()){
                 String line = sc.nextLine();
                 String[] tokens = line.split("\\|");
@@ -181,6 +181,9 @@ public class Util {
                     pw.println(String.join("|", tokens));
                 }
             }
+            sc.close();
+            pw.flush();
+            pw.close();
             oldFile.delete();
             File dump = new File(nomFile);
             newFile.renameTo(dump);
