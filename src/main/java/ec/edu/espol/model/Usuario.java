@@ -105,11 +105,11 @@ public class Usuario {
             }
         }
         catch(Exception e){
-            System.out.println(e.getMessage());
+ 
         }
         return correos;
     }
-    
+    //recuperar con correo
     public static Usuario recuperarUsuario(String correo, String nomfile){
         ArrayList<Usuario> usuarios = Usuario.recuperarUsuarios(nomfile);
         for (Usuario u: usuarios){
@@ -183,7 +183,14 @@ public class Usuario {
             System.out.println(e.getMessage());
         }
         
-    }   
+    }
+    
+    /*
+    public void crearArchivos() {
+        File vehiculos = new File();
+        
+    }
+    */
     
     //funciones de validacion
     

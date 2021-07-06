@@ -109,7 +109,7 @@ public class Comprador extends Usuario{
             System.out.println("Año más antiguo de modelo del vehículo: ");
             amin = sc.nextInt();
             while (amin < 1800){
-                System.out.println("Por favor ingrese un año mayor a 1800: ");
+                System.out.println("Por favor ingrese un año mayor a 1856: ");
                 amin = sc.nextInt();
             }
             System.out.println("Año más reciente de modelo del vehículo: ");
@@ -195,7 +195,7 @@ public class Comprador extends Usuario{
         return null;
     }
     
-    public boolean ponerOferta(Vehiculo v, String nomfile, Scanner sc){
+    public void ponerOferta(Vehiculo v, String nomfile, Scanner sc){
         sc.useDelimiter("\n");
         System.out.println("NUEVA OFERTA");
         System.out.println("---------------------------------");
@@ -221,9 +221,10 @@ public class Comprador extends Usuario{
             Oferta o = new Oferta(id_o, this.id, v.getId(), oferta, this.correo);
             o.saveFile(nomfile);
             System.out.println("La oferta ha sido puesta exitosamente");
-            return true;
+        }else {
+            System.out.println("No se ha puesto ninguna oferta");
         }
-        return false;
+       
     }
     
     //extras
