@@ -11,8 +11,7 @@ import ec.edu.espol.model.Vehiculo;
 import ec.edu.espol.util.Util;
 import java.util.Properties;
 import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import javax.mail.internet.*;
 
 /**
  *
@@ -81,11 +80,11 @@ public class Vendedor extends Usuario{
             if (v.getPlaca().equals(placa)) {
                 Oferta o = v.menuOfertas(sc);
                 if(o != null){
+                    // funcion de mandar email y necesito el correo del comprador.
+                    Vendedor.enviarCorreo(o.getCorreo_comprador(),v.getMarca(),v.getModelo(),v.getMotor(),o.getPrecio_ofertado(),v.getPlaca());
                     //borrar en base de datos
                     v.borrarVehiculo();
-                    //carroEscogido = v;
-                    // funcion de mandar email y necesito el correo del comprador.
-                    Vendedor.enviarCorreo(o.getCorreo_comprador());
+
                 }
             }
         }
@@ -156,7 +155,7 @@ public class Vendedor extends Usuario{
     
     //extras 
     
-    public static void enviarCorreo(String destinatario) {
+    public static void enviarCorreo(String destinatario, String marca, String modelo,String motor, double dinero, String placa) {
 
         Properties props = new Properties();
         
@@ -175,7 +174,7 @@ public class Vendedor extends Usuario{
         try {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));   //Se podrían añadir varios de la misma manera
             message.setSubject("Oferta aceptada");
-            message.setText("Un gusto #nombrecomprador . Se ha aceptado su oferta de #dinero por el vehiculo #modelo con la placa #placa");
+            message.setText("Un gusto le saluda el sistema de la app SDF. Se ha aceptado su oferta de "+dinero+" por el vehiculo "+marca+" "+modelo+" "+motor+" con la placa: "+placa);
             Transport transport = session.getTransport("smtp");
             transport.connect("smtp.gmail.com", "sistema.sdf.poo@gmail.com", "ProyectoPOO");
             transport.sendMessage(message, message.getAllRecipients());
@@ -193,6 +192,11 @@ public class Vendedor extends Usuario{
             }
         }
         return null;
+    }
+    //sobreescrituras
+    @Override
+    public String toString(){
+        return " "+super.nombres+"-"+super.apellidos+"-"+super.correo+"-"+super.clave+"-"+super.organizacion;    
     }
     
 }
