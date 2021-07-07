@@ -12,6 +12,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -246,17 +248,17 @@ public class Vehiculo {
     //funciones de oferta
     
     public Oferta menuOfertas(Scanner sc){
-        System.out.println(this.modelo+ " Precio: "+this.precio);
+        System.out.println(this.modelo+ " Precio: "+this.precio+"\n");
         if(!this.ofertas.isEmpty()){
-            System.out.println("Se han realizado: " + this.ofertas.size());
+            System.out.println("Se han realizado: " + this.ofertas.size()+"\n");
             int i = 0;
             int opcion;
             boolean salida = false;
             while(!salida){
 
                 if (i==0) {
-                    System.out.println("Oferta " + (i+1) + "\n" + this.ofertas.get(i));
-                    System.out.println("1 : siguiente oferta\n2 : aceptar oferta\n3 : salir");
+                    System.out.println("Oferta " + (i+1) + "\n" + this.ofertas.get(i)+"\n");
+                    System.out.println("1 : Siguiente Oferta\n2 : Aceptar Oferta\n3 : Salir"+"\n");
                     opcion = sc.nextInt();
                     
                     if(opcion == 1){
@@ -274,8 +276,8 @@ public class Vehiculo {
                     }
                     
                 }else if (i > 0){
-                    System.out.println("Oferta " + (i+1) + "\n" + this.ofertas.get(i));
-                    System.out.println("1 : siguiente oferta\n2: anterior oferta\n3 : aceptar oferta\n4 : salir");
+                    System.out.println("Oferta " + (i+1) + "\n" + this.ofertas.get(i)+"\n");
+                    System.out.println("1 : Siguiente Oferta\n2: Anterior Oferta\n3 : Aceptar Oferta\n4 : Salir"+"\n");
                     opcion = sc.nextInt();
                     
                     if(opcion == 1){
@@ -300,7 +302,7 @@ public class Vehiculo {
                 }
             }
         }
-        System.out.println("No hay ofertas para este vehiculo");
+        System.out.println("No hay ofertas para este vehiculo"+"\n");
         return null;
     }
     
@@ -352,24 +354,64 @@ public class Vehiculo {
         }  
     }
     
+    //validaciones
+    
     public static String validarCarro(Scanner sc){      
-        String atributos = Util.validarAtributos(sc);             
-        System.out.println("Ingrese el tipo de vidrio del vehiculo");
+        String atributos = Vehiculo.validarAtributos(sc);             
+        System.out.println("Ingrese el tipo de vidrio del vehiculo"+"\n");
         String vidrios = sc.next().toUpperCase();    
-        System.out.println("Ingrese la transmision del vehiculo");
+        System.out.println("Ingrese la transmision del vehiculo"+"\n");
         String transmision = sc.next().toUpperCase();     
         return atributos + "," + vidrios + "," + transmision;
     }
 
     public static String validarCamioneta(Scanner sc){
-        String atributos = Util.validarAtributos(sc);
-        System.out.println("Ingrese el tipo de vidrio del vehiculo");
+        String atributos = Vehiculo.validarAtributos(sc);
+        System.out.println("Ingrese el tipo de vidrio del vehiculo"+"\n");
         String vidrios = sc.next().toUpperCase();    
-        System.out.println("Ingrese la transmision del vehiculo");
+        System.out.println("Ingrese la transmision del vehiculo"+"\n");
         String transmision = sc.next().toUpperCase();
-        System.out.println("Ingrese el tipo de traccion del vehiculo");
+        System.out.println("Ingrese el tipo de traccion del vehiculo"+"\n");
         String traccion = sc.next().toUpperCase();
         return atributos + "," + vidrios + "," + transmision + "," + traccion;
+    }
+    
+    public static String validarAtributos(Scanner sc){
+        System.out.println("Ingrese la placa del vehiculo"+"\n");
+        String placa = Vehiculo.recuperarPlaca(sc.next(), sc);          
+        System.out.println("Ingrese la marca del vehiculo"+"\n");
+        String marca = sc.next();             
+        System.out.println("Ingrese el modelo del vehiculo"+"\n");
+        String modelo = sc.next();                 
+        System.out.println("Ingrese el tipo de motor del vehiculo"+"\n");
+        String motor = sc.next();       
+        System.out.println("Ingrese el año del vehiculo"+"\n");
+        int anio = sc.nextInt();
+        double recorrido;
+        do{
+        System.out.println("Ingrese el recorrido que tiene el vehiculo"+"\n");
+        recorrido = sc.nextInt();
+        }while (recorrido < 0);
+        System.out.println("Ingrese el color del vehiculo"+"\n");
+        String color = sc.next();
+        String combustible;
+        do{
+        System.out.println("Ingrese el tipo de combustible del vehiculo (SUPER,EXTRA,ECOPAIS,DIESEL)+\"\\n\"");
+        combustible = sc.next().toUpperCase();        
+        }while( ( !combustible.equals("SUPER")  ) && ( !combustible.equals("EXTRA") ) && ( !combustible.equals("ECOPAIS")) && ( !combustible.equals("DIESEL")));
+        int precio;
+        do{
+        System.out.println("Ingrese el precio del vehiculo"+"\n");
+        precio = sc.nextInt();      
+        }while (precio < 0 );
+        return placa + "," + marca + "," + motor + "," + anio + "," + modelo + "," + recorrido + "," + color + "," + combustible + "," + precio;
+    }
+    
+    public static boolean validarPlaca(String placa){
+        String regex = "^[A-Z][A-Z][A-Z]-[0-9]{3,4}";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(placa);
+        return matcher.matches();
     }
     
     
@@ -386,7 +428,7 @@ public class Vehiculo {
                 pw.println( linea +"|"+this.getVidrios()+"|"+this.getTransmision()+"|"+this.getTraccion() );                                        
             } 
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage()+"\n");
         }
         
     } 
@@ -443,6 +485,32 @@ public class Vehiculo {
             }
 
         }
+    }
+    //funcion recuperar
+    
+    public static String recuperarPlaca(String placa,Scanner sc) {
+ 
+        while (!Vehiculo.validarPlaca(placa)) {
+            System.out.println("ERROR! Ingrese una placa valida"+"\n");
+            placa = sc.next();
+        }
+        boolean puerta = false;
+        while(!puerta){
+            if(!Vehiculo.validarPlaca(placa)){
+                System.out.println("ERROR! Ingrese una placa valida"+"\n");
+                placa = sc.next();
+            }
+            else if (Vehiculo.searchByPlaca(Vehiculo.readFile("vehiculos.txt"), placa) != null ){
+                System.out.println("Este vehiculo ya esta registrado en el sistema! Por favor ingrese de nuevo"+"\n");
+                placa = sc.next();
+            }else {
+                puerta = true;
+            }
+            
+        }
+        
+        return placa;
+        
     }
     
     //funciones searchby

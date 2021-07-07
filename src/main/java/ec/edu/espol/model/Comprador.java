@@ -6,6 +6,7 @@
 package ec.edu.espol.model;
 
 import ec.edu.espol.util.Util;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
@@ -51,21 +52,21 @@ public class Comprador extends Usuario{
         sc.useLocale(Locale.US);
         System.out.println("BUSQUEDA DE VEHÍCULOS");
         System.out.println("---------------------------------------------------");
-        System.out.println("NOTA: Para separar los decimales usar el punto.");
+        System.out.println("NOTA: Para separar los decimales usar el punto."+"\n");
         
         int p1;
         do{
-            System.out.println("¿Desea especificar el tipo de vehículo?");
-            System.out.println("1. Sí");
-            System.out.println("2. No");
+            System.out.println("¿Desea especificar el tipo de vehículo?"+"\n");
+            System.out.println("1.- Sí");
+            System.out.println("2.- No");
             p1 = sc.nextInt();
         }
         while (p1 != 1 && p1 != 2);
         if (p1 == 1){
-            System.out.println("Ingrese el tipo de vehículo a buscar (MOTO, AUTO, CAMIONETA): ");
+            System.out.println("Ingrese el tipo de vehículo a buscar (MOTO, AUTO, CAMIONETA): "+"\n");
             tipo = sc.next().toUpperCase();
             while (!tipo.equals("MOTO") && !tipo.equals("CAMIONETA") && !tipo.equals("AUTO")){
-                System.out.println("El tipo de vehículo no es valido, por favor ingresarlo de nuevo (MOTO, AUTO, CAMIONETA): ");
+                System.out.println("El tipo de vehículo no es valido, por favor ingresarlo de nuevo (MOTO, AUTO, CAMIONETA): "+"\n");
                 tipo = sc.next().toUpperCase();
             }
         }
@@ -74,23 +75,23 @@ public class Comprador extends Usuario{
         
         int p2;
         do{
-            System.out.println("¿Desea especificar el recorrido del vehículo?");
-            System.out.println("1. Sí");
-            System.out.println("2. No");
+            System.out.println("¿Desea especificar el recorrido del vehículo?"+"\n");
+            System.out.println("1.- Sí");
+            System.out.println("2.- No");
             p2 = sc.nextInt();
         }
         while (p2 != 1 && p2 != 2);
         if (p2 == 1){
-            System.out.println("Recorrido mínimo del vehículo: ");
+            System.out.println("Recorrido mínimo del vehículo: "+"\n");
             rmin = sc.nextDouble();
             while (rmin < 0){
-                System.out.println("Por favor ingrese un número positivo: ");
+                System.out.println("Por favor ingrese un número positivo: "+"\n");
                 rmin = sc.nextDouble();
             }
-            System.out.println("Recorrido máximo del vehículo: ");
+            System.out.println("Recorrido máximo del vehículo: "+"\n");
             rmax = sc.nextDouble();
             while (rmax < rmin){
-                System.out.println("Por favor ingrese un número mayor al recorrido mínimo: ");
+                System.out.println("Por favor ingrese un número mayor al recorrido mínimo: "+"\n");
                 rmax = sc.nextDouble();
             }
         }
@@ -99,23 +100,23 @@ public class Comprador extends Usuario{
         
         int p3;
         do{
-            System.out.println("¿Desea especificar el año del vehículo?");
-            System.out.println("1. Sí");
-            System.out.println("2. No");
+            System.out.println("¿Desea especificar el año del vehículo?"+"\n");
+            System.out.println("1.- Sí");
+            System.out.println("2.- No");
             p3 = sc.nextInt();
         }
         while (p3 != 1 && p3 != 2);
         if (p3 == 1){
-            System.out.println("Año más antiguo de modelo del vehículo: ");
+            System.out.println("Año más antiguo de modelo del vehículo: "+"\n");
             amin = sc.nextInt();
             while (amin < 1800){
-                System.out.println("Por favor ingrese un año mayor a 1856: ");
+                System.out.println("Por favor ingrese un año mayor a 1856: "+"\n");
                 amin = sc.nextInt();
             }
-            System.out.println("Año más reciente de modelo del vehículo: ");
+            System.out.println("Año más reciente de modelo del vehículo: "+"\n");
             amax = sc.nextInt();
             while (amax < amin){
-                System.out.println("Por favor ingrese un número mayor al recorrido mínimo: ");
+                System.out.println("Por favor ingrese un número mayor al recorrido mínimo: "+"\n");
                 amax = sc.nextInt();
             }
         }
@@ -124,23 +125,23 @@ public class Comprador extends Usuario{
         
         int p4;
         do{
-            System.out.println("¿Desea especificar rango de precio del vehículo?");
-            System.out.println("1. Sí");
-            System.out.println("2. No");
+            System.out.println("¿Desea especificar rango de precio del vehículo?"+"\n");
+            System.out.println("1.- Sí");
+            System.out.println("2.- No");
             p4 = sc.nextInt();
         }
         while (p4 != 1 && p4 != 2);
         if (p4 == 1){
-            System.out.println("Precio mínimo del vehículo: ");
+            System.out.println("Precio mínimo del vehículo: "+"\n");
             pmin = sc.nextDouble();
             while (pmin < 1800){
-                System.out.println("Por favor ingrese un precio positivo: ");
+                System.out.println("Por favor ingrese un precio positivo: "+"\n");
                 pmin = sc.nextDouble();
             }
-            System.out.println("Precio máximo del vehículo: ");
+            System.out.println("Precio máximo del vehículo: "+"\n");
             pmax = sc.nextDouble();
             while (pmax < pmin){
-                System.out.println("Por favor ingrese un precio mayor al mínimo: ");
+                System.out.println("Por favor ingrese un precio mayor al mínimo: "+"\n");
                 pmax = sc.nextDouble();
             }
         }
@@ -160,16 +161,16 @@ public class Comprador extends Usuario{
     
     public static Vehiculo elegirVehiculo(Scanner sc, ArrayList<Vehiculo> vehiculos){
         if(!vehiculos.isEmpty()){
-            System.out.println("Se han encontrado " + vehiculos.size()+ " vehículos que cumplen con estos parámetros.");
+            System.out.println("Se han encontrado " + vehiculos.size()+ " vehículos que cumplen con estos parámetros."+"\n");
             int i = 0;
             int opcion = 0;
             while(opcion !=4){
                 System.out.println("Vehículo " + (i+1) + "\n" + vehiculos.get(i));
                 do{
-                    System.out.println("1. Siguiente vehículo");
-                    System.out.println("2. Vehículo anterior");
-                    System.out.println("3. Poner una oferta");
-                    System.out.println("4. Cancelar");
+                    System.out.println("1.- Siguiente vehículo"+"\n");
+                    System.out.println("2.- Vehículo anterior"+"\n");
+                    System.out.println("3.- Poner una oferta"+"\n");
+                    System.out.println("4.- Cancelar"+"\n");
                     opcion = sc.nextInt();
                 }
                 while(opcion != 1 && opcion != 2 && opcion !=3 && opcion != 4);
@@ -191,7 +192,7 @@ public class Comprador extends Usuario{
             }
         }
         else
-            System.out.println("No hay vehículos dentro de estos parámetros.");
+            System.out.println("No hay vehículos dentro de estos parámetros."+"\n");
         return null;
     }
     
@@ -201,18 +202,18 @@ public class Comprador extends Usuario{
         System.out.println("---------------------------------");
         System.out.println("Vehículo a ofertar:\n"+ v);
         System.out.println("---------------------------------");
-        System.out.println("Ingrese su oferta: ");
+        System.out.println("Ingrese su oferta: "+"\n");
         Double oferta = sc.nextDouble();
         while(oferta<=0){
-            System.out.println("Ingrese una oferta válida.");
+            System.out.println("Ingrese una oferta válida."+"\n");
             oferta = sc.nextDouble();
         }
         System.out.println("---------------------------------");
         int opcion;
         do{
-            System.out.println("Confirmar una oferta de $" + oferta);
-            System.out.println("1. Confirmar");
-            System.out.println("2. Cancelar");
+            System.out.println("Confirmar una oferta de $" + oferta+"\n");
+            System.out.println("1.- Confirmar");
+            System.out.println("2.- Cancelar");
             opcion = sc.nextInt();
         }
         while(opcion != 1 && opcion != 2);
@@ -220,9 +221,9 @@ public class Comprador extends Usuario{
             int id_o = Util.nextID(nomfile);
             Oferta o = new Oferta(id_o, this.id, v.getId(), oferta, this.correo);
             o.saveFile(nomfile);
-            System.out.println("La oferta ha sido puesta exitosamente");
+            System.out.println("La oferta ha sido puesta exitosamente"+"\n");
         }else {
-            System.out.println("No se ha puesto ninguna oferta");
+            System.out.println("No se ha puesto ninguna oferta"+"\n");
         }
        
     }
@@ -236,6 +237,29 @@ public class Comprador extends Usuario{
             }
         }
         return null;
+    }
+    
+    public static int menuComprador(Scanner sc){
+        int opcion;
+        do{
+            System.out.println("1.- Registrar nuevo comprador\n2.- Ofertar por un vehiculo\n3.- Regresar"+"\n");
+            opcion = sc.nextInt();
+        } while(opcion != 1 && opcion != 2 && opcion != 3);
+        return opcion;
+    }
+    
+    public static Comprador inicioSesionC(Scanner sc) throws NoSuchAlgorithmException{
+        String correo;
+        String clave;
+
+        do{
+            System.out.println( "Introduzca su correo electrónico: "+"\n" );
+            correo = sc.next();
+            System.out.println( "Introduzca su clave: "+"\n" );
+            clave = sc.next();
+        }while(!Usuario.validarUsuario(correo,clave,"compradores.txt"));
+        Comprador comp = new Comprador(Usuario.recuperarUsuario(correo, "compradores.txt"));
+        return comp;
     }
     
 }
