@@ -21,6 +21,7 @@ public class Main {
 
     /**
      * @param args the command line arguments
+     * @throws java.security.NoSuchAlgorithmException
      */
     public static void main(String[] args) throws NoSuchAlgorithmException {
         
@@ -78,7 +79,7 @@ public class Main {
         }else if(opPrincipal ==3) {
             salida = true;
         }else {
-            System.out.println("ERROR! Escoga una opcion correcta"+"\n");
+            System.out.println("ERROR! Escoja una opcion correcta"+"\n");
         }
 
         
