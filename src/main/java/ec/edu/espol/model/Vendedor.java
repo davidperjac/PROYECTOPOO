@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import ec.edu.espol.model.Vehiculo;
 import ec.edu.espol.util.Util;
+import java.security.NoSuchAlgorithmException;
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
@@ -47,33 +48,30 @@ public class Vendedor extends Usuario{
 
     public void ingresarVehiculo(Scanner sc,String nomfile) {
         
-        System.out.println("Ingrese el tipo de Vehiculo");
+        System.out.println("Ingrese el tipo de Vehiculo"+"\n");
         String tipo = sc.next().toUpperCase();
         
         while ( (!tipo.equals("MOTO")  )&&((!tipo.equals("CARRO"))&&((!tipo.equals("CAMIONETA"))  ))) {
-            System.out.println("ERROR! Ingrese un tipo valido");
+            System.out.println("ERROR! Ingrese un tipo valido"+"\n");
             tipo = sc.next().toUpperCase();   
         }
         
         Vehiculo.nextVehiculo(sc, nomfile, tipo, this.id);
         
-        System.out.println("Su vehiculo se ha ingresado al sistema exitosamente");
+        System.out.println("Su vehiculo se ha ingresado al sistema exitosamente"+"\n");
         
     }
     
-
-    // Main fernando : recibe una lista de vehiculos del main y compara la placa de esa lista
     public void verOfertas (Scanner sc) {
         
-        System.out.println("Ingrese la placa del vehiculo");
+        System.out.println("Ingrese la placa del vehiculo"+"\n");
         String placa = sc.next();
         
-        while (!Util.validarPlaca(placa)) {
-            System.out.println("ERROR! Placa incorrecta, ingrese una placa valida");
+        while (!Vehiculo.validarPlaca(placa)) {
+            System.out.println("ERROR! Placa incorrecta, ingrese una placa valida"+"\n");
             placa = sc.next();
         }
         
-        //Vehiculo carroEscogido = null;
         this.vehiculos = Vehiculo.linkVehiculo("vehiculos.txt", this.id);
         Vehiculo.linkOfertas(vehiculos);
         for (Vehiculo v : this.vehiculos) {
@@ -87,70 +85,7 @@ public class Vendedor extends Usuario{
 
                 }
             }
-        }
-        
-        /*
-        System.out.println(carroEscogido.getModelo()+"Precio:"+carroEscogido.getPrecio());
-        System.out.println("Se han realizado "+carroEscogido.getOfertas().size()+" ofertas");
-        
-        
-        boolean aceptar = false ; 
-        while (aceptar == false) {
-            int numeroOferta = 1 ; 
-            for (int i = 0 ; i < carroEscogido.getOfertas().size(); i++ ) {             
-                boolean opcion = false;      
-                while (opcion == false ) {
-                    System.out.println("Oferta "+numeroOferta);
-                    System.out.println("Correo: "+ carroEscogido.getOfertas().get(i).getComprador().getCorreo());
-                    System.out.println("Precio Ofertado: "+carroEscogido.getOfertas().get(i).getPrecio_ofertado());  
-                    if (i == 0) {
-                        int seleccion = 0 ;
-                            while ( (seleccion != 1) && (seleccion != 2) ) {
-                                System.out.println("1.- Siguiente Oferta");
-                                System.out.println("2.- Aceptar Oferta");
-                                seleccion = sc.nextInt();
-                            }
-                        if (seleccion == 1) {   
-                            opcion = true ;
-                            numeroOferta++;
-                        }else if (seleccion == 2) {
-                            //eliminacion de oferta en sistema y en la lista
-                            Util.removerLinea("ofertas.txt", this.ofertas.get(i).getId_Vehiculo(), 2);
-                            //enviar correo al usuario
-                            
-                            //salir del menu
-                            aceptar = true;
-                        }
-                    }else if (i > 0 ) {   
-                        int seleccion = 0 ;
-                        while ( (seleccion != 1) && (seleccion != 2) && (seleccion != 3) ) {
-                            System.out.println("1.- Siguiente Oferta");
-                            System.out.println("2.- Anterior Oferta");
-                            System.out.println("3.- Aceptar Oferta");
-                            seleccion = sc.nextInt();
-                        }  
-                        if (seleccion == 1) {        
-                            opcion = true ;
-                            numeroOferta++;        
-                        }else if (seleccion == 2) {
-                            i -= 2;
-                            opcion = true; 
-                            numeroOferta--;
-                        }else if (seleccion == 3) {
-                            //eliminacion de oferta en sistema y en la lista
-                            Util.removerLinea("ofertas.txt", this.ofertas.get(i).getId_Vehiculo(), 2);
-                            
-                            //enviar correo al usuario
-                            
-                            //salir del menu
-                            aceptar = true;
-                        }
-                    }
-                }
-            }
-        }
-        */
-        
+        }  
     }
     
     //extras 
@@ -193,6 +128,30 @@ public class Vendedor extends Usuario{
         }
         return null;
     }
+    
+    public static int menuVendedor(Scanner sc){
+        int opcion;
+        do{
+            System.out.println("1.- Ingresar nuevo vendedor\n2.- Registrar un vehiculo\n3.- Aceptar Ofertas\n4.- Regresar"+"\n");
+            opcion = sc.nextInt();
+        } while(opcion != 1 && opcion != 2 && opcion != 3 && opcion != 4);
+        return opcion;
+    }
+    
+    public static Vendedor inicioSesionV(Scanner sc) throws NoSuchAlgorithmException{
+        String correo;
+        String clave;
+
+        do{
+            System.out.println( "Introduzca su correo electrónico: "+"\n" );
+            correo = sc.next();
+            System.out.println( "Introduzca su clave: "+"\n" );
+            clave = sc.next();
+        }while(!Usuario.validarUsuario(correo,clave,"vendedores.txt"));
+        Vendedor u = new Vendedor(Usuario.recuperarUsuario(correo, "vendedores.txt"));
+        return u;
+    }
+    
     //sobreescrituras
     @Override
     public String toString(){

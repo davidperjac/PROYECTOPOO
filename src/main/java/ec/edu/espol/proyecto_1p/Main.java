@@ -28,18 +28,12 @@ public class Main {
     
     sc.useDelimiter("\n");
     
-    System.out.println("Bienvenido al programa de venta de vehiculos /PEREZ/DECASTRO/BUCHELI");
-    System.out.println("-----------------------------------------");
+
     boolean salida = false;
     
     while (!salida) {
         
-        
-        
-        System.out.println("Menu de Opciones");
-        System.out.println("1.-Vendedor");
-        System.out.println("2.-Comprador");
-        System.out.println("3.-Salir");
+        Util.menuInicio();
         
         int opPrincipal = sc.nextInt();
         
@@ -47,19 +41,18 @@ public class Main {
         if(opPrincipal == 1) {
             boolean salida2 = false;
             while (!salida2) {
-                int opcionVend = Util.menuVendedor(sc);
+                int opcionVend = Vendedor.menuVendedor(sc);
                 if (opcionVend == 1) {
                     Usuario.nextUsuario(sc, "vendedores.txt");
                 }else if(opcionVend == 2) {
  
-                    Vendedor v = Util.inicioSesionV(sc);
+                    Vendedor v = Vendedor.inicioSesionV(sc);
                     v.ingresarVehiculo(sc, "vehiculos.txt");
                     
                 }else if(opcionVend == 3) {
                     
-                    Vendedor v = Util.inicioSesionV(sc);
+                    Vendedor v = Vendedor.inicioSesionV(sc);
                     v.verOfertas(sc);
-                    //mandar correo
                     
                 }else if(opcionVend == 4){
                     salida2 = true;
@@ -69,11 +62,11 @@ public class Main {
         }else if(opPrincipal == 2) {
             boolean salida3 = false;
             while(!salida3){
-                int opComp = Util.menuComprador(sc);
+                int opComp = Comprador.menuComprador(sc);
                 if(opComp == 1){
                     Usuario.nextUsuario(sc, "compradores.txt");
                 } else if(opComp == 2){
-                    Comprador c = Util.inicioSesionC(sc);
+                    Comprador c = Comprador.inicioSesionC(sc);
                     ArrayList<Vehiculo> listaFiltrada = Comprador.busquedaVehiculo(sc, Vehiculo.readFile("vehiculos.txt"));
                     Vehiculo vehiculoEscogido = Comprador.elegirVehiculo(sc, listaFiltrada);
                     c.ponerOferta(vehiculoEscogido,"ofertas.txt", sc);
@@ -85,7 +78,7 @@ public class Main {
         }else if(opPrincipal ==3) {
             salida = true;
         }else {
-            System.out.println("ERROR! Escoga una opcion correcta");
+            System.out.println("ERROR! Escoga una opcion correcta"+"\n");
         }
 
         
