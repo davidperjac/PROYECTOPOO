@@ -268,7 +268,7 @@ public class Vehiculo {
                             i += 1;       
                     }   
                     else if(opcion == 2){
-                        //Util.removerLinea("ofertas.txt", this.ofertas.get(i).getId_Vehiculo(), 2);
+                        Util.removerLinea("ofertas.txt", this.ofertas.get(i).getId_Vehiculo(), 2);
                         salida = true;
                         return this.ofertas.get(i);
                     }else if (opcion ==3){
@@ -293,7 +293,7 @@ public class Vehiculo {
                             i -= 1;
                     }
                     else if(opcion == 3){
-                        //Util.removerLinea("ofertas.txt", this.ofertas.get(i).getId_Vehiculo(), 2);
+                        Util.removerLinea("ofertas.txt", this.ofertas.get(i).getId_Vehiculo(), 2);
                         salida = true;
                         return this.ofertas.get(i);
                     }else if (opcion == 4) {
@@ -477,6 +477,7 @@ public class Vehiculo {
             for (Oferta o : ofertas) {
                 if (v.id == o.getId_Vehiculo() ) {
                     v.getOfertas().add(o);
+                    o.setVehiculo(v);
                 }
             }
 
@@ -570,7 +571,8 @@ public class Vehiculo {
     //sobreescrituras
     @Override
     public String toString() {
-        return "Vehiculo { id:"+ this.id + "placa: " + placa + ", marca: " + marca + ", motor: " + motor + ", anio: " + anio + ", modelo: " + modelo + ", recorrido: " + recorrido + ", color: " + color + ", combustible: " + combustible + ", precio: " + precio + ", tipo: " + tipo + "}";
+        return "Tipo: " + this.tipo + ", placa: " + placa + ", marca: " + marca + ", motor: " + motor + ", anio: " + anio + ", modelo: " + modelo + ", recorrido: " + recorrido + ", color: " + color + ", combustible: " + combustible + ", precio: " + precio;
+             
     }
     
     @Override

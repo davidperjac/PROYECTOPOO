@@ -93,13 +93,6 @@ public class Util {
             System.out.println(e.getMessage());
         }
     }
-    
-    // Donde va esto?
-    public static void actualizar(ArrayList<Vendedor> vendedores, ArrayList<Comprador> compradores, ArrayList<Oferta> ofertas, ArrayList<Vehiculo> vehiculos ){
-        Oferta.link(compradores, vehiculos, ofertas);
-        Vehiculo.link(vehiculos, vendedores);
-    }
-    
 }
 
 
