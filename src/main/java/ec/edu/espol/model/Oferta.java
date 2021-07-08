@@ -96,7 +96,7 @@ public class Oferta {
     
     public void saveFile(String nomfile) {
         
-        try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File(nomfile)),true) ) {
+        try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File(nomfile),true)) ) {
             
             pw.println (this.id+"|"+this.id_Comprador+"|"+this.id_Vehiculo+"|"+this.precio_ofertado + "|" + this.correo_comprador);
 

@@ -63,10 +63,10 @@ public class Comprador extends Usuario{
         }
         while (p1 != 1 && p1 != 2);
         if (p1 == 1){
-            System.out.println("Ingrese el tipo de vehículo a buscar (MOTO, AUTO, CAMIONETA): "+"\n");
+            System.out.println("Ingrese el tipo de vehículo a buscar (MOTO, CARRO, CAMIONETA): "+"\n");
             tipo = sc.next().toUpperCase();
-            while (!tipo.equals("MOTO") && !tipo.equals("CAMIONETA") && !tipo.equals("AUTO")){
-                System.out.println("El tipo de vehículo no es valido, por favor ingresarlo de nuevo (MOTO, AUTO, CAMIONETA): "+"\n");
+            while (!tipo.equals("MOTO") && !tipo.equals("CAMIONETA") && !tipo.equals("CARRO")){
+                System.out.println("El tipo de vehículo no es valido, por favor ingresarlo de nuevo (MOTO, CARRO, CAMIONETA): "+"\n");
                 tipo = sc.next().toUpperCase();
             }
         }
@@ -116,7 +116,7 @@ public class Comprador extends Usuario{
             System.out.println("Año más reciente de modelo del vehículo: "+"\n");
             amax = sc.nextInt();
             while (amax < amin){
-                System.out.println("Por favor ingrese un número mayor al recorrido mínimo: "+"\n");
+                System.out.println("Por favor ingrese un año mayor al año mínimo: "+"\n");
                 amax = sc.nextInt();
             }
         }

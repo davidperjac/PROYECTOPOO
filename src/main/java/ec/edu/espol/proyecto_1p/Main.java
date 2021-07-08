@@ -70,7 +70,8 @@ public class Main {
                     Comprador c = Comprador.inicioSesionC(sc);
                     ArrayList<Vehiculo> listaFiltrada = Comprador.busquedaVehiculo(sc, Vehiculo.readFile("vehiculos.txt"));
                     Vehiculo vehiculoEscogido = Comprador.elegirVehiculo(sc, listaFiltrada);
-                    c.ponerOferta(vehiculoEscogido,"ofertas.txt", sc);
+                    if(vehiculoEscogido != null)
+                        c.ponerOferta(vehiculoEscogido,"ofertas.txt", sc);
                 } else if(opComp == 3)
                     salida3 = true;
             }

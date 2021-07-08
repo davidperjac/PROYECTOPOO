@@ -48,7 +48,7 @@ public class Vendedor extends Usuario{
 
     public void ingresarVehiculo(Scanner sc,String nomfile) {
         
-        System.out.println("Ingrese el tipo de Vehiculo"+"\n");
+        System.out.println("Ingrese el tipo de Vehiculo (MOTO, CARRO, CAMIONETA)\n");
         String tipo = sc.next().toUpperCase();
         
         while ( (!tipo.equals("MOTO")  )&&((!tipo.equals("CARRO"))&&((!tipo.equals("CAMIONETA"))  ))) {
@@ -81,7 +81,7 @@ public class Vendedor extends Usuario{
                     // funcion de mandar email y necesito el correo del comprador.
                     Vendedor.enviarCorreo(o.getCorreo_comprador(),v.getMarca(),v.getModelo(),v.getMotor(),o.getPrecio_ofertado(),v.getPlaca());
                     //borrar en base de datos
-                    v.borrarVehiculo();
+                    //v.borrarVehiculo();
 
                 }
             }
@@ -97,7 +97,7 @@ public class Vendedor extends Usuario{
         props.put("mail.smtp.host", "smtp.gmail.com");  //El servidor SMTP de Google
         props.put("mail.smtp.port", "587"); //El puerto SMTP seguro de Google
         props.put("mail.smtp.starttls.enable", "true"); //Para conectar de manera segura al servidor SMTP
-        props.put("mail.smtp.auth", "true");    //Usar autenticación mediante usuario y clave
+        //props.put("mail.smtp.auth", "true");    //Usar autenticación mediante usuario y clave
         
         props.put("mail.smtp.user", "sistema.sdf.poo@gmail.com");
         props.put("mail.smtp.clave", "ProyectoPOO");    //La clave de la cuenta
@@ -114,6 +114,7 @@ public class Vendedor extends Usuario{
             transport.connect("smtp.gmail.com", "sistema.sdf.poo@gmail.com", "ProyectoPOO");
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
+            System.out.println("Se ha aceptado la oferta exitosamente y se ha notificado al comprador de su vehículo.");
         }
         catch (Exception e) {
             e.printStackTrace();   //Si se produce un error
