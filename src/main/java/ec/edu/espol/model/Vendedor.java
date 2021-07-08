@@ -81,7 +81,7 @@ public class Vendedor extends Usuario{
                     // funcion de mandar email y necesito el correo del comprador.
                     Vendedor.enviarCorreo(o.getCorreo_comprador(),v.getMarca(),v.getModelo(),v.getMotor(),o.getPrecio_ofertado(),v.getPlaca());
                     //borrar en base de datos
-                    //v.borrarVehiculo();
+                    v.borrarVehiculo();
 
                 }
             }
