@@ -268,7 +268,7 @@ public class Vehiculo {
                             i += 1;       
                     }   
                     else if(opcion == 2){
-                        Util.removerLinea("ofertas.txt", this.ofertas.get(i).getId_Vehiculo(), 2);
+                        //Util.removerLinea("ofertas.txt", this.ofertas.get(i).getId_Vehiculo(), 2);
                         salida = true;
                         return this.ofertas.get(i);
                     }else if (opcion ==3){
@@ -293,7 +293,7 @@ public class Vehiculo {
                             i -= 1;
                     }
                     else if(opcion == 3){
-                        Util.removerLinea("ofertas.txt", this.ofertas.get(i).getId_Vehiculo(), 2);
+                        //Util.removerLinea("ofertas.txt", this.ofertas.get(i).getId_Vehiculo(), 2);
                         salida = true;
                         return this.ofertas.get(i);
                     }else if (opcion == 4) {
@@ -306,10 +306,6 @@ public class Vehiculo {
         return null;
     }
     
-    public void removerOferta(int i){
-        this.ofertas.remove(i);
-    }
-
     /*
     agregarVehiculos(arreglo de strings con atributos de vehiculos, lista de vehiculos)
     Filtra por tipo de Vehiculo, crea una intancia de Vehiculo y lo añade a una lista de Vehiculos
@@ -341,13 +337,13 @@ public class Vehiculo {
             vehiculo.saveFile(nomfile);  
         }
         else if(tipo.equals("CAMIONETA")){
-            String[] atributos = validarCarro(sc).split(",");
+            String[] atributos = validarCamioneta(sc).split(",");
             int id = Util.nextID(nomfile);
             Vehiculo vehiculo = new Vehiculo(id, tipo, id_vendedor, atributos[0], atributos[1], atributos[2], Integer.parseInt(atributos[3]), atributos[4], Double.parseDouble(atributos[5]), atributos[6], atributos[7], Double.parseDouble(atributos[8]), atributos[9], atributos[10], atributos[11]);
             vehiculo.saveFile(nomfile);  
         }
         else if(tipo.equals("MOTO")){
-            String[] atributos = validarCarro(sc).split(",");
+            String[] atributos = validarAtributos(sc).split(",");
             int id = Util.nextID(nomfile);
             Vehiculo vehiculo = new Vehiculo(id, tipo, id_vendedor, atributos[0], atributos[1], atributos[2], Integer.parseInt(atributos[3]), atributos[4], Double.parseDouble(atributos[5]), atributos[6], atributos[7], Double.parseDouble(atributos[8]));
             vehiculo.saveFile(nomfile);  
