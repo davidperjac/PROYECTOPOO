@@ -137,7 +137,7 @@ public class Comprador extends Usuario{
         if (p4 == 1){
             System.out.println("Precio mínimo del vehículo: "+"\n");
             pmin = sc.nextDouble();
-            while (pmin < 1800){
+            while (pmin < 0){
                 System.out.println("Por favor ingrese un precio positivo: "+"\n");
                 pmin = sc.nextDouble();
             }
