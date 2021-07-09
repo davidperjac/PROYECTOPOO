@@ -48,7 +48,7 @@ public class Vendedor extends Usuario{
 
     public void ingresarVehiculo(Scanner sc,String nomfile) {
         
-        System.out.println("Ingrese el tipo de Vehiculo (MOTO, CARRO, CAMIONETA)\n");
+        System.out.println("Ingrese el tipo de Vehiculo (MOTO, CARRO, CAMIONETA):\n");
         String tipo = sc.next().toUpperCase();
         
         while ( (!tipo.equals("MOTO")  )&&((!tipo.equals("CARRO"))&&((!tipo.equals("CAMIONETA"))  ))) {
@@ -57,18 +57,19 @@ public class Vendedor extends Usuario{
         }
         
         Vehiculo.nextVehiculo(sc, nomfile, tipo, this.id);
-        
-        System.out.println("Su vehiculo se ha ingresado al sistema exitosamente"+"\n");
+        System.out.println("\n");
+        System.out.println("Su vehiculo se ha ingresado exitosamente al sistema.\n");
+        System.out.println(" -------------------------------------------------------------------------------- ");
         
     }
     
     public void verOfertas (Scanner sc) {
         
-        System.out.println("Ingrese la placa del vehiculo"+"\n");
+        System.out.println("Ingrese la placa del vehiculo: ");
         String placa = sc.next();
         
         while (!Vehiculo.validarPlaca(placa)) {
-            System.out.println("ERROR! Placa incorrecta, ingrese una placa valida"+"\n");
+            System.out.println("ERROR! Placa incorrecta, ingrese una placa valida: ");
             placa = sc.next();
         }
         
@@ -109,12 +110,13 @@ public class Vendedor extends Usuario{
         try {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));   //Se podrían añadir varios de la misma manera
             message.setSubject("Oferta aceptada");
-            message.setText("Un gusto le saluda el sistema de la app SDF. Se ha aceptado su oferta de "+dinero+" por el vehiculo "+marca+" "+modelo+" "+motor+" con la placa: "+placa);
+            message.setText("Un gusto le saluda el sistema de la app SDF. Se ha aceptado su oferta de $"+dinero+" por el vehiculo "+marca+" "+modelo+" "+motor+" con la placa: "+placa);
             Transport transport = session.getTransport("smtp");
             transport.connect("smtp.gmail.com", "sistema.sdf.poo@gmail.com", "ProyectoPOO");
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
             System.out.println("Se ha aceptado la oferta exitosamente y se ha notificado al comprador de su vehículo.");
+            System.out.println(" -------------------------------------------------------------------------------- ");
         }
         catch (Exception e) {
             e.printStackTrace();   //Si se produce un error
@@ -133,9 +135,10 @@ public class Vendedor extends Usuario{
     public static int menuVendedor(Scanner sc){
         int opcion;
         do{
-            System.out.println("1.- Ingresar nuevo vendedor\n2.- Registrar un vehiculo\n3.- Aceptar Ofertas\n4.- Regresar"+"\n");
+            System.out.println("1. Ingresar nuevo vendedor\n2. Registrar un vehiculo\n3. Aceptar Ofertas\n4. Regresar"+"\n");
             opcion = sc.nextInt();
         } while(opcion != 1 && opcion != 2 && opcion != 3 && opcion != 4);
+        System.out.println(" -------------------------------------------------------------------------------- ");
         return opcion;
     }
     
@@ -144,19 +147,14 @@ public class Vendedor extends Usuario{
         String clave;
 
         do{
-            System.out.println( "Introduzca su correo electrónico: "+"\n" );
-            correo = sc.next();
-            System.out.println( "Introduzca su clave: "+"\n" );
+            System.out.println( "Introduzca su correo electrónico: " );
+            correo = sc.next().toLowerCase();
+            System.out.println( "Introduzca su clave: " );
             clave = sc.next();
         }while(!Usuario.validarUsuario(correo,clave,"vendedores.txt"));
         Vendedor u = new Vendedor(Usuario.recuperarUsuario(correo, "vendedores.txt"));
+        System.out.println(" -------------------------------------------------------------------------------- ");
         return u;
-    }
-    
-    //sobreescrituras
-    @Override
-    public String toString(){
-        return " "+super.nombres+"-"+super.apellidos+"-"+super.correo+"-"+super.clave+"-"+super.organizacion;    
     }
     
 }

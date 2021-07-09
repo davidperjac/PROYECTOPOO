@@ -139,6 +139,6 @@ public class Oferta {
     
     @Override
     public String toString() {
-        return "Precio Ofertado=" + precio_ofertado + "Correo comprador" + correo_comprador;
+        return "Correo comprador: " + correo_comprador + "\nPrecio Ofertado: " + precio_ofertado;
     }
 }

@@ -35,9 +35,9 @@ public class Util {
         
         System.out.println("");
         System.out.println(String.format("%50s","Menu de Opciones"+"\n" ));
-        System.out.println(String.format("%45s","1.- Vendedor"+"\n"));
-        System.out.println(String.format("%46s","2.- Comprador"+"\n"));
-        System.out.println(String.format("%42s","3.- Salir"+"\n"));
+        System.out.println(String.format("%45s","1. Vendedor"+"\n"));
+        System.out.println(String.format("%46s","2. Comprador"+"\n"));
+        System.out.println(String.format("%42s","3. Salir"+"\n"));
     }
     
     public static boolean isNumeric(String str) { 
