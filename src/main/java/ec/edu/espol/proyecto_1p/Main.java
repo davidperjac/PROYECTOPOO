@@ -37,7 +37,7 @@ public class Main {
         Util.menuInicio();
         
         int opPrincipal = sc.nextInt();
-        
+        System.out.println(" -------------------------------------------------------------------------------- ");
         
         if(opPrincipal == 1) {
             boolean salida2 = false;
