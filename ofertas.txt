@@ -1,2 +1,5 @@
+<<<<<<< HEAD
 1|2|1|6798.0|sebas.decastro@hotmail.com
 2|3|1|345434.0|ferbucheli2509@gmail.com
+=======
+>>>>>>> 2e660f6cbd7628459ea504dde1a3511bdde980d8

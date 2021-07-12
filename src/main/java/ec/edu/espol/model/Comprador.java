@@ -50,8 +50,8 @@ public class Comprador extends Usuario{
         ArrayList<Vehiculo> filtroVehiculos;
         sc.useDelimiter("\n");
         sc.useLocale(Locale.US);
-        System.out.println("BUSQUEDA DE VEHÍCULOS");
-        System.out.println("---------------------------------------------------");
+        System.out.println("BÚSQUEDA DE VEHÍCULOS");
+        System.out.println(" -------------------------------------------------------------------------------- ");
         System.out.println("NOTA: Para separar los decimales usar el punto."+"\n");
         
         int p1;
@@ -73,6 +73,7 @@ public class Comprador extends Usuario{
         else
             tipo = "n";
         
+        System.out.println(" -------------------------------------------------------------------------------- ");
         int p2;
         do{
             System.out.println("¿Desea especificar el recorrido del vehículo?"+"\n");
@@ -98,6 +99,7 @@ public class Comprador extends Usuario{
         else
             rmin = rmax = -1;
         
+        System.out.println(" -------------------------------------------------------------------------------- ");
         int p3;
         do{
             System.out.println("¿Desea especificar el año del vehículo?"+"\n");
@@ -123,6 +125,7 @@ public class Comprador extends Usuario{
         else
             amin =amax = -1;
         
+        System.out.println(" -------------------------------------------------------------------------------- ");
         int p4;
         do{
             System.out.println("¿Desea especificar rango de precio del vehículo?"+"\n");
@@ -134,7 +137,7 @@ public class Comprador extends Usuario{
         if (p4 == 1){
             System.out.println("Precio mínimo del vehículo: "+"\n");
             pmin = sc.nextDouble();
-            while (pmin < 1800){
+            while (pmin < 0){
                 System.out.println("Por favor ingrese un precio positivo: "+"\n");
                 pmin = sc.nextDouble();
             }
@@ -147,31 +150,34 @@ public class Comprador extends Usuario{
         }
         else
             pmin = pmax = -1;
+        System.out.println(" -------------------------------------------------------------------------------- ");
         filtroVehiculos = vehiculos;
         if (!tipo.equals("n"))
-            filtroVehiculos = Vehiculo.searchByTipo(tipo, vehiculos);
+            filtroVehiculos = Vehiculo.searchByTipo(tipo, filtroVehiculos);
         if (rmin != -1)
-            filtroVehiculos = Vehiculo.searchByRecorrido(rmin, rmax, vehiculos);
+            filtroVehiculos = Vehiculo.searchByRecorrido(rmin, rmax, filtroVehiculos);
         if (amin != -1)
-            filtroVehiculos = Vehiculo.searchByAnio(amin, amax, vehiculos);
+            filtroVehiculos = Vehiculo.searchByAnio(amin, amax, filtroVehiculos);
         if (pmin != -1)
-            filtroVehiculos = Vehiculo.searchByPrecio(pmin, pmax, vehiculos);
+            filtroVehiculos = Vehiculo.searchByPrecio(pmin, pmax, filtroVehiculos);
         return filtroVehiculos;
     }
     
     public static Vehiculo elegirVehiculo(Scanner sc, ArrayList<Vehiculo> vehiculos){
         if(!vehiculos.isEmpty()){
-            System.out.println("Se han encontrado " + vehiculos.size()+ " vehículos que cumplen con estos parámetros."+"\n");
+            System.out.println("Se han encontrado " + vehiculos.size()+ " vehículos que cumplen con estos parámetros.");
+            System.out.println(" -------------------------------------------------------------------------------- ");
             int i = 0;
             int opcion = 0;
             while(opcion !=4){
-                System.out.println("Vehículo " + (i+1) + "\n" + vehiculos.get(i));
+                System.out.println("Vehículo #" + (i+1) + "\n" + vehiculos.get(i) + "\n");
                 do{
-                    System.out.println("1.- Siguiente vehículo"+"\n");
-                    System.out.println("2.- Vehículo anterior"+"\n");
-                    System.out.println("3.- Poner una oferta"+"\n");
-                    System.out.println("4.- Cancelar"+"\n");
+                    System.out.println("1. Siguiente vehículo");
+                    System.out.println("2. Vehículo anterior");
+                    System.out.println("3. Poner una oferta");
+                    System.out.println("4. Cancelar");
                     opcion = sc.nextInt();
+                    System.out.println(" -------------------------------------------------------------------------------- ");
                 }
                 while(opcion != 1 && opcion != 2 && opcion !=3 && opcion != 4);
                 if(opcion == 1){
@@ -199,31 +205,34 @@ public class Comprador extends Usuario{
     public void ponerOferta(Vehiculo v, String nomfile, Scanner sc){
         sc.useDelimiter("\n");
         System.out.println("NUEVA OFERTA");
-        System.out.println("---------------------------------");
+        System.out.println(" -------------------------------------------------------------------------------- ");
         System.out.println("Vehículo a ofertar:\n"+ v);
-        System.out.println("---------------------------------");
+        System.out.println(" -------------------------------------------------------------------------------- ");
         System.out.println("Ingrese su oferta: "+"\n");
         Double oferta = sc.nextDouble();
         while(oferta<=0){
             System.out.println("Ingrese una oferta válida."+"\n");
             oferta = sc.nextDouble();
         }
-        System.out.println("---------------------------------");
+        System.out.println(" -------------------------------------------------------------------------------- ");
         int opcion;
         do{
             System.out.println("Confirmar una oferta de $" + oferta+"\n");
             System.out.println("1.- Confirmar");
             System.out.println("2.- Cancelar");
             opcion = sc.nextInt();
+            System.out.println(" -------------------------------------------------------------------------------- ");
         }
         while(opcion != 1 && opcion != 2);
         if (opcion ==1){
             int id_o = Util.nextID(nomfile);
             Oferta o = new Oferta(id_o, this.id, v.getId(), oferta, this.correo);
             o.saveFile(nomfile);
-            System.out.println("La oferta ha sido puesta exitosamente"+"\n");
+            System.out.println("La oferta ha sido puesta exitosamente");
+            System.out.println(" -------------------------------------------------------------------------------- ");
         }else {
-            System.out.println("No se ha puesto ninguna oferta"+"\n");
+            System.out.println("No se ha puesto ninguna oferta");
+            System.out.println(" -------------------------------------------------------------------------------- ");
         }
        
     }
@@ -240,11 +249,12 @@ public class Comprador extends Usuario{
     }
     
     public static int menuComprador(Scanner sc){
-        int opcion;
-        do{
-            System.out.println("1.- Registrar nuevo comprador\n2.- Ofertar por un vehiculo\n3.- Regresar"+"\n");
-            opcion = sc.nextInt();
-        } while(opcion != 1 && opcion != 2 && opcion != 3);
+        
+        
+        System.out.println("1. Registrar nuevo comprador\n2. Ofertar por un vehiculo\n3. Regresar");
+        int opcion = sc.nextInt();
+        
+        System.out.println(" -------------------------------------------------------------------------------- ");
         return opcion;
     }
     
@@ -253,12 +263,13 @@ public class Comprador extends Usuario{
         String clave;
 
         do{
-            System.out.println( "Introduzca su correo electrónico: "+"\n" );
-            correo = sc.next();
-            System.out.println( "Introduzca su clave: "+"\n" );
+            System.out.println( "Introduzca su correo electrónico: " );
+            correo = sc.next().toLowerCase();
+            System.out.println( "Introduzca su clave: " );
             clave = sc.next();
         }while(!Usuario.validarUsuario(correo,clave,"compradores.txt"));
         Comprador comp = new Comprador(Usuario.recuperarUsuario(correo, "compradores.txt"));
+        System.out.println(" -------------------------------------------------------------------------------- ");
         return comp;
     }
     

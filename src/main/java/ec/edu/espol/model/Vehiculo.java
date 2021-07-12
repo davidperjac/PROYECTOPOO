@@ -248,19 +248,20 @@ public class Vehiculo {
     //funciones de oferta
     
     public Oferta menuOfertas(Scanner sc){
-        System.out.println(this.modelo+ " Precio: "+this.precio+"\n");
+        System.out.println(this.marca + ' '+ this.modelo+ " Precio: $"+this.precio+"\n");
         if(!this.ofertas.isEmpty()){
-            System.out.println("Se han realizado: " + this.ofertas.size()+"\n");
+            System.out.println("Se ha(n) realizado " + this.ofertas.size()+" oferta(s).");
+            System.out.println(" -------------------------------------------------------------------------------- ");
             int i = 0;
             int opcion;
             boolean salida = false;
             while(!salida){
 
                 if (i==0) {
-                    System.out.println("Oferta " + (i+1) + "\n" + this.ofertas.get(i)+"\n");
-                    System.out.println("1 : Siguiente Oferta\n2 : Aceptar Oferta\n3 : Salir"+"\n");
+                    System.out.println("OFERTA #" + (i+1) + "\n" + this.ofertas.get(i)+"\n");
+                    System.out.println("1. Siguiente Oferta\n2. Aceptar Oferta\n3. Salir"+"\n");
                     opcion = sc.nextInt();
-                    
+                    System.out.println(" -------------------------------------------------------------------------------- ");
                     if(opcion == 1){
                         if(i == (this.ofertas.size() - 1))
                             i = 0;
@@ -268,7 +269,7 @@ public class Vehiculo {
                             i += 1;       
                     }   
                     else if(opcion == 2){
-                        //Util.removerLinea("ofertas.txt", this.ofertas.get(i).getId_Vehiculo(), 2);
+                        Util.removerLinea("ofertas.txt", this.ofertas.get(i).getId_Vehiculo(), 2);
                         salida = true;
                         return this.ofertas.get(i);
                     }else if (opcion ==3){
@@ -279,7 +280,7 @@ public class Vehiculo {
                     System.out.println("Oferta " + (i+1) + "\n" + this.ofertas.get(i)+"\n");
                     System.out.println("1 : Siguiente Oferta\n2 : Anterior Oferta\n3 : Aceptar Oferta\n4 : Salir"+"\n");
                     opcion = sc.nextInt();
-                    
+                    System.out.println(" -------------------------------------------------------------------------------- ");
                     if(opcion == 1){
                         if(i == (this.ofertas.size() - 1))
                             i = 0;
@@ -293,7 +294,7 @@ public class Vehiculo {
                             i -= 1;
                     }
                     else if(opcion == 3){
-                        //Util.removerLinea("ofertas.txt", this.ofertas.get(i).getId_Vehiculo(), 2);
+                        Util.removerLinea("ofertas.txt", this.ofertas.get(i).getId_Vehiculo(), 2);
                         salida = true;
                         return this.ofertas.get(i);
                     }else if (opcion == 4) {
@@ -302,7 +303,10 @@ public class Vehiculo {
                 }
             }
         }
-        System.out.println("No hay ofertas para este vehiculo"+"\n");
+        else{
+            System.out.println("No hay ofertas para este vehiculo"+"\n");
+            System.out.println(" -------------------------------------------------------------------------------- ");
+        }
         return null;
     }
     
@@ -354,50 +358,50 @@ public class Vehiculo {
     
     public static String validarCarro(Scanner sc){      
         String atributos = Vehiculo.validarAtributos(sc);             
-        System.out.println("Ingrese el tipo de vidrio del vehiculo"+"\n");
+        System.out.println("Ingrese el tipo de vidrio del vehiculo: ");
         String vidrios = sc.next().toUpperCase();    
-        System.out.println("Ingrese la transmision del vehiculo"+"\n");
+        System.out.println("Ingrese la transmision del vehiculo: ");
         String transmision = sc.next().toUpperCase();     
         return atributos + "," + vidrios + "," + transmision;
     }
 
     public static String validarCamioneta(Scanner sc){
         String atributos = Vehiculo.validarAtributos(sc);
-        System.out.println("Ingrese el tipo de vidrio del vehiculo"+"\n");
+        System.out.println("Ingrese el tipo de vidrio del vehiculo: ");
         String vidrios = sc.next().toUpperCase();    
-        System.out.println("Ingrese la transmision del vehiculo"+"\n");
+        System.out.println("Ingrese la transmision del vehiculo: ");
         String transmision = sc.next().toUpperCase();
-        System.out.println("Ingrese el tipo de traccion del vehiculo"+"\n");
+        System.out.println("Ingrese el tipo de traccion del vehiculo: ");
         String traccion = sc.next().toUpperCase();
         return atributos + "," + vidrios + "," + transmision + "," + traccion;
     }
     
     public static String validarAtributos(Scanner sc){
-        System.out.println("Ingrese la placa del vehiculo"+"\n");
+        System.out.println("Ingrese la placa del vehiculo: ");
         String placa = Vehiculo.recuperarPlaca(sc.next(), sc);          
-        System.out.println("Ingrese la marca del vehiculo"+"\n");
-        String marca = sc.next();             
-        System.out.println("Ingrese el modelo del vehiculo"+"\n");
-        String modelo = sc.next();                 
-        System.out.println("Ingrese el tipo de motor del vehiculo"+"\n");
-        String motor = sc.next();       
-        System.out.println("Ingrese el año del vehiculo"+"\n");
+        System.out.println("Ingrese la marca del vehiculo: ");
+        String marca = sc.next().toUpperCase();             
+        System.out.println("Ingrese el modelo del vehiculo: ");
+        String modelo = sc.next().toUpperCase();                 
+        System.out.println("Ingrese el tipo de motor del vehiculo: ");
+        String motor = sc.next().toUpperCase();       
+        System.out.println("Ingrese el año del vehiculo: ");
         int anio = sc.nextInt();
         double recorrido;
         do{
-        System.out.println("Ingrese el recorrido que tiene el vehiculo"+"\n");
+        System.out.println("Ingrese el recorrido que tiene el vehiculo: ");
         recorrido = sc.nextInt();
         }while (recorrido < 0);
-        System.out.println("Ingrese el color del vehiculo"+"\n");
-        String color = sc.next();
+        System.out.println("Ingrese el color del vehiculo: ");
+        String color = sc.next().toUpperCase();
         String combustible;
         do{
-        System.out.println("Ingrese el tipo de combustible del vehiculo (SUPER,EXTRA,ECOPAIS,DIESEL)+\"\\n\"");
+        System.out.println("Ingrese el tipo de combustible del vehiculo (SUPER, EXTRA, ECOPAIS, DIESEL): ");
         combustible = sc.next().toUpperCase();        
         }while( ( !combustible.equals("SUPER")  ) && ( !combustible.equals("EXTRA") ) && ( !combustible.equals("ECOPAIS")) && ( !combustible.equals("DIESEL")));
         int precio;
         do{
-        System.out.println("Ingrese el precio del vehiculo"+"\n");
+        System.out.println("Ingrese el precio del vehiculo: ");
         precio = sc.nextInt();      
         }while (precio < 0 );
         return placa + "," + marca + "," + motor + "," + anio + "," + modelo + "," + recorrido + "," + color + "," + combustible + "," + precio;
@@ -430,7 +434,7 @@ public class Vehiculo {
     } 
     
     public static ArrayList<Vehiculo> readFile(String nomfile) {
-        ArrayList<Vehiculo> vehiculos = new ArrayList<Vehiculo>();
+        ArrayList<Vehiculo> vehiculos = new ArrayList<>();
         try (Scanner sc = new Scanner(new File(nomfile))) {
             while(sc.hasNextLine()){
                 String linea = sc.nextLine();
@@ -477,6 +481,7 @@ public class Vehiculo {
             for (Oferta o : ofertas) {
                 if (v.id == o.getId_Vehiculo() ) {
                     v.getOfertas().add(o);
+                    o.setVehiculo(v);
                 }
             }
 
@@ -570,7 +575,8 @@ public class Vehiculo {
     //sobreescrituras
     @Override
     public String toString() {
-        return "Vehiculo { id:"+ this.id + "placa: " + placa + ", marca: " + marca + ", motor: " + motor + ", anio: " + anio + ", modelo: " + modelo + ", recorrido: " + recorrido + ", color: " + color + ", combustible: " + combustible + ", precio: " + precio + ", tipo: " + tipo + "}";
+        return "Tipo: " + this.tipo + "\nPlaca: " + placa + "\nMarca: " + marca + "\nMotor: " + motor + "\nAño: " + anio + "\nModelo: " + modelo + "\nRecorrido: " + recorrido + "\nColor: " + color + "\nCombustible: " + combustible + "\nPrecio: " + precio;
+             
     }
     
     @Override

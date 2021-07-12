@@ -142,7 +142,7 @@ public class Usuario {
         sc.useDelimiter("\n");
         System.out.println("REGISTRAR UN NUEVO USUARIO");
         System.out.println( "Introduzca su correo electrónico: " );
-        String correo = sc.next();
+        String correo = sc.next().toLowerCase();
         boolean puerta = true;
         while (puerta){
             if (!validarCorreo(correo)){
@@ -169,6 +169,9 @@ public class Usuario {
         int id = Util.nextID(nomfile);
         Usuario u = new Usuario(id, correo, hashclave, nombres, apellidos, organizacion);
         u.saveFile(nomfile);
+        System.out.println("\n");
+        System.out.println("Se ha registrado su usuario con éxtio.");
+        System.out.println(" -------------------------------------------------------------------------------- ");
     }
     
     
