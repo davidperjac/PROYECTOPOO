@@ -277,7 +277,7 @@ public class Vehiculo {
                     
                 }else if (i > 0){
                     System.out.println("Oferta " + (i+1) + "\n" + this.ofertas.get(i)+"\n");
-                    System.out.println("1 : Siguiente Oferta\n2: Anterior Oferta\n3 : Aceptar Oferta\n4 : Salir"+"\n");
+                    System.out.println("1 : Siguiente Oferta\n2 : Anterior Oferta\n3 : Aceptar Oferta\n4 : Salir"+"\n");
                     opcion = sc.nextInt();
                     
                     if(opcion == 1){
