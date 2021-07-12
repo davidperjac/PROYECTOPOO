@@ -141,21 +141,21 @@ public class Usuario {
     public static void nextUsuario(Scanner sc, String nomfile) throws NoSuchAlgorithmException{
         sc.useDelimiter("\n");
         System.out.println("REGISTRAR UN NUEVO USUARIO");
-        System.out.println( "Introduzca su correo electrónico: " );
-        String correo = sc.next().toLowerCase();
-        boolean puerta = true;
-        while (puerta){
-            if (!validarCorreo(correo)){
+        
+        String correo;
+        boolean corrExis;
+        boolean corrValid;
+        do{
+            System.out.println( "Introduzca su correo electrónico: " );
+            correo = sc.next().toLowerCase();
+            corrExis = correoExistente(correo, nomfile);
+            corrValid = validarCorreo(correo);
+            if (!corrValid)
                 System.out.println("Por favor ingrese un correo válido.");
-                correo = sc.next();
-            }
-            else if (correoExistente(correo, nomfile)){
+            else if (corrExis)
                 System.out.println("El correo que ingresó ya posee una cuenta, por favor ingrese otro correo si desea continuar.");
-                correo = sc.next();
-            }
-            else
-                puerta = false;
-        }
+        }while(!corrValid || corrExis);
+        
         System.out.println( "Introduzca una clave: " );
         String clave = sc.next();
         String hashclave;
