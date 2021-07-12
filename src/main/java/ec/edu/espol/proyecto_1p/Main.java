@@ -30,19 +30,19 @@ public class Main {
     sc.useDelimiter("\n");
     
 
-    boolean salida = false;
+    int opPrincipal = 1;
     
-    while (!salida) {
+    while (opPrincipal >= 1 && opPrincipal < 3) {
         
         Util.menuInicio();
         
-        int opPrincipal = sc.nextInt();
+        opPrincipal = sc.nextInt();
         System.out.println(" -------------------------------------------------------------------------------- ");
         
         if(opPrincipal == 1) {
-            boolean salida2 = false;
-            while (!salida2) {
-                int opcionVend = Vendedor.menuVendedor(sc);
+            int opcionVend = 1;
+            while (opcionVend >= 1 && opcionVend < 4) {
+                opcionVend = Vendedor.menuVendedor(sc);
                 if (opcionVend == 1) {
                     Usuario.nextUsuario(sc, "vendedores.txt");
                 }else if(opcionVend == 2) {
@@ -55,15 +55,17 @@ public class Main {
                     Vendedor v = Vendedor.inicioSesionV(sc);
                     v.verOfertas(sc);
                     
-                }else if(opcionVend == 4){
-                    salida2 = true;
+                }
+                if(opcionVend > 4 || opcionVend < 1){
+                    System.out.println("ERROR! Escoja una opcion correcta"+"\n");
+                    opcionVend = 1;
                 }
             }
         
         }else if(opPrincipal == 2) {
-            boolean salida3 = false;
-            while(!salida3){
-                int opComp = Comprador.menuComprador(sc);
+            int opComp = 1;
+            while(opComp >= 1 && opComp < 3){
+                opComp = Comprador.menuComprador(sc);
                 if(opComp == 1){
                     Usuario.nextUsuario(sc, "compradores.txt");
                 } else if(opComp == 2){
@@ -72,15 +74,20 @@ public class Main {
                     Vehiculo vehiculoEscogido = Comprador.elegirVehiculo(sc, listaFiltrada);
                     if(vehiculoEscogido != null)
                         c.ponerOferta(vehiculoEscogido,"ofertas.txt", sc);
-                } else if(opComp == 3)
-                    salida3 = true;
+                }
+                if(opComp > 3 || opComp < 1){
+                    System.out.println("ERROR! Escoja una opcion correcta"+"\n");
+                    opComp = 1;
+                }
+                
             }
         
             
-        }else if(opPrincipal ==3) {
-            salida = true;
-        }else {
+        }
+            
+        if(opPrincipal > 3 || opPrincipal < 1){
             System.out.println("ERROR! Escoja una opcion correcta"+"\n");
+            opPrincipal = 1;
         }
 
         

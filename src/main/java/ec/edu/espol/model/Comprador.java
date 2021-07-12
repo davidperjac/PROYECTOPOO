@@ -249,11 +249,11 @@ public class Comprador extends Usuario{
     }
     
     public static int menuComprador(Scanner sc){
-        int opcion;
-        do{
-            System.out.println("1. Registrar nuevo comprador\n2. Ofertar por un vehiculo\n3. Regresar");
-            opcion = sc.nextInt();
-        } while(opcion != 1 && opcion != 2 && opcion != 3);
+        
+        
+        System.out.println("1. Registrar nuevo comprador\n2. Ofertar por un vehiculo\n3. Regresar");
+        int opcion = sc.nextInt();
+        
         System.out.println(" -------------------------------------------------------------------------------- ");
         return opcion;
     }
