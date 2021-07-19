@@ -253,9 +253,9 @@ public class Vehiculo {
             System.out.println("Se ha(n) realizado " + this.ofertas.size()+" oferta(s).");
             System.out.println(" -------------------------------------------------------------------------------- ");
             int i = 0;
-            int opcion;
-            boolean salida = false;
-            while(!salida){
+            int opcion = 1;
+            
+            while(opcion >= 1 && opcion < 4){
 
                 if (i==0) {
                     System.out.println("OFERTA #" + (i+1) + "\n" + this.ofertas.get(i)+"\n");
@@ -270,10 +270,8 @@ public class Vehiculo {
                     }   
                     else if(opcion == 2){
                         Util.removerLinea("ofertas.txt", this.ofertas.get(i).getId_Vehiculo(), 2);
-                        salida = true;
+                        opcion = 4;
                         return this.ofertas.get(i);
-                    }else if (opcion ==3){
-                        salida = true;
                     }
                     
                 }else if (i > 0){
@@ -295,10 +293,8 @@ public class Vehiculo {
                     }
                     else if(opcion == 3){
                         Util.removerLinea("ofertas.txt", this.ofertas.get(i).getId_Vehiculo(), 2);
-                        salida = true;
+                        opcion = 4;
                         return this.ofertas.get(i);
-                    }else if (opcion == 4) {
-                        salida = true;
                     }
                 }
             }
@@ -490,24 +486,18 @@ public class Vehiculo {
     //funcion recuperar
     
     public static String recuperarPlaca(String placa,Scanner sc) {
- 
-        while (!Vehiculo.validarPlaca(placa)) {
-            System.out.println("ERROR! Ingrese una placa valida"+"\n");
-            placa = sc.next();
-        }
-        boolean puerta = false;
-        while(!puerta){
-            if(!Vehiculo.validarPlaca(placa)){
+        
+        boolean placaVal = Vehiculo.validarPlaca(placa);
+        boolean placaExis = Vehiculo.searchByPlaca(Vehiculo.readFile("vehiculos.txt"), placa) != null;
+        while(!placaVal|| placaExis){
+            if(!placaVal)
                 System.out.println("ERROR! Ingrese una placa valida"+"\n");
-                placa = sc.next();
-            }
-            else if (Vehiculo.searchByPlaca(Vehiculo.readFile("vehiculos.txt"), placa) != null ){
+            else if (placaExis){
                 System.out.println("Este vehiculo ya esta registrado en el sistema! Por favor ingrese de nuevo"+"\n");
-                placa = sc.next();
-            }else {
-                puerta = true;
             }
-            
+            placa = sc.next();
+            placaVal = Vehiculo.validarPlaca(placa);
+            placaExis = Vehiculo.searchByPlaca(Vehiculo.readFile("vehiculos.txt"), placa) != null;
         }
         
         return placa;

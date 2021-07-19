@@ -4,4 +4,8 @@
 <<<<<<< HEAD
 =======
 4|sdecastro55@gmail.com|1cf073c49d978825bdf00f73335d912a17924d5af289e2803cd77a034351fbec|Sebastian|De castro|espol
+<<<<<<< HEAD
 >>>>>>> 2e660f6cbd7628459ea504dde1a3511bdde980d8
+=======
+5|fbucheli@espol.edu.ec|a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3|fer|bucheli|espol
+>>>>>>> 7412a282c4b59c20c59264eef8bcccb9263f8e2d
